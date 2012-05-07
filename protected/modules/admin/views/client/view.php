@@ -1,0 +1,69 @@
+<?php
+$this->breadcrumbs = array(
+    'Клиенты' => array('index'),
+    $model->name,
+);
+
+$this->menu = array(
+    array('label' => 'Создать', 'url' => array('create')),
+    array('label' => 'Обновить', 'url' => array('update', 'id' => $model->id)),
+    array('label' => 'Список', 'url' => array('index')),
+    array('label' => 'Удалить', 'url' => '#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->id), 'confirm' => 'Вы действительно хотите удалить эту запись?')),
+    array('label' => '-----'),
+    array('label' => 'Прикрепить сайт', 'url' => array('/admin/siteContract/create', 'client_id' => $model->id)),
+);
+?>
+
+<h1><?php echo CHtml::encode($model->name) ?></h1>
+
+<?php $this->widget('zii.widgets.CDetailView', array(
+    'data' => $model,
+    'attributes' => array(
+        'id',
+        'manager.name:html:Менеджер',
+        'address',
+        'is_corporate:boolean',
+        'post_code',
+        'code_1c',
+        'phone',
+        'statusLabel',
+        'created_at',
+        'updated_at',
+    ),
+)); ?>
+
+<br />
+<h2>Договоры</h2>
+
+<?php
+if (!empty($model->contracts)) {
+
+    $this->widget('zii.widgets.grid.CGridView', array(
+        'id' => 'contract-grid',
+        'dataProvider' => new CArrayDataProvider($model->contracts),
+        'filter' => null,
+        'template' => '{items}',
+        'columns' => array(
+            'number:text:Номер',
+            'statusLabel:text:Статус',
+            array(
+                'header' => 'Дата создания',
+                'type' => 'date',
+                'value' => 'strtotime($data->created_at)',
+            ),
+            array(
+                'class' => 'CButtonColumn',
+                'template' => '{view}',
+                'buttons' => array(
+                    'view' => array(
+                        'url' => 'Yii::app()->createUrl("admin/contract/view", array("id" => $data->id))',
+                    ),
+                ),
+            ),
+        ),
+    ));
+
+}
+?>
+
+
