@@ -1,71 +1,32 @@
 <?php
 
 /**
- * This is the model class for table "service".
+ * This is the model class for table "subscription_input".
  *
- * The followings are the available columns in table 'service':
+ * The followings are the available columns in table 'subscription_input':
  * @property string $id
- * @property string $name
+ * @property string $site_id
+ * @property string $sum
+ * @property string $link_count
+ * @property string $avg_link_price
  * @property string $created_at
  * @property string $updated_at
  */
-class Service extends CActiveRecord
+class SubscriptionInput extends CActiveRecord
 {
 
-    /**
-     * Абоненская плата
-     */
-    const SUBSCRIPTION = 1;
-
-    /**
-     * По позициям
-     */
-    const POSITION = 2;
-
-    /**
-     * По переходам
-     */
-    const TRANSITION = 3;
-
-    /**
-     * Контекстная реклама
-     */
-    const CONTEXT = 4;
-
-    /**
-     * Баннерная реклама
-     */
-    const BANNERS = 5;
-
-    public static function getLabel($id)
+    public function beforeValidate()
     {
-        $model = self::model()->findByPk($id);
-        return $model->name;
-    }
-
-    public static function getControllerName($id)
-    {
-        switch ($id) {
-            case self::POSITION:
-                return 'position';
-                break;
-            case self::TRANSITION:
-                return 'transition';
-                break;
-            case self::CONTEXT:
-                return 'context';
-                break;
-            case self::SUBSCRIPTION:
-                return 'subscription';
-                break;
-            default:
-                return null;
+        if (parent::beforeValidate()) {
+            $this->avg_link_price = round($this->sum / $this->link_count, 2);
+            return true;
         }
+        return false;
     }
 
     /**
      * Returns the static model of the specified AR class.
-     * @return Service the static model class
+     * @return SubscriptionInput the static model class
      */
     public static function model($className = __CLASS__)
     {
@@ -77,7 +38,7 @@ class Service extends CActiveRecord
      */
     public function tableName()
     {
-        return 'service';
+        return 'subscription_input';
     }
 
     /**
@@ -88,12 +49,12 @@ class Service extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('name', 'required'),
-            array('name', 'length', 'max' => 255),
+            array('site_id, sum, link_count, avg_link_price', 'required'),
+            array('site_id, sum, link_count, avg_link_price', 'length', 'max' => 10),
             array('created_at, updated_at', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, name, created_at, updated_at', 'safe', 'on' => 'search'),
+            array('id, site_id, sum, link_count, avg_link_price, created_at, updated_at', 'safe', 'on' => 'search'),
         );
     }
 
@@ -115,7 +76,10 @@ class Service extends CActiveRecord
     {
         return array(
             'id' => 'ID',
-            'name' => 'Name',
+            'site_id' => 'Site',
+            'sum' => 'Sum',
+            'link_count' => 'Link Count',
+            'avg_link_price' => 'Avg Link Price',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         );
@@ -129,7 +93,7 @@ class Service extends CActiveRecord
         return array(
             'CTimestampBehavior' => array(
                 'class' => 'zii.behaviors.CTimestampBehavior',
-                'createAttribute' => 'created_at',
+                'createAttribute' => null,
                 'updateAttribute' => 'updated_at',
                 'setUpdateOnCreate' => true
             )
@@ -148,7 +112,10 @@ class Service extends CActiveRecord
         $criteria = new CDbCriteria;
 
         $criteria->compare('id', $this->id, true);
-        $criteria->compare('name', $this->name, true);
+        $criteria->compare('site_id', $this->site_id, true);
+        $criteria->compare('sum', $this->sum, true);
+        $criteria->compare('link_count', $this->link_count, true);
+        $criteria->compare('avg_link_price', $this->avg_link_price, true);
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);
 

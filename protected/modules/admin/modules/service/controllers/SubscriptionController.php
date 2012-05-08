@@ -3,38 +3,21 @@
  * Created by JetBrains PhpStorm.
  * User: denisboldinov
  * Date: 5/8/12
- * Time: 2:40 PM
+ * Time: 4:17 PM
  * To change this template use File | Settings | File Templates.
  */
-class ContextController extends Controller
+class SubscriptionController extends Controller
 {
+
     public function actionSubscribe($siteId)
     {
         $site = $this->loadSite($siteId);
-        $service = Service::model()->findByPk(Service::CONTEXT);
+        $service = Service::model()->findByPk(Service::SUBSCRIPTION);
         $siteService = new SiteService();
 
-        $advPlatforms = AdvPlatform::model()->findAll();
-        $contextForm = new ContextForm();
-
-        if (isset($_POST['SiteService']) && isset($_POST['ContextForm']) && isset($_POST['advPlatforms'])) {
+        if (isset($_POST['SiteService'])) {
             $siteService->attributes = $_POST['SiteService'];
-            $contextForm->attributes = $_POST['ContextForm'];
-
-            $valid = $siteService->validate() && $contextForm->validate();
-
-            if ($valid) {
-                $params['advPlatforms'] = $_POST['advPlatforms'];
-                $params['budget'] = $contextForm->budget;
-                $params['workPercent'] = $contextForm->workPercent;
-
-
-                $siteService->params = CJSON::encode($params);
-
-                if (!$siteService->save()) {
-                    throw new CHttpException(500, 'Ну удалось подключить услугу');
-                }
-
+            if ($siteService->save()) {
                 $this->redirect(array('/admin/site/default/view', 'id' => $site->id));
             }
         }
@@ -43,8 +26,6 @@ class ContextController extends Controller
             'site' => $site,
             'service' => $service,
             'siteService' => $siteService,
-            'advPlatforms' => $advPlatforms,
-            'contextForm' => $contextForm,
         ));
     }
 
@@ -63,14 +44,11 @@ class ContextController extends Controller
 
         $siteService = SiteService::model()->find($criteria);
 
-        $params = CJSON::decode($siteService->params);
+        $subscriptionInput = new SubscriptionInput();
 
-        $contextInput = new ContextInput();
-
-        if (isset($_POST['ContextInput'])) {
-            $contextInput->attributes = $_POST['ContextInput'];
-
-            if (!$contextInput->save()) {
+        if (isset($_POST['SubscriptionInput'])) {
+            $subscriptionInput->attributes = $_POST['SubscriptionInput'];
+            if (!$subscriptionInput->save()) {
                 Yii::app()->user->setFlash('error', 'Не удалось сохранить данные');
             } else {
                 Yii::app()->user->setFlash('success', 'Сохранено');
@@ -82,7 +60,8 @@ class ContextController extends Controller
             'valueEnd' => $valueEnd,
             'site' => $site,
             'siteService' => $siteService,
-            'contextInput' => $contextInput,
+            'subscriptionInput' => $subscriptionInput,
         ));
     }
+
 }
