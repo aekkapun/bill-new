@@ -42,6 +42,7 @@
                 array('label' => 'Платежи', 'url' => array('/admin/payment'), 'visible' => !Yii::app()->user->isGuest),
             )),
             array('label' => 'Коэффициенты', 'url' => array('/admin/factor'), 'visible' => !Yii::app()->user->isGuest),
+            array('label' => 'Рекламные площадки', 'url' => array('/admin/advPlatform'), 'visible' => !Yii::app()->user->isGuest),
             array('label' => 'Сайты', 'url' => array('/admin/site'), 'visible' => !Yii::app()->user->isGuest),
             array('label' => 'Вход', 'url' => array('/admin/default/login'), 'visible' => Yii::app()->user->isGuest),
             array('label' => 'Выход (' . Yii::app()->user->name . ')', 'url' => array('/admin/default/logout'), 'visible' => !Yii::app()->user->isGuest)

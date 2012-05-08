@@ -1,69 +1,35 @@
 <?php
 
 /**
- * This is the model class for table "service".
+ * This is the model class for table "context_input".
  *
- * The followings are the available columns in table 'service':
+ * The followings are the available columns in table 'context_input':
  * @property string $id
- * @property string $name
+ * @property string $site_id
+ * @property string $transitions_count
+ * @property string $transitions_sum
+ * @property string $avg_transition_price
  * @property string $created_at
  * @property string $updated_at
  */
-class Service extends CActiveRecord
+class ContextInput extends CActiveRecord
 {
 
-    /**
-     * Абоненская плата
-     */
-    const SUBSCRIPTION = 1;
-
-    /**
-     * По позициям
-     */
-    const POSITION = 2;
-
-    /**
-     * По переходам
-     */
-    const TRANSITION = 3;
-
-    /**
-     * Контекстная реклама
-     */
-    const CONTEXT = 4;
-
-    /**
-     * Баннерная реклама
-     */
-    const BANNERS = 5;
-
-    public static function getLabel($id)
+    public function beforeValidate()
     {
-        $model = self::model()->findByPk($id);
-        return $model->name;
-    }
+        if (parent::beforeValidate()) {
 
-    public static function getControllerName($id)
-    {
-        switch ($id) {
-            case self::POSITION:
-                return 'position';
-                break;
-            case self::TRANSITION:
-                return 'transition';
-                break;
-            case self::CONTEXT:
-                return 'context';
-                break;
+            $this->avg_transition_price = round($this->transitions_sum / $this->transitions_count, 2);
 
-            default:
-                return null;
+            return true;
         }
+
+        return false;
     }
 
     /**
      * Returns the static model of the specified AR class.
-     * @return Service the static model class
+     * @return ContextInput the static model class
      */
     public static function model($className = __CLASS__)
     {
@@ -75,7 +41,7 @@ class Service extends CActiveRecord
      */
     public function tableName()
     {
-        return 'service';
+        return 'context_input';
     }
 
     /**
@@ -86,12 +52,13 @@ class Service extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('name', 'required'),
-            array('name', 'length', 'max' => 255),
+            array('site_id, transitions_count, transitions_sum, avg_transition_price, created_at', 'required'),
+            array('site_id, transitions_count', 'length', 'max' => 10),
+            array('transitions_sum, avg_transition_price', 'length', 'max' => 7),
             array('created_at, updated_at', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, name, created_at, updated_at', 'safe', 'on' => 'search'),
+            array('id, site_id, transitions_count, transitions_sum, avg_transition_price, created_at, updated_at', 'safe', 'on' => 'search'),
         );
     }
 
@@ -113,7 +80,10 @@ class Service extends CActiveRecord
     {
         return array(
             'id' => 'ID',
-            'name' => 'Name',
+            'site_id' => 'Site',
+            'transitions_count' => 'Transitions Count',
+            'transitions_sum' => 'Transitions Sum',
+            'avg_transition_price' => 'Avg Transition Price',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         );
@@ -127,7 +97,7 @@ class Service extends CActiveRecord
         return array(
             'CTimestampBehavior' => array(
                 'class' => 'zii.behaviors.CTimestampBehavior',
-                'createAttribute' => 'created_at',
+                'createAttribute' => null,
                 'updateAttribute' => 'updated_at',
                 'setUpdateOnCreate' => true
             )
@@ -146,7 +116,10 @@ class Service extends CActiveRecord
         $criteria = new CDbCriteria;
 
         $criteria->compare('id', $this->id, true);
-        $criteria->compare('name', $this->name, true);
+        $criteria->compare('site_id', $this->site_id, true);
+        $criteria->compare('transitions_count', $this->transitions_count, true);
+        $criteria->compare('transitions_sum', $this->transitions_sum, true);
+        $criteria->compare('avg_transition_price', $this->avg_transition_price, true);
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);
 
