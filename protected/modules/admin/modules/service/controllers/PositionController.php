@@ -69,6 +69,7 @@ class PositionController extends Controller
         $criteria->addBetweenCondition('created_at', $valueStart, $valueEnd);
         $criteria->addColumnCondition(array(
             'site_id' => $siteId,
+            'service_id' => Service::POSITION,
         ));
 
         $siteService = SiteService::model()->find($criteria);

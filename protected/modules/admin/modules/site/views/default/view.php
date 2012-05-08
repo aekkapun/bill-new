@@ -11,10 +11,16 @@ $this->menu = array(
     array('label' => 'Удалить', 'url' => '#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->id), 'confirm' => 'Вы действительно хотите удалить эту запись?')),
 
     array('label' => "Запросы"),
+    array('label' => 'Список запросов', 'url' => array('/admin/site/phrase')),
     array('label' => 'Добавить запрос', 'url' => array('/admin/site/phrase/create')),
+
+    array('label' => "Диапазоны"),
+    array('label' => 'Список диапазонов', 'url' => array('/admin/site/range')),
+    array('label' => 'Добавить диапазон', 'url' => array('/admin/site/range/create')),
 
     array('label' => "Добавить услугу"),
     array('label' => 'Оплата по позициям', 'url' => array('/admin/service/position/subscribe', 'siteId' => $model->id)),
+    array('label' => 'Оплата по переходам', 'url' => array('/admin/service/transition/subscribe', 'siteId' => $model->id)),
 );
 ?>
 

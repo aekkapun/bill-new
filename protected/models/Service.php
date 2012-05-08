@@ -49,6 +49,9 @@ class Service extends CActiveRecord
             case self::POSITION:
                 return 'position';
                 break;
+            case self::TRANSITION:
+                return 'transition';
+                break;
 
             default:
                 return null;

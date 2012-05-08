@@ -98,6 +98,7 @@ class Site extends CActiveRecord
             'sitePhrases' => array(self::HAS_MANY, 'SitePhrase', 'site_id'),
             'siteFactors' => array(self::HAS_MANY, 'Factor', 'site_id'),
             'siteServices' => array(self::HAS_MANY, 'SiteService', 'site_id'),
+            'siteRanges' => array(self::HAS_MANY, 'SiteRange', 'site_id'),
         );
     }
 
