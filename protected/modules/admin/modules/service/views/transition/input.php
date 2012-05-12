@@ -1,3 +1,12 @@
+<?php
+Yii::app()->clientScript->registerScript('search', "
+$('.params-button').click(function(){
+	$('.params-block').toggle();
+	return false;
+});
+");
+?>
+
 <div class="form">
 
     <?php $form = $this->beginWidget('CActiveForm', array(
@@ -5,7 +14,13 @@
     'enableAjaxValidation' => false,
 )); ?>
 
-    <h1>Текущий период: с <?php echo $valueStart ?> по <?php echo $valueEnd ?></h1>
+    <h1>Текущий услуга
+        подключена <?php echo Yii::app()->dateFormatter->format('d MMMM y', $siteService->created_at) ?></h1>
+
+    <?php echo CHtml::link('Текущие параметры', '#', array('class' => 'params-button')); ?>
+    <div class="params-block box" style="display: none;">
+        <?php $this->renderPartial('_params', array('params' => $params)) ?>
+    </div>
 
 
     <div class="row">

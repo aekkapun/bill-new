@@ -6,9 +6,7 @@ class m120508_121528_subscription_input extends DbMigration
     {
         $this->createTable('subscription_input', array(
             'site_id' => self::MYSQL_TYPE_UINT,
-            'sum' => 'decimal(10,2) NOT NULL',
             'link_count' => self::MYSQL_TYPE_UINT,
-            'avg_link_price' => 'decimal(10,2) NOT NULL',
         ));
     }
 

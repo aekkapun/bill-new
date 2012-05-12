@@ -53,16 +53,33 @@ $this->menu = array(
     ),
 )); ?>
 
+<h2>Диапазоны</h2>
+
+<?php $this->widget('zii.widgets.grid.CGridView', array(
+    'id' => 'site-range-grid',
+    'dataProvider' => new CArrayDataProvider($model->siteRanges),
+    'filter' => null,
+    'columns' => array(
+        'valueMin',
+        'valueMax',
+        'price',
+    ),
+)); ?>
+
 <h2>Подключенные услуги</h2>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'site-service-grid',
-    'dataProvider' => new CArrayDataProvider($model->siteServices),
+    'dataProvider' => new CArrayDataProvider($services),
     'filter' => null,
     'columns' => array(
         array(
             'type' => 'raw',
-            'value' => 'CHtml::link(Service::getLabel($data->service_id), array("/admin/service/".Service::getControllerName($data->service_id)."/input", "siteId" => $data->site_id))'
+            'value' => 'CHtml::link(Service::getLabel($data["service_id"]), array("/admin/service/".Service::getControllerName($data["service_id"])."/input", "siteId" => $data["site_id"]))'
         ),
+        array(
+            'type' => 'date',
+            'value' => 'strtotime($data["created_at"])'
+        )
     ),
 )); ?>

@@ -14,11 +14,19 @@ class SubscriptionController extends Controller
         $site = $this->loadSite($siteId);
         $service = Service::model()->findByPk(Service::SUBSCRIPTION);
         $siteService = new SiteService();
+        $subscriptionForm = new SubscriptionForm();
 
-        if (isset($_POST['SiteService'])) {
+        if (isset($_POST['SiteService']) && isset($_POST['SubscriptionForm'])) {
             $siteService->attributes = $_POST['SiteService'];
-            if ($siteService->save()) {
-                $this->redirect(array('/admin/site/default/view', 'id' => $site->id));
+            $subscriptionForm->attributes = $_POST['SubscriptionForm'];
+
+            if ($subscriptionForm->validate()) {
+                $params['sum'] = $subscriptionForm->sum;
+                $siteService->params = CJSON::encode($params);
+                if ($siteService->save()) {
+                    $this->redirect(array('/admin/site/default/view', 'id' => $site->id));
+                }
+
             }
         }
 
@@ -26,6 +34,7 @@ class SubscriptionController extends Controller
             'site' => $site,
             'service' => $service,
             'siteService' => $siteService,
+            'subscriptionForm' => $subscriptionForm,
         ));
     }
 
@@ -34,15 +43,15 @@ class SubscriptionController extends Controller
         $site = $this->loadSite($siteId);
 
         $criteria = new CDbCriteria();
-        $valueStart = date('Y-m-d', strtotime('first day of now'));
-        $valueEnd = date('Y-m-d', strtotime('last day of now'));
-        $criteria->addBetweenCondition('created_at', $valueStart, $valueEnd);
         $criteria->addColumnCondition(array(
             'site_id' => $siteId,
-            'service_id' => Service::TRANSITION,
+            'service_id' => Service::SUBSCRIPTION,
         ));
+        $criteria->order = 'created_at DESC';
 
         $siteService = SiteService::model()->find($criteria);
+
+        $params = CJSON::decode($siteService->params);
 
         $subscriptionInput = new SubscriptionInput();
 
@@ -56,12 +65,10 @@ class SubscriptionController extends Controller
         }
 
         $this->render('input', array(
-            'valueStart' => $valueStart,
-            'valueEnd' => $valueEnd,
             'site' => $site,
             'siteService' => $siteService,
+            'params' => $params,
             'subscriptionInput' => $subscriptionInput,
         ));
     }
-
 }

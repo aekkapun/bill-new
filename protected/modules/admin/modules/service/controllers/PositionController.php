@@ -64,17 +64,17 @@ class PositionController extends Controller
         $site = $this->loadSite($siteId);
 
         $criteria = new CDbCriteria();
-        $valueStart = date('Y-m-d', strtotime('first day of now'));
-        $valueEnd = date('Y-m-d', strtotime('last day of now'));
-        $criteria->addBetweenCondition('created_at', $valueStart, $valueEnd);
         $criteria->addColumnCondition(array(
             'site_id' => $siteId,
             'service_id' => Service::POSITION,
         ));
+        $criteria->order = 'created_at DESC';
 
         $siteService = SiteService::model()->find($criteria);
 
         $params = CJSON::decode($siteService->params);
+
+        $positionForm = new PositionForm();
 
         $phrases = array();
         foreach (Factor::$labels as $system_id => $label) {
@@ -93,15 +93,19 @@ class PositionController extends Controller
             }
         }
 
-        if (isset($_POST['PositionInput'])) {
+        if (isset($_POST['PositionInput']) && $_POST['PositionForm']) {
 
             $transaction = Yii::app()->db->beginTransaction();
 
             try {
-                $valid = true;
+
+                $positionForm->attributes = $_POST['PositionForm'];
+
+                $valid = $positionForm->validate() && true;
                 foreach (Factor::$labels as $system_id => $label) {
                     foreach ($params['phrases'] as $i => $phrase) {
                         $phrases[$system_id]['phrases'][$i]->attributes = $_POST['PositionInput'][$system_id . $i];
+                        $phrases[$system_id]['phrases'][$i]->created_at = $positionForm->created_at;
                         $valid = $phrases[$system_id]['phrases'][$i]->save() && $valid;
                     }
                 }
@@ -116,11 +120,11 @@ class PositionController extends Controller
         }
 
         $this->render('input', array(
-            'valueStart' => $valueStart,
-            'valueEnd' => $valueEnd,
             'site' => $site,
             'siteService' => $siteService,
             'phrases' => $phrases,
+            'params' => $params,
+            'positionForm' => $positionForm,
         ));
     }
 }

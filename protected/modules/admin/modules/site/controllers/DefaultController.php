@@ -8,8 +8,19 @@ class DefaultController extends Controller
      */
     public function actionView($id)
     {
+        $command = Yii::app()->db->createCommand();
+        $inlineCommand = Yii::app()->db->createCommand()
+            ->from('site_service')
+            ->where('site_id = :site_id')
+            ->order('created_at DESC')->getText();
+        $command->from('(' . $inlineCommand . ') t1');
+        $command->group('service_id');
+
+        $services = $command->queryAll(true, array(':site_id' => $id));
+
         $this->render('view', array(
             'model' => $this->loadModel($id),
+            'services' => $services,
         ));
     }
 

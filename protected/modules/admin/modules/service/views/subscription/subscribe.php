@@ -12,7 +12,7 @@
 <div class="form">
 
     <?php $form = $this->beginWidget('CActiveForm', array(
-    'id' => 'position-subscribe-form',
+    'id' => 'subscription-subscribe-form',
     'enableAjaxValidation' => false,
 )); ?>
 
@@ -36,6 +36,12 @@
             ),
         )); ?>
         <?php echo $form->error($siteService, 'created_at'); ?>
+    </div>
+
+    <div class="row">
+        <?php echo $form->labelEx($subscriptionForm, 'sum'); ?>
+        <?php echo $form->textField($subscriptionForm, 'sum', array('size' => 10, 'maxlength' => 10)); ?>
+        <?php echo $form->error($subscriptionForm, 'sum'); ?>
     </div>
 
     <?php echo CHtml::activeHiddenField($siteService, 'site_id', array('value' => $site->id)) ?>

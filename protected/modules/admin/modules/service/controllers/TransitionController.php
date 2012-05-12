@@ -61,13 +61,11 @@ class TransitionController extends Controller
         $site = $this->loadSite($siteId);
 
         $criteria = new CDbCriteria();
-        $valueStart = date('Y-m-d', strtotime('first day of now'));
-        $valueEnd = date('Y-m-d', strtotime('last day of now'));
-        $criteria->addBetweenCondition('created_at', $valueStart, $valueEnd);
         $criteria->addColumnCondition(array(
             'site_id' => $siteId,
             'service_id' => Service::TRANSITION,
         ));
+        $criteria->order = 'created_at DESC';
 
         $siteService = SiteService::model()->find($criteria);
 
@@ -85,11 +83,10 @@ class TransitionController extends Controller
         }
 
         $this->render('input', array(
-            'valueStart' => $valueStart,
-            'valueEnd' => $valueEnd,
             'site' => $site,
             'siteService' => $siteService,
             'transitions' => $transitions,
+            'params' => $params,
         ));
 
     }

@@ -1,3 +1,12 @@
+<?php
+Yii::app()->clientScript->registerScript('search', "
+$('.params-button').click(function(){
+	$('.params-block').toggle();
+	return false;
+});
+");
+?>
+
 <div class="form">
 
     <?php $form = $this->beginWidget('CActiveForm', array(
@@ -5,7 +14,31 @@
     'enableAjaxValidation' => false,
 )); ?>
 
-    <h1>Текущий период: с <?php echo $valueStart ?> по <?php echo $valueEnd ?></h1>
+    <h1>Текущий услуга
+        подключена <?php echo Yii::app()->dateFormatter->format('d MMMM y', $siteService->created_at) ?></h1>
+
+    <?php echo CHtml::link('Текущие параметры', '#', array('class' => 'params-button')); ?>
+    <div class="params-block box" style="display: none;">
+        <?php $this->renderPartial('_params', array('params' => $params)) ?>
+    </div>
+
+    <h2>За период</h2>
+    <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
+    array(
+        'model' => $positionForm,
+        'attribute' => 'created_at',
+        'language' => 'ru',
+        'options' => array(
+            'showAnim' => 'fold',
+            'dateFormat' => 'yy-mm-dd',
+            'changeMonth' => true,
+            'changeYear' => true,
+            'showOn' => 'button',
+            'buttonImage' => '/images/calendar.png',
+            'buttonImageOnly' => true,
+        ),
+        'htmlOptions' => array('value' => date('Y-m-d')),
+    )); ?>
 
     <?php foreach ($phrases as $system_id => $system): ?>
 
@@ -21,23 +54,6 @@
             <?php echo $form->textField($phrase, '[' . $system_id . $phrase_id . ']phrase', array('readonly' => true, 'value' => $phrase->phrase)) ?>
             <span>Позиция</span>
             <?php echo $form->textField($phrase, '[' . $system_id . $phrase_id . ']position') ?>
-            <span>Время создания</span>
-            <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
-            array(
-                'model' => $phrase,
-                'attribute' => '[' . $system_id . $phrase_id . ']created_at',
-                'language' => 'ru',
-                'options' => array(
-                    'showAnim' => 'fold',
-                    'dateFormat' => 'yy-mm-dd',
-                    'changeMonth' => true,
-                    'changeYear' => true,
-                    'showOn' => 'button',
-                    'buttonImage' => '/images/calendar.png',
-                    'buttonImageOnly' => true,
-                ),
-                'htmlOptions' => array('value' => date('Y-m-d')),
-            )); ?>
         </div>
 
         <?php echo $form->hiddenField($phrase, '[' . $system_id . $phrase_id . ']system_id', array('value' => $system_id)) ?>

@@ -6,23 +6,12 @@
  * The followings are the available columns in table 'subscription_input':
  * @property string $id
  * @property string $site_id
- * @property string $sum
  * @property string $link_count
- * @property string $avg_link_price
  * @property string $created_at
  * @property string $updated_at
  */
 class SubscriptionInput extends CActiveRecord
 {
-
-    public function beforeValidate()
-    {
-        if (parent::beforeValidate()) {
-            $this->avg_link_price = round($this->sum / $this->link_count, 2);
-            return true;
-        }
-        return false;
-    }
 
     /**
      * Returns the static model of the specified AR class.
@@ -49,12 +38,12 @@ class SubscriptionInput extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('site_id, sum, link_count, avg_link_price', 'required'),
-            array('site_id, sum, link_count, avg_link_price', 'length', 'max' => 10),
+            array('site_id, link_count', 'required'),
+            array('site_id, link_count', 'length', 'max' => 10),
             array('created_at, updated_at', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, site_id, sum, link_count, avg_link_price, created_at, updated_at', 'safe', 'on' => 'search'),
+            array('id, site_id, link_count, created_at, updated_at', 'safe', 'on' => 'search'),
         );
     }
 
@@ -77,9 +66,7 @@ class SubscriptionInput extends CActiveRecord
         return array(
             'id' => 'ID',
             'site_id' => 'Site',
-            'sum' => 'Sum',
             'link_count' => 'Link Count',
-            'avg_link_price' => 'Avg Link Price',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         );
@@ -113,9 +100,7 @@ class SubscriptionInput extends CActiveRecord
 
         $criteria->compare('id', $this->id, true);
         $criteria->compare('site_id', $this->site_id, true);
-        $criteria->compare('sum', $this->sum, true);
         $criteria->compare('link_count', $this->link_count, true);
-        $criteria->compare('avg_link_price', $this->avg_link_price, true);
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);
 

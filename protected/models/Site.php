@@ -17,6 +17,8 @@
 class Site extends CActiveRecord
 {
 
+    public $contractId;
+
     public function beforeSave()
     {
         if (parent::beforeSave()) {
@@ -41,10 +43,12 @@ class Site extends CActiveRecord
 
     public function afterSave()
     {
-        /*foreach ($this->siteContracts as $siteContract) {
-            $siteContract->site_id = $this->id;
-            $siteContract->save();
-        }*/
+        $siteContract = new SiteContract();
+        $siteContract->attributes = array(
+            'site_id' => $this->id,
+            'contract_id' => $this->contractId,
+        );
+        $siteContract->save();
 
         parent::afterSave();
     }
@@ -74,7 +78,7 @@ class Site extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('client_id, domain', 'required'),
+            array('client_id, domain, contractId', 'required'),
             array('client_id', 'length', 'max' => 10),
             array('domain', 'length', 'max' => 255),
             array('domain', 'url'),

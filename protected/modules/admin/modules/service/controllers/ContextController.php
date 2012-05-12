@@ -28,7 +28,6 @@ class ContextController extends Controller
                 $params['budget'] = $contextForm->budget;
                 $params['workPercent'] = $contextForm->workPercent;
 
-
                 $siteService->params = CJSON::encode($params);
 
                 if (!$siteService->save()) {
@@ -53,13 +52,11 @@ class ContextController extends Controller
         $site = $this->loadSite($siteId);
 
         $criteria = new CDbCriteria();
-        $valueStart = date('Y-m-d', strtotime('first day of now'));
-        $valueEnd = date('Y-m-d', strtotime('last day of now'));
-        $criteria->addBetweenCondition('created_at', $valueStart, $valueEnd);
         $criteria->addColumnCondition(array(
             'site_id' => $siteId,
-            'service_id' => Service::TRANSITION,
+            'service_id' => Service::CONTEXT,
         ));
+        $criteria->order = 'created_at DESC';
 
         $siteService = SiteService::model()->find($criteria);
 
