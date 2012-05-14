@@ -1,20 +1,22 @@
 <?php
 
 /**
- * This is the model class for table "subscription_stat".
+ * This is the model class for table "subscription_period".
  *
- * The followings are the available columns in table 'subscription_stat':
+ * The followings are the available columns in table 'subscription_period':
  * @property string $id
  * @property string $site_id
+ * @property string $period_begin
+ * @property string $period_end
  * @property string $avg_link_price
  * @property string $created_at
  * @property string $updated_at
  */
-class SubscriptionStat extends CActiveRecord
+class SubscriptionPeriod extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return SubscriptionStat the static model class
+	 * @return SubscriptionPeriod the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -26,7 +28,7 @@ class SubscriptionStat extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'subscription_stat';
+		return 'subscription_period';
 	}
 
 	/**
@@ -37,12 +39,12 @@ class SubscriptionStat extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('site_id, avg_link_price', 'required'),
+			array('site_id', 'required'),
 			array('site_id, avg_link_price', 'length', 'max'=>10),
-			array('created_at, updated_at', 'safe'),
+			array('period_begin, period_end, created_at, updated_at', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, site_id, avg_link_price, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id, site_id, period_begin, period_end, avg_link_price, created_at, updated_at', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -65,6 +67,8 @@ class SubscriptionStat extends CActiveRecord
 		return array(
 			'id' => 'ID',
 			'site_id' => 'Site',
+			'period_begin' => 'Period Begin',
+			'period_end' => 'Period End',
 			'avg_link_price' => 'Avg Link Price',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
@@ -79,7 +83,7 @@ class SubscriptionStat extends CActiveRecord
         return array(
             'CTimestampBehavior' => array(
                 'class' => 'zii.behaviors.CTimestampBehavior',
-                'createAttribute' => null,
+                'createAttribute' => 'created_at',
                 'updateAttribute' => 'updated_at',
                 'setUpdateOnCreate' => true
             )
@@ -99,6 +103,8 @@ class SubscriptionStat extends CActiveRecord
 
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('site_id',$this->site_id,true);
+		$criteria->compare('period_begin',$this->period_begin,true);
+		$criteria->compare('period_end',$this->period_end,true);
 		$criteria->compare('avg_link_price',$this->avg_link_price,true);
 		$criteria->compare('created_at',$this->created_at,true);
 		$criteria->compare('updated_at',$this->updated_at,true);
