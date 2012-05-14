@@ -63,7 +63,10 @@ $this->breadcrumbs = array(
     <p><strong>Подключенные услуги:</strong></p>
     <ul>
         <?php foreach ($site->site->siteServices as $siteService): ?>
-        <li><?php echo Service::getLabel($siteService->service_id) ?> c <?php echo Yii::app()->dateFormatter->format('d MMMM yyyy', $siteService->created_at) ?></li>
+        <li>
+            <?php echo Service::getLabel($siteService->service_id) ?> c <?php echo Yii::app()->dateFormatter->format('d MMMM yyyy', $siteService->created_at) ?>
+            <?php echo CHtml::link('Статистика', array('/stat/view/', 'serviceId' => $siteService->service_id, 'siteId' => $siteService->site_id)) ?>
+        </li>
         <?php endforeach; ?>
     </ul>
 </div>

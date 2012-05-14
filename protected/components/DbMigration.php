@@ -10,6 +10,7 @@ class DbMigration extends CDbMigration
 {
     const MYSQL_TYPE_UINT = 'int UNSIGNED NOT NULL';
     const MYSQL_TYPE_BOOLEAN = 'tinyint(1) DEFAULT 0';
+    const MYSQL_TYPE_MONEY = 'decimal(10,2)';
 
     protected $options = 'engine=InnoDB;';
 

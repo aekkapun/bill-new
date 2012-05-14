@@ -1,0 +1,1 @@
+<?php $this->renderPartial($viewName, array('dataProvider' => $dataProvider)) ?>

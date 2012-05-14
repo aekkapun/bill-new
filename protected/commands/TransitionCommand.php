@@ -57,7 +57,12 @@ class TransitionCommand extends StatConsoleCommand
         $transitionCount = Yii::app()->db->createCommand()
             ->from($this->inputTable)
             ->select('SUM(transitions)')
-            ->where('created_at BETWEEN :period_begin AND :period_end', array(':period_begin' => $period->period_begin, ':period_end' => $period->period_end))
+            ->where('(created_at BETWEEN :period_begin AND :period_end) and (site_id = :site_id)',
+            array(
+                ':period_begin' => $period->period_begin,
+                ':period_end' => $period->period_end,
+                ':site_id' => $period->site_id,
+            ))
             ->queryScalar();
 
         print "\nПереходов за месяц:" . $transitionCount;
@@ -95,17 +100,18 @@ class TransitionCommand extends StatConsoleCommand
 
         $price = 0.0;
         foreach ($ranges as $range) {
-            if (isset($range['valueMax']) && $transitionCount <= $range['valueMax']) {
+            if (($transitionCount >= $range['valueMin'] && $transitionCount < $range['valueMax']) ||
+                (!isset($range['valueMax']) && isset($range['valueMin']))
+            ) {
                 $price = $range['price'];
                 break;
             }
 
-            if ($transitionCount >= $range['valueMin'] && $transitionCount < $range['valueMax']) {
-                $price = $range['price'];
-                break;
-            }
+
         }
+        print "\nЦена за переход: " . $price;
         $transitionSum = $price * $transitionCount;
+
 
         print "\nСумма за текущий период: " . $transitionSum;
 

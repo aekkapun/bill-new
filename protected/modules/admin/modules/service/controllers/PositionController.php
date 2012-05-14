@@ -106,6 +106,7 @@ class PositionController extends Controller
                     foreach ($params['phrases'] as $i => $phrase) {
                         $phrases[$system_id]['phrases'][$i]->attributes = $_POST['PositionInput'][$system_id . $i];
                         $phrases[$system_id]['phrases'][$i]->created_at = $positionForm->created_at;
+                        $phrases[$system_id]['phrases'][$i]->params = $siteService->params;
                         $valid = $phrases[$system_id]['phrases'][$i]->save() && $valid;
                     }
                 }

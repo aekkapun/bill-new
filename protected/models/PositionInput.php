@@ -103,7 +103,7 @@ class PositionInput extends CActiveRecord
             array('system_id, site_id, position', 'numerical', 'integerOnly' => true),
             array('hash', 'length', 'max' => 255),
             array('position', 'length', 'max' => 10),
-            array('created_at, updated_at', 'safe'),
+            array('created_at, updated_at, params', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, phrase, hash, position, system_id, created_at, updated_at, site_id', 'safe', 'on' => 'search'),
