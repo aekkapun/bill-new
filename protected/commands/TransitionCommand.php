@@ -19,6 +19,7 @@ class TransitionCommand extends StatConsoleCommand
             'period_begin' => (($first) ? Time::ts2dt($timestamp) : Time::ts2dt($bounds['begin'])),
             'site_id' => $siteId,
             'period_end' => Time::ts2dt($bounds['end']),
+            'period_name' => $bounds['name'],
         );
 
         $subscriptionStat = new TransitionPeriod();

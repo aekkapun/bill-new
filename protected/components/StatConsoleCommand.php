@@ -8,7 +8,6 @@
  */
 abstract class StatConsoleCommand extends CConsoleCommand
 {
-
     protected $inputTable;
 
     public function actionUpdate()
@@ -98,6 +97,7 @@ abstract class StatConsoleCommand extends CConsoleCommand
         $bounds = array(
             'begin' => 0,
             'end' => 0,
+            'name' => 'noname',
         );
 
         switch ($periodType) {
@@ -105,18 +105,23 @@ abstract class StatConsoleCommand extends CConsoleCommand
             case 1:
                 $bounds['begin'] = mktime(0, 0, 0, $month, $day, $year);
                 $bounds['end'] = mktime(23, 59, 59, $month, $day, $year);
+                $bounds['name'] = Yii::app()->dateFormatter->formatDateTime($bounds['begin']);
                 break;
 
             // Неделя
             case 7:
                 $bounds['begin'] = strtotime(date('Y', $timestamp) . 'W' . date('W', $timestamp) . '1 00:00:00');
                 $bounds['end'] = strtotime(date('Y', $timestamp) . 'W' . date('W', $timestamp) . '7 23:59:59');
+                $bounds['name'] = date('d-m-Y', $bounds['begin']) . ' - ' . date('d-m-Y', $bounds['end']);
+                //Yii::app()->dateFormatter->formatDateTime()
                 break;
 
             // Месяц
             case 30:
                 $bounds['begin'] = mktime(0, 0, 0, $month, 1, $year);
                 $bounds['end'] = mktime(23, 59, 59, $month, $maxInMonth, $year);
+                $bounds['name'] = Yii::app()->dateFormatter->format('LLLL y', $bounds['begin']);
+
                 break;
         }
         return $bounds;

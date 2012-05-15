@@ -3,8 +3,10 @@
     'dataProvider' => $dataProvider,
     'filter' => null,
     'columns' => array(
-        'period_begin',
-        'period_end',
+        array(
+            'type' => 'raw',
+            'value' => 'CHtml::link($data->period_name, array("/detail/" . Service::getControllerName(Service::SUBSCRIPTION), "siteId" => $data->site_id, "from" => strtotime($data->period_begin), "to" => strtotime($data->period_end)))'
+        ),
         'avg_link_price',
     ),
 )); ?>

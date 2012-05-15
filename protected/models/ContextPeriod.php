@@ -1,23 +1,23 @@
 <?php
 
 /**
- * This is the model class for table "subscription_period".
+ * This is the model class for table "context_period".
  *
- * The followings are the available columns in table 'subscription_period':
+ * The followings are the available columns in table 'context_period':
  * @property string $id
  * @property string $site_id
  * @property string $period_begin
  * @property string $period_end
- * @property string $avg_link_price
+ * @property string $transitions_sum
  * @property string $created_at
  * @property string $updated_at
  * @property string $period_name
  */
-class SubscriptionPeriod extends CActiveRecord
+class ContextPeriod extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return SubscriptionPeriod the static model class
+	 * @return ContextPeriod the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -29,7 +29,7 @@ class SubscriptionPeriod extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'subscription_period';
+		return 'context_period';
 	}
 
 	/**
@@ -41,11 +41,11 @@ class SubscriptionPeriod extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('site_id', 'required'),
-			array('site_id, avg_link_price', 'length', 'max'=>10),
+			array('site_id, transitions_sum', 'length', 'max'=>10),
 			array('period_begin, period_end, created_at, updated_at, period_name', 'safe'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, site_id, period_begin, period_end, avg_link_price, created_at, updated_at', 'safe', 'on'=>'search'),
+			array('id, site_id, period_begin, period_end, transitions_sum, created_at, updated_at', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -70,7 +70,7 @@ class SubscriptionPeriod extends CActiveRecord
 			'site_id' => 'Site',
 			'period_begin' => 'Period Begin',
 			'period_end' => 'Period End',
-			'avg_link_price' => 'Avg Link Price',
+			'transitions_sum' => 'Transitions Sum',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
 		);
@@ -106,7 +106,7 @@ class SubscriptionPeriod extends CActiveRecord
 		$criteria->compare('site_id',$this->site_id,true);
 		$criteria->compare('period_begin',$this->period_begin,true);
 		$criteria->compare('period_end',$this->period_end,true);
-		$criteria->compare('avg_link_price',$this->avg_link_price,true);
+		$criteria->compare('transitions_sum',$this->transitions_sum,true);
 		$criteria->compare('created_at',$this->created_at,true);
 		$criteria->compare('updated_at',$this->updated_at,true);
 

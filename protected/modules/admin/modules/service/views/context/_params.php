@@ -1,0 +1,2 @@
+<p>Бюджет: <strong><?php echo Yii::app()->numberFormatter->formatCurrency($params['budget'], 'RUB'); ?></strong></p>
+<p>Стоимость работ: <strong><?php echo Yii::app()->numberFormatter->formatCurrency($params['budget']*$params['workPercent'], 'RUB') ?></strong></p>

@@ -3,8 +3,10 @@
     'dataProvider' => $dataProvider,
     'filter' => null,
     'columns' => array(
-        'period_begin',
-        'period_end',
+        array(
+            'type' => 'raw',
+            'value' => 'CHtml::link($data->period_name, array("/detail/" . Service::getControllerName(Service::TRANSITION), "siteId" => $data->site_id, "from" => strtotime($data->period_begin), "to" => strtotime($data->period_end)))'
+        ),
         'transition_count',
         'transition_sum'
     ),

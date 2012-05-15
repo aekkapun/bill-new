@@ -32,12 +32,13 @@ class SubscriptionCommand extends StatConsoleCommand
     protected function createPeriod($timestamp, $siteId, $first = FALSE)
     {
 
-        $bounds = $this->getPeriodBounds($timestamp);
+        $bounds = $this->getPeriodBounds($timestamp, 30);
 
         $attributes = array(
             'period_begin' => (($first) ? Time::ts2dt($timestamp) : Time::ts2dt($bounds['begin'])),
             'site_id' => $siteId,
             'period_end' => Time::ts2dt($bounds['end']),
+            'period_name' => $bounds['name'],
         );
 
         $subscriptionStat = new SubscriptionPeriod();
@@ -45,7 +46,6 @@ class SubscriptionCommand extends StatConsoleCommand
 
         return $subscriptionStat;
     }
-
 
 
     protected function countIndicators($period)
@@ -56,10 +56,21 @@ class SubscriptionCommand extends StatConsoleCommand
             'site_id' => $period->site_id,
         ));
 
+        $totalMonthLinkCount = Yii::app()->db->createCommand()
+            ->from($this->inputTable)
+            ->select('SUM(link_count)')
+            ->where('(created_at BETWEEN :period_begin AND :period_end) and (site_id = :site_id)',
+            array(
+                ':period_begin' => $period->period_begin,
+                ':period_end' => $period->period_end,
+                ':site_id' => $period->site_id,
+            ))
+            ->queryScalar();
+
         $input = SubscriptionInput::model()->find($criteria);
         $params = CJSON::decode($input->params);
 
-        $avgLinkPrice = round($params['sum'] / $input->link_count, 2);
+        $avgLinkPrice = round($params['sum'] / $totalMonthLinkCount, 2);
 
         return array(
             'avg_link_price' => $avgLinkPrice,
