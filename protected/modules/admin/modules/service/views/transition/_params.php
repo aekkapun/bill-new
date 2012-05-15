@@ -7,8 +7,8 @@
     'filter' => null,
     'template' => '{items}',
     'columns' => array(
-        'valueMin',
-        'valueMax',
-        'price'
+        'valueMin:Мин',
+        'valueMax:Макс',
+        'price:Цена'
     ),
 )); ?>

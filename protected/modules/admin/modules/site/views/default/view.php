@@ -39,6 +39,8 @@ $this->menu = array(
     ),
 )); ?>
 
+<br>
+
 <h2>Запросы</h2>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
@@ -46,10 +48,10 @@ $this->menu = array(
     'dataProvider' => new CArrayDataProvider($model->sitePhrases),
     'filter' => null,
     'columns' => array(
-        'id',
-        'phrase',
-        'price',
-        'active:boolean'
+        'id:number:ID',
+        'phrase:Запрос',
+        'price:Цена',
+        'active:boolean:Активен?'
     ),
 )); ?>
 
@@ -60,9 +62,9 @@ $this->menu = array(
     'dataProvider' => new CArrayDataProvider($model->siteRanges),
     'filter' => null,
     'columns' => array(
-        'valueMin',
-        'valueMax',
-        'price',
+        'valueMin:Мин',
+        'valueMax:Макс',
+        'price:Цена',
     ),
 )); ?>
 
@@ -74,12 +76,14 @@ $this->menu = array(
     'filter' => null,
     'columns' => array(
         array(
+            'header' => 'Название',
             'type' => 'raw',
             'value' => 'CHtml::link(Service::getLabel($data["service_id"]), array("/admin/service/".Service::getControllerName($data["service_id"])."/input", "siteId" => $data["site_id"]))'
         ),
         array(
+            'header' => 'Дата подключения/изменения',
             'type' => 'date',
-            'value' => 'strtotime($data["created_at"])'
+            'value' => 'strtotime($data["created_at"])',
         )
     ),
 )); ?>

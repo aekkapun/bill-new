@@ -84,12 +84,13 @@ class Factor extends CActiveRecord
     {
         return array(
             'id' => 'ID',
-            'name' => 'Name',
-            'system_id' => 'System',
-            'position' => 'Position',
-            'value' => 'Value',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'name' => 'Название',
+            'system_id' => 'Система',
+            'position' => 'Позиция в топе',
+            'value' => 'Коэффициент',
+            'created_at' => 'Время создания',
+            'updated_at' => 'Время обновления',
+            ''
         );
     }
 

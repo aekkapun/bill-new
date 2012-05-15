@@ -24,6 +24,7 @@ $('.params-button').click(function(){
 
 
     <div class="row">
+        <?php echo $form->labelEx($transitions, 'created_at'); ?>
         <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
         array(
             'model' => $transitions,

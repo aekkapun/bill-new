@@ -128,12 +128,12 @@ class PositionInput extends CActiveRecord
     {
         return array(
             'id' => 'ID',
-            'phrase' => 'Phrase',
-            'hash' => 'Hash',
-            'position' => 'Position',
-            'system_id' => 'System',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'phrase' => 'Запрос',
+            'hash' => 'Хеш',
+            'position' => 'Позиция',
+            'system_id' => 'Система',
+            'created_at' => 'Время создания',
+            'updated_at' => 'Время обновления',
         );
     }
 

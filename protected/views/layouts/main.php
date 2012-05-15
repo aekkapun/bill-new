@@ -34,6 +34,8 @@
         <?php $this->widget('zii.widgets.CMenu', array(
         'items' => array(
             array('label' => 'Договора', 'url' => array('/contract'), 'visible' => !Yii::app()->user->isGuest),
+            array('label' => 'Платежи', 'url' => array('/payment'), 'visible' => !Yii::app()->user->isGuest),
+            array('label' => 'Акты', 'url' => array('/act'), 'visible' => !Yii::app()->user->isGuest),
 //            array('label' => 'Статистика', 'url' => array('/stat'), 'visible' => !Yii::app()->user->isGuest),
             array('label' => 'Вход', 'url' => array('/session/create'), 'visible' => Yii::app()->user->isGuest),
             array('label' => 'Выход (' . Yii::app()->user->name . ')', 'url' => array('/session/destroy'), 'visible' => !Yii::app()->user->isGuest)

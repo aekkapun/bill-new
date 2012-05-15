@@ -7,11 +7,6 @@ $('.params-button').click(function(){
 ");
 ?>
 
-<?php echo CHtml::link('Текущие параметры', '#', array('class' => 'params-button')); ?>
-<div class="params-block box" style="display: none;">
-    <?php $this->renderPartial('_params', array('params' => $params)) ?>
-</div>
-
 <div class="form">
 
     <?php $form = $this->beginWidget('CActiveForm', array(
@@ -23,7 +18,13 @@ $('.params-button').click(function(){
         подключена <?php echo Yii::app()->dateFormatter->format('d MMMM y', $siteService->created_at) ?></h1>
 
 
+    <?php echo CHtml::link('Текущие параметры', '#', array('class' => 'params-button')); ?>
+    <div class="params-block box" style="display: none;">
+        <?php $this->renderPartial('_params', array('params' => $params)) ?>
+    </div>
+
     <div class="row">
+        <?php echo $form->labelEx($contextInput, 'created_at'); ?>
         <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
         array(
             'model' => $contextInput,

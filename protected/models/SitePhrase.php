@@ -85,11 +85,11 @@ class SitePhrase extends CActiveRecord
     {
         return array(
             'id' => 'ID',
-            'site_id' => 'Site',
-            'phrase' => 'Phrase',
-            'hash' => 'Hash',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'site_id' => 'Сайт',
+            'phrase' => 'Запрос',
+            'hash' => 'Хеш',
+            'created_at' => 'Время создания',
+            'updated_at' => 'Время обновления',
         );
     }
 

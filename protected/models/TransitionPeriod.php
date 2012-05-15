@@ -69,12 +69,12 @@ class TransitionPeriod extends CActiveRecord
         return array(
             'id' => 'ID',
             'site_id' => 'Site',
-            'period_begin' => 'Period Begin',
+            'period_name' => 'период',
             'period_end' => 'Period End',
-            'transition_count' => 'Transition Count',
-            'transition_sum' => 'Transition Sum',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'transition_count' => 'Количество переходов',
+            'transition_sum' => 'Сумма переходов',
+            'created_at' => 'Время создания',
+            'updated_at' => 'Время обновления',
         );
     }
 

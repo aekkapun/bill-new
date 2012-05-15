@@ -71,12 +71,12 @@ class SiteRange extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'site_id' => 'Site',
-			'valueMin' => 'Value Min',
-			'valueMax' => 'Value Max',
-			'price' => 'Price',
-			'created_at' => 'Created At',
-			'updated_at' => 'Updated At',
+			'site_id' => 'Сайт',
+			'valueMin' => 'Мин',
+			'valueMax' => 'Макс',
+			'price' => 'Цена',
+            'created_at' => 'Время создания',
+            'updated_at' => 'Время обновления',
 		);
 	}
 

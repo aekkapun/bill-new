@@ -22,7 +22,6 @@ $this->menu=array(
 		'contract.number',
 		'details',
 		'sum',
-		'period',
 		'created_at',
 		'updated_at',
 	),

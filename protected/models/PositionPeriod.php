@@ -68,13 +68,13 @@ class PositionPeriod extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'site_id' => 'Site',
-			'period_begin' => 'Period Begin',
+			'site_id' => 'Сайт',
+			'period_name' => 'Период',
 			'period_end' => 'Period End',
-			'phrases' => 'Phrases',
-			'sum' => 'Sum',
-			'created_at' => 'Created At',
-			'updated_at' => 'Updated At',
+			'phrases' => 'Запросы',
+			'sum' => 'Сумма',
+            'created_at' => 'Время создания',
+            'updated_at' => 'Время обновления',
 		);
 	}
 

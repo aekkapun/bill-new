@@ -67,10 +67,10 @@ class SubscriptionInput extends CActiveRecord
     {
         return array(
             'id' => 'ID',
-            'site_id' => 'Site',
-            'link_count' => 'Link Count',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'site_id' => 'Сайт',
+            'link_count' => 'Количество ссылок',
+            'created_at' => 'Время создания',
+            'updated_at' => 'Время обновления',
         );
     }
 

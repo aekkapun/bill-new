@@ -18,4 +18,11 @@ class PositionForm extends CFormModel
         );
     }
 
+    public function attributeLabels()
+    {
+        return array(
+            'created_at' => 'Время создания'
+        );
+    }
+
 }

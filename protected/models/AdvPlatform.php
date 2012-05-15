@@ -63,9 +63,9 @@ class AdvPlatform extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
-			'created_at' => 'Created At',
-			'updated_at' => 'Updated At',
+			'name' => 'Название',
+			'created_at' => 'Время создания',
+			'updated_at' => 'Время обновления',
 		);
 	}
 

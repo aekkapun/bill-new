@@ -79,12 +79,12 @@ class SiteService extends CActiveRecord
     {
         return array(
             'id' => 'ID',
-            'site_id' => 'Site',
-            'service_id' => 'Service',
-            'params' => 'Params',
-            'options' => 'Options',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'site_id' => 'Сайт',
+            'service_id' => 'Услуга',
+            'params' => 'Параметры',
+            'options' => 'Опции',
+            'created_at' => 'Время создания',
+            'updated_at' => 'Время обновления',
         );
     }
 

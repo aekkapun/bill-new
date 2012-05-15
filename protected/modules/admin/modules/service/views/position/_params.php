@@ -5,8 +5,8 @@
     'filter' => null,
     'template' => '{items}',
     'columns' => array(
-        'phrase',
-        'price',
+        'phrase:Запрос',
+        'price:Цена',
     ),
 )); ?>
 
@@ -17,7 +17,7 @@
     'filter' => null,
     'template' => '{items}',
     'columns' => array(
-        'name',
-        'value',
+        'name:Название',
+        'value:Значение',
     ),
 )); ?>

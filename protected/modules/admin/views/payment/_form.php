@@ -34,11 +34,11 @@
     </div>
 
     <div class="row">
-        <?php echo $form->labelEx($model, 'period'); ?>
+        <?php echo $form->labelEx($model, 'created_at'); ?>
         <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
         array(
             'model' => $model,
-            'attribute' => 'period',
+            'attribute' => 'created_at',
             'language' => 'ru',
             'options' => array(
                 'showAnim' => 'fold',
@@ -50,7 +50,7 @@
                 'buttonImageOnly' => true,
             ),
         )); ?>
-        <?php echo $form->error($model, 'period'); ?>
+        <?php echo $form->error($model, 'created_at'); ?>
     </div>
 
     <div class="row buttons">

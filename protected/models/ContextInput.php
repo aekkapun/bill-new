@@ -80,12 +80,12 @@ class ContextInput extends CActiveRecord
     {
         return array(
             'id' => 'ID',
-            'site_id' => 'Site',
-            'transitions_count' => 'Transitions Count',
-            'transitions_sum' => 'Transitions Sum',
-            'avg_transition_price' => 'Avg Transition Price',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'site_id' => 'Сайт',
+            'transitions_count' => 'Количество переходов',
+            'transitions_sum' => 'Сумма',
+            'avg_transition_price' => 'Средняя стоимость перехода',
+            'created_at' => 'Время создания',
+            'updated_at' => 'Время обновления',
         );
     }
 

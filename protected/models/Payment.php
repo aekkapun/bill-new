@@ -9,7 +9,6 @@
  * @property string $contract_id
  * @property string $details
  * @property string $sum
- * @property string $period
  * @property string $created_at
  * @property string $updated_at
  *
@@ -44,13 +43,13 @@ class Payment extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('client_id, contract_id, period, sum', 'required'),
+            array('client_id, contract_id, sum', 'required'),
             array('client_id, contract_id', 'length', 'max' => 10),
             array('sum', 'length', 'max' => 20),
-            array('details, period, created_at, updated_at', 'safe'),
+            array('details, created_at, updated_at', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, client_id, contract_id, details, sum, period, created_at, updated_at', 'safe', 'on' => 'search'),
+            array('id, client_id, contract_id, details, sum, created_at, updated_at', 'safe', 'on' => 'search'),
         );
     }
 
@@ -78,7 +77,6 @@ class Payment extends CActiveRecord
             'contract_id' => 'Договор',
             'details' => 'Назначение платежа',
             'sum' => 'Сумма',
-            'period' => 'Период',
             'created_at' => 'Время создания',
             'updated_at' => 'Время обновления',
         );
@@ -92,7 +90,7 @@ class Payment extends CActiveRecord
         return array(
             'CTimestampBehavior' => array(
                 'class' => 'zii.behaviors.CTimestampBehavior',
-                'createAttribute' => 'created_at',
+                'createAttribute' => null,
                 'updateAttribute' => 'updated_at',
                 'setUpdateOnCreate' => true
             )
@@ -115,7 +113,6 @@ class Payment extends CActiveRecord
         $criteria->compare('contract_id', $this->contract_id, true);
         $criteria->compare('details', $this->details, true);
         $criteria->compare('sum', $this->sum, true);
-        $criteria->compare('period', $this->period, true);
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);
 

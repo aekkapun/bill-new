@@ -67,12 +67,12 @@ class ContextPeriod extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'site_id' => 'Site',
-			'period_begin' => 'Period Begin',
+			'site_id' => 'Сайт',
+			'period_name' => 'Период',
 			'period_end' => 'Period End',
-			'transitions_sum' => 'Transitions Sum',
-			'created_at' => 'Created At',
-			'updated_at' => 'Updated At',
+			'transitions_sum' => 'Стоимость переходов',
+            'created_at' => 'Время создания',
+            'updated_at' => 'Время обновления',
 		);
 	}
 

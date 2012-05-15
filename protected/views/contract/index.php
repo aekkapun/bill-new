@@ -23,19 +23,11 @@ $('.search-form form').submit(function(){
     'template' => '{items}',
     'columns' => array(
         array(
+            'header' => 'Номер',
             'class' => 'CLinkColumn',
             'urlExpression' => 'Yii::app()->createUrl("contract/view", array("id" => $data->id))',
-            'labelExpression' => '$data->number'
+            'labelExpression' => '$data->number ." от ". Yii::app()->dateFormatter->format("d MMMM y", strtotime($data->created_at))'
         ),
         'statusLabel',
-        array(
-            'header' => 'Дата создания',
-            'type' => 'date',
-            'value' => 'strtotime($data->created_at)'
-        ),
-        array(
-            'class' => 'CButtonColumn',
-            'template' => '{view}'
-        ),
     ),
 )); ?>

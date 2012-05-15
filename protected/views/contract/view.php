@@ -1,6 +1,5 @@
 <?php
 $this->breadcrumbs = array(
-//    $model->client->name => array('/admin/client/view', 'id' => $model->id),
     'Договоры' => array('index'),
     $model->number,
 );

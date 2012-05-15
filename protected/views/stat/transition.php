@@ -1,3 +1,9 @@
+<?php
+$this->breadcrumbs = array(
+    'Статистика',
+);
+?>
+
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'stat-grid',
     'dataProvider' => $dataProvider,

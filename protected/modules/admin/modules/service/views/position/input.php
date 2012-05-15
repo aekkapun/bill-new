@@ -22,7 +22,10 @@ $('.params-button').click(function(){
         <?php $this->renderPartial('_params', array('params' => $params)) ?>
     </div>
 
-    <h2>За период</h2>
+    <br />
+    <br />
+
+    <?php echo $form->labelEx($positionForm, 'created_at'); ?>
     <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
     array(
         'model' => $positionForm,
@@ -39,6 +42,8 @@ $('.params-button').click(function(){
         ),
         'htmlOptions' => array('value' => date('Y-m-d')),
     )); ?>
+
+    <br /><br />
 
     <?php foreach ($phrases as $system_id => $system): ?>
 

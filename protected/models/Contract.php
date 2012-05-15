@@ -104,7 +104,7 @@ class Contract extends CActiveRecord
     {
         return array(
             'id' => 'ID',
-            'number' => 'Номер',
+            'number' => 'Договор',
             'client_id' => 'Клиент',
             'status' => 'Статус',
             'statusLabel' => 'Статус',

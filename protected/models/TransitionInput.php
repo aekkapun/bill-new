@@ -64,10 +64,10 @@ class TransitionInput extends CActiveRecord
     {
         return array(
             'id' => 'ID',
-            'site_id' => 'Site',
-            'transitions' => 'Transitions',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'site_id' => 'Сайт',
+            'transitions' => 'Переходов',
+            'created_at' => 'Время создания',
+            'updated_at' => 'Время обновления',
         );
     }
 

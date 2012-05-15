@@ -31,11 +31,6 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'period'); ?>
-		<?php echo $form->textField($model,'period'); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->label($model,'created_at'); ?>
 		<?php echo $form->textField($model,'created_at'); ?>
 	</div>
