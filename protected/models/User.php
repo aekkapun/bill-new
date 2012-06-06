@@ -60,10 +60,10 @@ class User extends CActiveRecord
         if (parent::beforeValidate()) {
 
             if ($this->isNewRecord || !empty($this->newPassword)) {
-                $this->hash = md5(Yii::app()->securityManager->hashData(microtime(true)));
+                $this->hash = md5(Yii::app()->securityManager->randomKey());
             }
 
-            if($this->role !== self::ROLE_CLIENT) {
+            if ($this->role !== self::ROLE_CLIENT) {
                 $this->client_id = NULL;
             }
 

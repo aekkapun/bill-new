@@ -30,7 +30,7 @@ class SecurityManager extends CSecurityManager
 
         //Результат
         $temp = '';
-        
+
         for ($i = 0; $i < strlen($saltString); $i++) {
             // Если $i-ый символ число, то заменяем его спецсимволом из $spec
             if (ord($hashedString[$i]) >= 48 and ord($hashedString[$i]) <= 57) {
@@ -45,5 +45,14 @@ class SecurityManager extends CSecurityManager
 
         }
         return md5($temp);
+    }
+
+    /**
+     * Generate random key
+     * @return string
+     */
+    public function randomKey()
+    {
+        return $this->generateRandomKey();
     }
 }

@@ -9,8 +9,6 @@ $this->menu = array(
     array('label' => 'Обновить', 'url' => array('update', 'id' => $model->id)),
     array('label' => 'Список', 'url' => array('index')),
     array('label' => 'Удалить', 'url' => '#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->id), 'confirm' => 'Вы действительно хотите удалить эту запись?')),
-    array('label' => '-----'),
-    array('label' => 'Прикрепить сайт', 'url' => array('/admin/siteContract/create', 'client_id' => $model->id)),
 );
 ?>
 

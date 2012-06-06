@@ -13,6 +13,7 @@ $this->menu = array(
     array('label' => "Запросы"),
     array('label' => 'Список запросов', 'url' => array('/admin/site/phrase')),
     array('label' => 'Добавить запрос', 'url' => array('/admin/site/phrase/create')),
+    array('label' => 'Импорт запросов', 'url' => array('/admin/import/default')),
 
     array('label' => "Диапазоны"),
     array('label' => 'Список диапазонов', 'url' => array('/admin/site/range')),

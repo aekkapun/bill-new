@@ -29,6 +29,7 @@ class AdminModule extends CWebModule
         $this->modules = array(
             'site',
             'service',
+            'import',
         );
 
         Yii::app()->setComponents(array(

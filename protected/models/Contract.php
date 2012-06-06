@@ -17,8 +17,6 @@
 class Contract extends CActiveRecord
 {
 
-    public $attachments;
-
     public $fileType = 'doc,docx,pdf,rtf';
 
     const STATUS_ACTIVE = 1;

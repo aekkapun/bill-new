@@ -26,3 +26,22 @@ $this->menu = array(
         'updated_at',
     ),
 )); ?>
+
+<br/>
+
+<h2>Прикрепленные файлы</h2>
+
+<?php $this->widget('zii.widgets.grid.CGridView', array(
+    'id' => 'contract-files',
+    'dataProvider' => new CArrayDataProvider($model->attachments),
+    'filter' => null,
+    'template' => '{items}',
+    'columns' => array(
+        array(
+            'class' => 'CLinkColumn',
+            'urlExpression' => '$data->getFile()',
+            'labelExpression' => '$data->name'
+        ),
+
+    ),
+)); ?>

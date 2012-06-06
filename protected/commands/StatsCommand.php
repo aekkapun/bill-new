@@ -20,7 +20,6 @@ class StatsCommand extends CConsoleCommand
 
     public function processSubscription()
     {
-
     }
 
 

@@ -23,5 +23,6 @@ class ActController extends Controller
         $this->render('index', array(
             'dataProvider' => $dataProvider,
         ));
+
     }
 }

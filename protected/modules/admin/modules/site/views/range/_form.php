@@ -25,6 +25,7 @@
 		<?php echo $form->labelEx($model,'valueMax'); ?>
 		<?php echo $form->textField($model,'valueMax',array('size'=>10,'maxlength'=>10)); ?>
 		<?php echo $form->error($model,'valueMax'); ?>
+        <p class="note">Если верхнее ограничение не требуется, введите цифру 0</p>
 	</div>
 
 	<div class="row">
