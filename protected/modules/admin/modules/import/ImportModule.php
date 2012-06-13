@@ -4,7 +4,8 @@ class ImportModule extends CWebModule
 {
 
     public $availableAdapters = array(
-        'csv' => 'Импорт из CSV'
+        'phraseImport' => 'Импорт из файла CSV списка запросов',
+        'positionImport' => 'Импорт из файла CSV позиций по запросам',
     );
 
     public function init()

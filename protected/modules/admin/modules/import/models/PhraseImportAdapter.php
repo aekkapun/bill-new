@@ -2,7 +2,7 @@
 /**
  *
  */
-class CsvAdapter extends CFormModel implements AdapterInterface
+class PhraseImportAdapter extends CFormModel implements AdapterInterface
 {
 
     public $siteId;
@@ -11,7 +11,7 @@ class CsvAdapter extends CFormModel implements AdapterInterface
 
     public function getName()
     {
-        return 'csv';
+        return 'phraseImport';
     }
 
     public function getSessionDataKey()

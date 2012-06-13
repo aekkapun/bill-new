@@ -32,7 +32,13 @@
 
     <div class="row">
         <?php echo $form->labelEx($model, 'contractId'); ?>
+
+        <?php if($model->isNewRecord): ?>
         <?php echo $form->dropDownList($model, 'contractId', array(), array('prompt' => 'Выбрать клиента')); ?>
+        <?php else: ?>
+        <?php echo $form->dropDownList($model, 'contractId', CHtml::listData(Contract::model()->findAll('client_id=:cid', array(':cid' => $model->client_id)), 'id', 'number')); ?>
+        <?php endif; ?>
+
         <?php echo $form->error($model, 'contractId'); ?>
     </div>
 

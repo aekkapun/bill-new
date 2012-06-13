@@ -4,22 +4,22 @@ default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 
 set :application, "billing.vebel.ru"
-set :deploy_to, "/srv/www/#{application}"
+set :deploy_to, "/home/dboldinov/www"
 
 set :scm, :git
 set :repository, "git@github.com:INMAR-MEDIA/billing.git"
 set :deploy_via, :remote_cache
 set :git_enable_submodules, 1
                          
-set :domain, "deployer@vebel.ru"
-set :user, "deployer"
-set :group, "users"
-set :port, 2112
+# set :domain, "deployer@vebel.ru"
+set :user, "dboldinov"
+set :group, "dboldinov"
+set :port, 2002
 set :use_sudo, false
 
-role :web, '176.9.18.107'
-role :app, '176.9.18.107'
-role :db, '176.9.18.107', :primary => true
+role :web, '178.63.63.71'
+role :app, '178.63.63.71'
+role :db, '178.63.63.71', :primary => true
 
 # set :branch do
 #   default_tag = `git describe --abbrev=0 --tags`.split("\n").last
