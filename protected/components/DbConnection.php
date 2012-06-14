@@ -23,7 +23,7 @@
 class DbConnection extends CDbConnection
 {
     // Connection
-    public $connectionString = 'mysql:dbname=billing;host=localhost';
+    public $connectionString = 'mysql:dbname=billing;host=127.0.0.1';
     public $username = 'dboldinov';
     public $password = 'qwe321';
     public $charset = 'UTF8';
