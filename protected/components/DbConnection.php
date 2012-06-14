@@ -23,9 +23,9 @@
 class DbConnection extends CDbConnection
 {
     // Connection
-    public $connectionString = 'mysql:dbname=inmar;host=localhost';
-    public $username = 'root';
-    public $password = '';
+    public $connectionString = 'mysql:dbname=billing;host=localhost';
+    public $username = 'dboldinov';
+    public $password = 'qwe321';
     public $charset = 'UTF8';
     public $emulatePrepare = true;
 
