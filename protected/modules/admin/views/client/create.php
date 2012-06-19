@@ -11,4 +11,4 @@ $this->menu = array(
 
 <h1>Создать клиента</h1>
 
-<?php echo $this->renderPartial('_form', array('model' => $model, 'user' => $user)); ?>
+<?php echo $this->renderPartial('_form', array('model' => $model)); ?>
