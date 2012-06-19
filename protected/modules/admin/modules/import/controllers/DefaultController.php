@@ -7,9 +7,9 @@ class DefaultController extends Controller
         $am = Yii::app()->assetManager;
         $cs = Yii::app()->clientScript;
 
-        $basePath = Yii::getPathOfAlias('application.modules.admin.modules.import.assets.grid');
-        $am->publish($basePath, false, -1, YII_DEBUG);
-        $cs->registerCssFile($am->getPublishedUrl($basePath) . '/styles.css');
+        $assets = Yii::getPathOfAlias('application.modules.admin.modules.import.assets.grid');
+        $basepath = $am->publish($assets, false, -1, YII_DEBUG);
+        $cs->registerCssFile($basepath . '/styles.css');
     }
 
     public function actionIndex($src = null)
