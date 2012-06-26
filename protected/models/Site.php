@@ -41,18 +41,6 @@ class Site extends CActiveRecord
         return false;
     }
 
-    public function afterSave()
-    {
-        $siteContract = new SiteContract();
-        $siteContract->attributes = array(
-            'site_id' => $this->id,
-            'contract_id' => $this->contractId,
-        );
-        $siteContract->save();
-
-        parent::afterSave();
-    }
-
     /**
      * Returns the static model of the specified AR class.
      * @return Site the static model class
@@ -78,11 +66,11 @@ class Site extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('client_id, domain, contractId', 'required'),
+            array('client_id, domain', 'required'),
             array('client_id', 'length', 'max' => 10),
             array('domain', 'length', 'max' => 255),
             array('domain', 'url'),
-            array('contracts, created_at, updated_at, siteContracts', 'safe'),
+            array('contracts, created_at, updated_at', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, client_id, domain, created_at, updated_at', 'safe', 'on' => 'search'),

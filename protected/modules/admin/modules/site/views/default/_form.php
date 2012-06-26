@@ -13,33 +13,11 @@
     <div class="row">
         <?php echo $form->labelEx($model, 'client_id'); ?>
         <?php if ($model->isNewRecord): ?>
-        <?php echo $form->dropDownList($model, 'client_id', CHtml::listData(Client::model()->findAll(), 'id', 'name'), array(
-            'prompt' => 'Выберите клиента',
-            'ajax' => array(
-                'type' => 'POST',
-                'dataType' => 'json',
-                'url' => Yii::app()->createAbsoluteUrl('/admin/client/ajaxDependsOfClient'),
-                'data' => array('id' => 'js:$(this).val()'),
-                'success' => 'function(data) {
-                $("#Site_contractId").html(data.contracts);
-            }',)
-        )); ?>
+        <?php echo $form->dropDownList($model, 'client_id', CHtml::listData(Client::model()->findAll(), 'id', 'name')); ?>
         <?php echo $form->error($model, 'client_id'); ?>
         <?php else: ?>
         <?php echo CHtml::encode($model->client->name) ?>
         <?php endif; ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->labelEx($model, 'contractId'); ?>
-
-        <?php if($model->isNewRecord): ?>
-        <?php echo $form->dropDownList($model, 'contractId', array(), array('prompt' => 'Выбрать клиента')); ?>
-        <?php else: ?>
-        <?php echo $form->dropDownList($model, 'contractId', CHtml::listData(Contract::model()->findAll('client_id=:cid', array(':cid' => $model->client_id)), 'id', 'number')); ?>
-        <?php endif; ?>
-
-        <?php echo $form->error($model, 'contractId'); ?>
     </div>
 
     <div class="row">
