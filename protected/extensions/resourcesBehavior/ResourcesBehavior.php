@@ -20,7 +20,7 @@ class ResourcesBehavior extends CActiveRecordBehavior
     {
         $owner = $this->getOwner();
         return $this->resourcePath . DIRECTORY_SEPARATOR
-               . get_class($owner);
+            . get_class($owner);
     }
 
     /**
@@ -69,8 +69,8 @@ class ResourcesBehavior extends CActiveRecordBehavior
     {
         $hashString = substr($fileName, 0, 6);
         return ($asString === false)
-                ? join(DIRECTORY_SEPARATOR, str_split($hashString, 2))
-                : $hashString;
+            ? join(DIRECTORY_SEPARATOR, str_split($hashString, 2))
+            : $hashString;
     }
 
     /**
@@ -93,12 +93,12 @@ class ResourcesBehavior extends CActiveRecordBehavior
         $pathHash = $this->getPathHash($resourceName);
 
         $resourcePath = $this->getRelativeResourcePath() . DIRECTORY_SEPARATOR .
-                        $pathHash . DIRECTORY_SEPARATOR .
-                        $resourceName;
+            $pathHash . DIRECTORY_SEPARATOR .
+            $resourceName;
 
         $absoluteResourcePath = $this->getAbsoluteResourcePath() . DIRECTORY_SEPARATOR .
-                                $pathHash . DIRECTORY_SEPARATOR .
-                                $resourceName;
+            $pathHash . DIRECTORY_SEPARATOR .
+            $resourceName;
 
         if (!file_exists($absoluteResourcePath)) {
             return $noResourceImage;
@@ -108,11 +108,11 @@ class ResourcesBehavior extends CActiveRecordBehavior
 
         $result = $resourcePath;
 
-        if(isset($options['onlyFileName']) && $options['onlyFileName'] === true) {
+        if (isset($options['onlyFileName']) && $options['onlyFileName'] === true) {
             $result = $resourceName;
         }
 
-        if(isset($options['stripHashName']) && $options['stripHashName'] === true) {
+        if (isset($options['stripHashName']) && $options['stripHashName'] === true) {
             $result = substr($resourceName, 6);
         }
 

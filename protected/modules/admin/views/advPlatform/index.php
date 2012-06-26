@@ -1,11 +1,11 @@
 <?php
-$this->breadcrumbs=array(
-	'Adv Platforms'=>array('index'),
-	'Список',
+$this->breadcrumbs = array(
+    'Adv Platforms' => array('index'),
+    'Список',
 );
 
-$this->menu=array(
-	array('label'=>'Создать', 'url'=>array('create')),
+$this->menu = array(
+    array('label' => 'Создать', 'url' => array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -24,24 +24,29 @@ $('.search-form form').submit(function(){
 
 <h1>Список</h1>
 
-<?php echo CHtml::link('Расширенный поиск','#',array('class'=>'search-button')); ?>
+<?php echo CHtml::link('Расширенный поиск', '#', array('class' => 'search-button')); ?>
 <div class="search-form" style="display:none">
-<?php $this->renderPartial('_search',array(
-	'model'=>$model,
+    <?php $this->renderPartial('_search', array(
+    'model' => $model,
 )); ?>
 </div><!-- search-form -->
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'adv-platform-grid',
-	'dataProvider'=>$model->search(),
-	'filter'=>$model,
-	'columns'=>array(
-		'id',
-		'name',
-		'created_at',
-		'updated_at',
-		array(
-			'class'=>'CButtonColumn',
-		),
-	),
+    'id' => 'adv-platform-grid',
+    'dataProvider' => $model->search(),
+    'filter' => null,
+    'columns' => array(
+        'id',
+        'name',
+        array(
+            'name' => 'work_percent',
+            'type' => 'raw',
+            'value' => 'Yii::app()->numberFormatter->formatPercentage($data->work_percent)',
+        ),
+        'created_at',
+        'updated_at',
+        array(
+            'class' => 'CButtonColumn',
+        ),
+    ),
 )); ?>

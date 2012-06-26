@@ -1,2 +1,9 @@
-<p>Бюджет: <strong><?php echo Yii::app()->numberFormatter->formatCurrency($params['budget'], 'RUB'); ?></strong></p>
-<p>Стоимость работ: <strong><?php echo Yii::app()->numberFormatter->formatCurrency($params['budget']*$params['workPercent'], 'RUB') ?></strong></p>
+<?php foreach($params['advPlatforms'] as $advPlatform): ?>
+
+<fieldset>
+    <legend><?php echo $advPlatform['name'] ?></legend>
+    <div>Бюджет: <strong><?php echo Yii::app()->numberFormatter->formatCurrency($advPlatform['budget'], 'RUB'); ?></strong></div>
+    <div>Стоимость работ: <strong><?php echo Yii::app()->numberFormatter->formatCurrency($advPlatform['budget']*$advPlatform['workPercent'], 'RUB') ?></strong></div>
+</fieldset>
+
+<?php endforeach; ?>

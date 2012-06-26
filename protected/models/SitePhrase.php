@@ -21,7 +21,7 @@ class SitePhrase extends CActiveRecord
     {
         if (parent::beforeSave()) {
 
-            $this->hash = Yii::app()->securityManager->hashData($this->phrase);
+            $this->hash = md5($this->phrase);
 
             return true;
         }
@@ -88,6 +88,7 @@ class SitePhrase extends CActiveRecord
             'site_id' => 'Сайт',
             'phrase' => 'Запрос',
             'hash' => 'Хеш',
+            'price' => 'Цена',
             'created_at' => 'Время создания',
             'updated_at' => 'Время обновления',
         );

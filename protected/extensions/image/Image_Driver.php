@@ -29,8 +29,7 @@ abstract class Image_Driver
      */
     public function execute($actions)
     {
-        foreach ($actions as $func => $args)
-        {
+        foreach ($actions as $func => $args) {
             if (!$this->$func($args))
                 return FALSE;
         }
@@ -59,26 +58,20 @@ abstract class Image_Driver
         // Set standard coordinates if given, otherwise use pixel values
         if ($geometry['top'] === 'center') {
             $geometry['top'] = floor(($height / 2) - ($geometry['height'] / 2));
-        }
-        elseif ($geometry['top'] === 'top')
-        {
+        } elseif ($geometry['top'] === 'top') {
             $geometry['top'] = 0;
         }
-        elseif ($geometry['top'] === 'bottom')
-        {
+        elseif ($geometry['top'] === 'bottom') {
             $geometry['top'] = $height - $geometry['height'];
         }
 
         // Set standard coordinates if given, otherwise use pixel values
         if ($geometry['left'] === 'center') {
             $geometry['left'] = floor(($width / 2) - ($geometry['width'] / 2));
-        }
-        elseif ($geometry['left'] === 'left')
-        {
+        } elseif ($geometry['left'] === 'left') {
             $geometry['left'] = 0;
         }
-        elseif ($geometry['left'] === 'right')
-        {
+        elseif ($geometry['left'] === 'right') {
             $geometry['left'] = $width - $geometry['height'];
         }
 

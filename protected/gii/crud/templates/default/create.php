@@ -6,7 +6,7 @@
 ?>
 <?php
 echo "<?php\n";
-$label=$this->pluralize($this->class2name($this->modelClass));
+$label = $this->pluralize($this->class2name($this->modelClass));
 echo "\$this->breadcrumbs=array(
 	'$label'=>array('index'),
 	'Создать',
@@ -14,7 +14,7 @@ echo "\$this->breadcrumbs=array(
 ?>
 
 $this->menu=array(
-	array('label'=>'Список', 'url'=>array('index')),
+array('label'=>'Список', 'url'=>array('index')),
 );
 ?>
 

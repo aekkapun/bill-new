@@ -81,14 +81,11 @@ class Image_ImageMagick_Driver extends Image_Driver
             // the quality conversion in the most effective way possible.
             if ($error = exec(escapeshellcmd($this->dir . 'convert' . $this->ext) . ' -quality ' . $quality . '% ' . $this->cmd_image . ' ' . $this->new_image)) {
                 $this->errors[] = $error;
-            }
-            else
-            {
+            } else {
                 // Output the image directly to the browser
                 if ($render !== FALSE) {
                     $contents = file_get_contents($this->tmp_image);
-                    switch (substr($file, strrpos($file, '.') + 1))
-                    {
+                    switch (substr($file, strrpos($file, '.') + 1)) {
                         case 'jpg':
                         case 'jpeg':
                             header('Content-Type: image/jpeg');
@@ -143,8 +140,7 @@ class Image_ImageMagick_Driver extends Image_Driver
 
     public function resize($prop)
     {
-        switch ($prop['master'])
-        {
+        switch ($prop['master']) {
             case Image::WIDTH: // Wx
                 $dim = escapeshellarg($prop['width'] . 'x');
                 break;

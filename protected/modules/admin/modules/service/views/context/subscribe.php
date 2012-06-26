@@ -36,22 +36,6 @@
         <?php echo $form->error($siteService, 'created_at'); ?>
     </div>
 
-    <?php echo $form->errorSummary($contextForm); ?>
-
-    <div class="row">
-        <?php echo $form->labelEx($contextForm, 'budget'); ?>
-        <?php echo $form->textField($contextForm, 'budget', array('size' => 10, 'maxlength' => 10)); ?>
-        <?php echo $form->error($contextForm, 'budget'); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->labelEx($contextForm, 'workPercent'); ?>
-        <?php echo $form->textField($contextForm, 'workPercent', array('size' => 10, 'maxlength' => 10)); ?>
-        <?php echo $form->error($contextForm, 'workPercent'); ?>
-        <p class="hint">Например: 0.01=1%, 0.25=25%, 1=100%</p>
-    </div>
-
-
     <h2>Рекламные площадки</h2>
 
     <?php
@@ -66,6 +50,17 @@
                 'id' => 'advPlatforms',
             ),
             'name:Название',
+            array(
+                'header' => 'Бюджет',
+                'type' => 'raw',
+                'value' => 'CHtml::activeTextField($data, "[$data->id]budget")',
+            ),
+            array(
+                'header' => 'Стоимость работ (%)',
+                'type' => 'raw',
+                'value' => 'CHtml::activeTextField($data, "[$data->id]work_percent")',
+            ),
+
         ),
     ));
     ?>

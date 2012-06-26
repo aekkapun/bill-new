@@ -26,7 +26,7 @@ return CMap::mergeArray(
                 'class' => 'CDummyCache',
             ),
             'db' => array(
-                'class' => YII_DEBUG ? 'DbConnectionDev' : 'DbConnection',
+                'class' => (YII_DEBUG ? 'DbConnectionDev' : 'DbConnection'),
             ),
             'log' => array(
                 'class' => 'CLogRouter',
