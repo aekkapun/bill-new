@@ -55,6 +55,13 @@ $('.params-button').click(function(){
         <?php echo $form->error($contextInput, 'transitions_sum'); ?>
     </div>
 
+    <div class="row">
+        <?php echo $form->labelEx($contextInput, 'adv_platform_id'); ?>
+        <?php echo $form->dropDownList($contextInput, 'adv_platform_id', $availableAdvPlatforms); ?>
+        <?php echo $form->error($contextInput, 'adv_platform_id'); ?>
+    </div>
+
+
     <?php echo $form->hiddenField($contextInput, 'site_id', array('value' => $site->id)) ?>
 
     <div class="row buttons">

@@ -15,6 +15,18 @@
         <?php echo $form->error($model, 'name'); ?>
     </div>
 
+    <div class="row">
+        <?php echo $form->labelEx($model, 'budget'); ?>
+        <?php echo $form->textField($model, 'budget', array('size' => 60, 'maxlength' => 255)); ?>
+        <?php echo $form->error($model, 'budget'); ?>
+    </div>
+
+    <div class="row">
+        <?php echo $form->labelEx($model, 'work_percent'); ?>
+        <?php echo $form->textField($model, 'work_percent', array('size' => 60, 'maxlength' => 255)); ?>
+        <?php echo $form->error($model, 'work_percent'); ?>
+    </div>
+
 
     <div class="row buttons">
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить'); ?>

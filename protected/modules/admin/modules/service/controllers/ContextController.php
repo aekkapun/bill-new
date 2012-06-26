@@ -14,20 +14,36 @@ class ContextController extends Controller
         $service = Service::model()->findByPk(Service::CONTEXT);
         $siteService = new SiteService();
 
-        $advPlatforms = AdvPlatform::model()->findAll();
-        $contextForm = new ContextForm();
+        $advPlatforms = AdvPlatform::model()->findAll(array('index' => 'id'));
 
-        if (isset($_POST['SiteService']) && isset($_POST['ContextForm']) && isset($_POST['advPlatforms'])) {
+        if (isset($_POST['SiteService']) && isset($_POST['advPlatforms'])) {
+
             $siteService->attributes = $_POST['SiteService'];
-            $contextForm->attributes = $_POST['ContextForm'];
 
-            $valid = $siteService->validate() && $contextForm->validate();
+            $valid = $siteService->validate();
+
+            foreach ($_POST['advPlatforms'] as $advPlatformId) {
+                if (isset($_POST['AdvPlatform'][$advPlatformId])) {
+                    $advPlatforms[$advPlatformId]->attributes = $_POST['AdvPlatform'][$advPlatformId];
+                } else {
+                    unset($advPlatforms[$advPlatformId]);
+                }
+                $valid = $valid && $advPlatforms[$advPlatformId]->validate();
+            }
+
+            $selectedPlatforms = array();
+
+            foreach ($_POST['advPlatforms'] as $ap) {
+                $selectedPlatforms[$ap] = true;
+            }
+
+            // Фильтруем только выбранные рекламные площадки
+            $advPlatforms = array_intersect_key($advPlatforms, $selectedPlatforms);
 
             if ($valid) {
-                $params['advPlatforms'] = $_POST['advPlatforms'];
-                $params['budget'] = $contextForm->budget;
-                $params['workPercent'] = $contextForm->workPercent;
 
+                $params = array();
+                $params['advPlatforms'] = $advPlatforms;
                 $siteService->params = CJSON::encode($params);
 
                 if (!$siteService->save()) {
@@ -43,7 +59,6 @@ class ContextController extends Controller
             'service' => $service,
             'siteService' => $siteService,
             'advPlatforms' => $advPlatforms,
-            'contextForm' => $contextForm,
         ));
     }
 
@@ -61,6 +76,11 @@ class ContextController extends Controller
         $siteService = SiteService::model()->find($criteria);
 
         $params = CJSON::decode($siteService->params);
+        $availableAdvPlatforms = array();
+
+        foreach ($params['advPlatforms'] as $item) {
+            $availableAdvPlatforms[$item['id']] = $item['name'];
+        }
 
         $contextInput = new ContextInput();
 
@@ -79,6 +99,7 @@ class ContextController extends Controller
             'siteService' => $siteService,
             'contextInput' => $contextInput,
             'params' => $params,
+            'availableAdvPlatforms' => $availableAdvPlatforms,
         ));
     }
 }

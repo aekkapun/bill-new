@@ -50,8 +50,7 @@ INSERT INTO {$this->logTableName}
 (:level, :category, :logtime, :message, :user_id, :username)
 ";
         $command = $this->getDbConnection()->createCommand($sql);
-        foreach ($logs as $log)
-        {
+        foreach ($logs as $log) {
             $logtime = date_format(date_create(date('Y-m-d H:i:s', (int)$log[3])), 'Y-m-d H:i:s');
 
             $command->bindValue(':level', $log[1]);

@@ -17,6 +17,11 @@ class TransitionController extends Controller
         $ranges = SiteRange::model()->findAllByAttributes(array(
             'site_id' => $siteId,
         ), array('index' => 'id'));
+
+        if (!$ranges) {
+            Yii::app()->user->setFlash('notice', 'Сначала нужно добавить диапазоны');
+        }
+
         $transitionForm = new TransitionForm();
 
         if (isset($_POST['SiteService']) && isset($_POST['SiteRange']) && isset($_POST['TransitionForm'])) {
@@ -73,10 +78,10 @@ class TransitionController extends Controller
 
         $transitions = new TransitionInput();
 
-        if(isset($_POST['TransitionInput'])) {
+        if (isset($_POST['TransitionInput'])) {
             $transitions->attributes = $_POST['TransitionInput'];
             $transitions->params = $siteService->params;
-            if(!$transitions->save()) {
+            if (!$transitions->save()) {
                 Yii::app()->user->setFlash('error', 'Не удалось сохранить данные');
             } else {
                 Yii::app()->user->setFlash('success', 'Сохранено');

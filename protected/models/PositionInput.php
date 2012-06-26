@@ -39,7 +39,7 @@ class PositionInput extends CActiveRecord
             $factorValue = 0;
         } else {
             foreach ($factors as $index => $factor) {
-                $current = $factor['position'];
+                $current = intval($factor['position']);
                 $next = isset($factors[$index + 1]) ? $factors[$index + 1]['position'] : null;
 
                 if ($this->position <= $current) {

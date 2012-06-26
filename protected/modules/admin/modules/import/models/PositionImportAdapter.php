@@ -87,6 +87,17 @@ class PositionImportAdapter extends CFormModel implements AdapterInterface
 
         $site = Site::model()->findByPk($this->siteId);
 
+        $criteria = new CDbCriteria();
+        $criteria->addColumnCondition(array(
+            'site_id' => $site->id,
+            'service_id' => Service::POSITION,
+        ));
+        $criteria->order = 'created_at DESC';
+
+        $siteService = SiteService::model()->find($criteria);
+
+        $params = CJSON::decode($siteService->params);
+
         $rawData = str_getcsv($content, "\r\n");
 
         try {
@@ -123,22 +134,41 @@ class PositionImportAdapter extends CFormModel implements AdapterInterface
 
                 $row = array_map($trim, $row);
 
-                $item = array(
 
+                // Google
+                $item = array(
+                    'phrase' => trim($row[0]),
+                    'hash' => md5(trim($row[0])),
+                    'system_id' => Factor::SYSTEM_GOOGLE,
+                    'position' => intval($row[1]),
+                    'site_id' => $site->id,
+                    'created_at' => date('Y-m-d H:i:s', $date),
+                    'factors' => $params['factors'],
+                    'params' => CJSON::encode($params),
                 );
+
+                if (($searchPhrase = $this->searchArray($params['phrases'], 'hash', $item['hash'])) !== false) {
+                    $item['phraseMeta'] = $searchPhrase[0];
+                }
+                $data[] = $item;
+
+
+                // Yandex
+                $item['system_id'] = Factor::SYSTEM_YANDEX;
+                $item['position'] = intval($row[2]);
 
                 $data[] = $item;
             }
 
 
-            /*if ($rawData !== null) {
+            if ($rawData !== null) {
                 $result = array(
                     'status' => AdapterInterface::PROCESS_STATUS_OK,
                     'data' => $data,
                 );
             } else {
 
-            }*/
+            }
 
 
         } catch (CException $e) {
@@ -150,25 +180,11 @@ class PositionImportAdapter extends CFormModel implements AdapterInterface
         }
 
         return $result;
-
-//        $rawData = array_slice($rawData, 1, count($rawData));
-//
-//        $data = array();
-//        foreach ($rawData as $row) {
-//            $row = explode(';', $row);
-//            $item = array(
-//                'phrase' => $row[0],
-//                'price' => $row[1],
-//                'site_id' => $site->id,
-//                'active' => 1,
-//            );
-//            $data[] = $item;
-//        }
     }
 
     public function commit($result)
     {
-        $result = Yii::app()->session->get($this->sessionDataKey);
+//        $result = Yii::app()->session->get($this->sessionDataKey);
 
         if (!$result) {
             return null;
@@ -196,13 +212,13 @@ class PositionImportAdapter extends CFormModel implements AdapterInterface
 
             foreach ($rawData as $data) {
 
-                $sitePhrase = new SitePhrase();
-                $sitePhrase->attributes = $data;
+                $positionInput = new PositionInput();
+                $positionInput->attributes = $data;
 
-                if ($sitePhrase->save()) {
-                    $stat['saved'][] = $sitePhrase;
+                if ($positionInput->save()) {
+                    $stat['saved'][] = $positionInput;
                 } else {
-                    $stat['error'][] = $sitePhrase;
+                    $stat['error'][] = $positionInput;
                 }
             }
 
@@ -231,5 +247,21 @@ class PositionImportAdapter extends CFormModel implements AdapterInterface
             $transaction->rollback();
             Yii::app()->user->setFlash('notice', 'Произошла ошибка при сохранении транзакций' . $e->getMessage());
         }
+    }
+
+    function searchArray($array, $key, $value)
+    {
+        $results = array();
+
+        if (is_array($array)) {
+            if ($array[$key] == $value) {
+                $results[] = $array;
+            } else {
+                foreach ($array as $subarray)
+                    $results = array_merge($results, $this->searchArray($subarray, $key, $value));
+            }
+        }
+
+        return $results;
     }
 }

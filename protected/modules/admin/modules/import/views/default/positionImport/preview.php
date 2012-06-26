@@ -12,7 +12,12 @@
         'dataProvider' => $dataProvider,
         'columns' => array(
             'phrase:Поисковая фраза',
-            'price:Цена'
+            array(
+                'header' => 'Площадка',
+                'name' => 'system_id',
+                'value' => 'Factor::getLabel($data["system_id"])',
+            ),
+            'position:Позиция',
         )
     ));?>
 <?php if ($dataProvider->totalItemCount > 0) : ?>

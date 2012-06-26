@@ -5,10 +5,11 @@ class SessionController extends Controller
     /**
      * @return array action filters
      */
-    public function filters() {
+    public function filters()
+    {
         return array();
     }
-    
+
     public function actionCreate()
     {
         $model = new LoginForm;
@@ -23,7 +24,7 @@ class SessionController extends Controller
             if ($model->validate() && $model->login())
                 $this->redirect(Yii::app()->user->returnUrl);
         }
-        
+
         $this->render('create', array('model' => $model));
     }
 
@@ -33,5 +34,5 @@ class SessionController extends Controller
         $this->redirect(Yii::app()->homeUrl);
 
     }
-    
+
 }

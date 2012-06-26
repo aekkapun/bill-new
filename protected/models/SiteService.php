@@ -11,6 +11,8 @@
  * @property string $options
  * @property string $created_at
  * @property string $updated_at
+ * @property int $contract_id
+ *
  */
 class SiteService extends CActiveRecord
 {
@@ -52,7 +54,7 @@ class SiteService extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('site_id, service_id, created_at', 'required'),
+            array('site_id, service_id, created_at, contract_id', 'required'),
             array('site_id, service_id', 'length', 'max' => 10),
             array('params, options, created_at, updated_at', 'safe'),
             // The following rule is used by search().
@@ -83,6 +85,7 @@ class SiteService extends CActiveRecord
             'service_id' => 'Услуга',
             'params' => 'Параметры',
             'options' => 'Опции',
+            'contract_id' => 'Договор',
             'created_at' => 'Время создания',
             'updated_at' => 'Время обновления',
         );

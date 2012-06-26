@@ -112,8 +112,7 @@ class Image
                 'driver' => 'GD',
                 'params' => array(),
             );
-        }
-        else {
+        } else {
             $this->config = $config;
         }
 
@@ -141,9 +140,7 @@ class Image
     {
         if (isset($this->image[$property])) {
             return $this->image[$property];
-        }
-        else
-        {
+        } else {
             throw new CException('invalid property');
         }
     }
@@ -174,8 +171,7 @@ class Image
         if ($master === NULL) {
             // Maintain the aspect ratio by default
             $master = Image::AUTO;
-        }
-        elseif (!$this->valid_size('master', $master))
+        } elseif (!$this->valid_size('master', $master))
             throw new CException('image invalid master');
 
         $this->actions['resize'] = array
@@ -239,21 +235,17 @@ class Image
         $degrees = (int)$degrees;
 
         if ($degrees > 180) {
-            do
-            {
+            do {
                 // Keep subtracting full circles until the degrees have normalized
                 $degrees -= 360;
-            }
-            while ($degrees > 180);
+            } while ($degrees > 180);
         }
 
         if ($degrees < -180) {
-            do
-            {
+            do {
                 // Keep adding full circles until the degrees have normalized
                 $degrees += 360;
-            }
-            while ($degrees < -180);
+            } while ($degrees < -180);
         }
 
         $this->actions['rotate'] = $degrees;
@@ -384,17 +376,14 @@ class Image
         if (!is_scalar($value))
             return FALSE;
 
-        switch ($type)
-        {
+        switch ($type) {
             case 'width':
             case 'height':
                 if (is_string($value) AND !ctype_digit($value)) {
                     // Only numbers and percent signs
                     if (!preg_match('/^[0-9]++%$/D', $value))
                         return FALSE;
-                }
-                else
-                {
+                } else {
                     $value = (int)$value;
                 }
                 break;
@@ -402,9 +391,7 @@ class Image
                 if (is_string($value) AND !ctype_digit($value)) {
                     if (!in_array($value, array('top', 'bottom', 'center')))
                         return FALSE;
-                }
-                else
-                {
+                } else {
                     $value = (int)$value;
                 }
                 break;
@@ -412,17 +399,15 @@ class Image
                 if (is_string($value) AND !ctype_digit($value)) {
                     if (!in_array($value, array('left', 'right', 'center')))
                         return FALSE;
-                }
-                else
-                {
+                } else {
                     $value = (int)$value;
                 }
                 break;
             case 'master':
                 if ($value !== Image::NONE AND
                     $value !== Image::AUTO AND
-                    $value !== Image::WIDTH AND
-                    $value !== Image::HEIGHT
+                        $value !== Image::WIDTH AND
+                            $value !== Image::HEIGHT
                 )
                     return FALSE;
                 break;

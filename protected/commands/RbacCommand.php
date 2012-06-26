@@ -29,7 +29,6 @@ class RbacCommand extends CConsoleCommand
         $auth = Yii::app()->authManager;
 
 
-
         $criteria = new CDbCriteria();
         $criteria->select = array('id', 'role');
 

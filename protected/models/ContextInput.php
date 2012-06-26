@@ -11,6 +11,8 @@
  * @property string $avg_transition_price
  * @property string $created_at
  * @property string $updated_at
+ * @property int $adv_platform_id
+ *
  */
 class ContextInput extends CActiveRecord
 {
@@ -52,7 +54,7 @@ class ContextInput extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('site_id, transitions_count, transitions_sum, avg_transition_price, created_at', 'required'),
+            array('site_id, transitions_count, transitions_sum, avg_transition_price, adv_platform_id, created_at', 'required'),
             array('site_id, transitions_count', 'length', 'max' => 10),
             array('transitions_sum, avg_transition_price', 'length', 'max' => 7),
             array('created_at, updated_at', 'safe'),
