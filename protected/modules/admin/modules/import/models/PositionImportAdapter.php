@@ -9,6 +9,21 @@ class PositionImportAdapter extends CFormModel implements AdapterInterface
 
     public $dataFile;
 
+    private $_months = array(
+        1 => 'янв',
+        2 => 'фев',
+        3 => 'мар',
+        4 => 'апр',
+        5 => 'май',
+        6 => 'июн',
+        7 => 'июл',
+        8 => 'авг',
+        9 => 'сен',
+        10 => 'окт',
+        11 => 'ноя',
+        12 => 'дек',
+    );
+
     public function getName()
     {
         return 'positionImport';
@@ -90,11 +105,30 @@ class PositionImportAdapter extends CFormModel implements AdapterInterface
 
             //Try to parse date
             $tmp = explode(';', $rawData[2]);
-            $parsedDate = date_parse_from_format('d M y', $tmp[0]);
-            if(!$parsedDate) {
-                //@todo date parsing logic
-            }
+            $date = explode(' ', $tmp[0]);
+            $monthNum = array_search($date[1], $this->_months);
+            $date = mktime(0, 0, 0, $monthNum, $date[0], $date[2]);
 
+            $rawData = array_slice($rawData, 6, count($rawData));
+
+            foreach ($rawData as $row) {
+                $row = explode(';', $row);
+
+                $trim = function($val)
+                {
+                    $val = str_replace('"', '', $val);
+                    $val = trim($val);
+                    return $val;
+                };
+
+                $row = array_map($trim, $row);
+
+                $item = array(
+
+                );
+
+                $data[] = $item;
+            }
 
 
             /*if ($rawData !== null) {

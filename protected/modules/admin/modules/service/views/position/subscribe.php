@@ -68,7 +68,7 @@
     $this->widget('zii.widgets.grid.CGridView', array(
         'dataProvider' => new CArrayDataProvider($phrases),
         'filter' => null,
-        'template' => '{items}',
+        'template' => "{pager}<br>{items}<br>{pager}",
         'columns' => array(
             array(
                 'header' => 'Запрос',
