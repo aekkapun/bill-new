@@ -11,7 +11,7 @@ class DefaultController extends Controller
         $command = Yii::app()->db->createCommand();
         $inlineCommand = Yii::app()->db->createCommand()
             ->from('site_service')
-            ->where('site_id = :site_id')
+            ->where('site_id = :site_id AND enabled=1')
             ->order('created_at DESC')->getText();
         $command->from('(' . $inlineCommand . ') t1');
         $command->group('service_id');
@@ -44,6 +44,23 @@ class DefaultController extends Controller
 
         $this->render('create', array(
             'model' => $model,
+        ));
+    }
+
+    public function actionLog($id)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->order = 'updated_at DESC';
+        $criteria->addColumnCondition(array(
+            'site_id' => $id,
+        ));
+
+        $dataProvider = new CActiveDataProvider('ActionLog', array(
+            'criteria' => $criteria
+        ));
+
+        $this->render('log', array(
+            'dataProvider' => $dataProvider,
         ));
     }
 
@@ -85,8 +102,7 @@ class DefaultController extends Controller
             // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
             if (!isset($_GET['ajax']))
                 $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
-        }
-        else
+        } else
             throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
     }
 
