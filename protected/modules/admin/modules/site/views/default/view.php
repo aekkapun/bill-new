@@ -24,6 +24,10 @@ $this->menu = array(
     array('label' => 'Оплата по позициям', 'url' => array('/admin/service/position/subscribe', 'siteId' => $model->id)),
     array('label' => 'Оплата по переходам', 'url' => array('/admin/service/transition/subscribe', 'siteId' => $model->id)),
     array('label' => 'Контекстная реклама', 'url' => array('/admin/service/context/subscribe', 'siteId' => $model->id)),
+    array('label' => 'Баннерная реклама', 'url' => array('/admin/service/banner/subscribe', 'siteId' => $model->id)),
+
+    array('label' => "История"),
+    array('label' => 'Действия по сайту', 'url' => array('/admin/site/default/log', 'id' => $model->id)),
 );
 ?>
 
@@ -80,6 +84,11 @@ $this->menu = array(
             'header' => 'Название',
             'type' => 'raw',
             'value' => 'CHtml::link(Service::getLabel($data["service_id"]), array("/admin/service/".Service::getControllerName($data["service_id"])."/input", "siteId" => $data["site_id"]))'
+        ),
+        array(
+            'header' => 'Отключение',
+            'type' => 'raw',
+            'value' => 'CHtml::link("Отключить", array("/admin/service/".Service::getControllerName($data["service_id"])."/terminate", "ssId" => $data["id"]))'
         ),
         array(
             'header' => 'Дата подключения/изменения',

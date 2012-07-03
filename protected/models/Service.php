@@ -58,6 +58,9 @@ class Service extends CActiveRecord
             case self::SUBSCRIPTION:
                 return 'subscription';
                 break;
+            case self::BANNERS:
+                return 'banner';
+                break;
             default:
                 return null;
         }

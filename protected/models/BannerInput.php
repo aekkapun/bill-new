@@ -1,65 +1,22 @@
 <?php
 
 /**
- * This is the model class for table "site_service".
+ * This is the model class for table "banner_input".
  *
- * The followings are the available columns in table 'site_service':
+ * The followings are the available columns in table 'banner_input':
  * @property string $id
  * @property string $site_id
- * @property string $service_id
+ * @property string $transitions
+ * @property string $sum
  * @property string $params
- * @property string $options
  * @property string $created_at
  * @property string $updated_at
- * @property int $contract_id
- *
- * @property int $enabled
- * @property string $terminated_at
- *
  */
-class SiteService extends CActiveRecord
+class BannerInput extends CActiveRecord
 {
-
-    public function beforeSave()
-    {
-        if (parent::beforeSave()) {
-
-            $action = ($this->isNewRecord) ? 'Добавлена' : 'Изменена';
-            $stamp = ($this->isNewRecord) ? $this->created_at : $this->updated_at;
-            $log = new ActionLog();
-            $log->attributes = array(
-                'action' => $action . ' услуга &laquo;' . Service::getLabel($this->service_id) . '&raquo; c ' . $stamp,
-                'site_id' => $this->site_id,
-                'contract_id' => $this->contract_id,
-            );
-            $log->save();
-
-            return true;
-        }
-        return false;
-    }
-
-    public function afterDelete()
-    {
-        parent::afterDelete();
-
-        $log = new ActionLog();
-        $log->attributes = array(
-            'action' => 'Отключена услуга &laquo;' . Service::getLabel($this->service_id) . '&raquo; c ' . $this->terminated_at,
-            'site_id' => $this->site_id,
-            'contract_id' => $this->contract_id,
-        );
-        $log->save();
-    }
-
-    public function afterSave()
-    {
-        parent::afterSave();
-    }
-
     /**
      * Returns the static model of the specified AR class.
-     * @return SiteService the static model class
+     * @return BannerInput the static model class
      */
     public static function model($className = __CLASS__)
     {
@@ -71,7 +28,7 @@ class SiteService extends CActiveRecord
      */
     public function tableName()
     {
-        return 'site_service';
+        return 'banner_input';
     }
 
     /**
@@ -82,12 +39,13 @@ class SiteService extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('site_id, service_id, created_at, contract_id', 'required'),
-            array('site_id, service_id', 'length', 'max' => 10),
-            array('params, options, created_at, updated_at, terminated_at, enabled', 'safe'),
+            array('site_id, transitions, sum', 'required'),
+            array('site_id, transitions, sum', 'numerical'),
+            array('site_id, transitions, sum', 'length', 'max' => 10),
+            array('params, created_at, updated_at', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, site_id, service_id, params, options, created_at, updated_at', 'safe', 'on' => 'search'),
+            array('id, site_id, transitions, sum, params, created_at, updated_at', 'safe', 'on' => 'search'),
         );
     }
 
@@ -108,14 +66,13 @@ class SiteService extends CActiveRecord
     public function attributeLabels()
     {
         return array(
-            'id' => 'ID',
-            'site_id' => 'Сайт',
-            'service_id' => 'Услуга',
-            'params' => 'Параметры',
-            'options' => 'Опции',
-            'contract_id' => 'Договор',
-            'created_at' => 'Время создания',
-            'updated_at' => 'Время обновления',
+            'id' => 'Id',
+            'site_id' => 'Site',
+            'transitions' => 'Transitions',
+            'sum' => 'Sum',
+            'params' => 'Params',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
         );
     }
 
@@ -146,14 +103,20 @@ class SiteService extends CActiveRecord
         $criteria = new CDbCriteria;
 
         $criteria->compare('id', $this->id, true);
+
         $criteria->compare('site_id', $this->site_id, true);
-        $criteria->compare('service_id', $this->service_id, true);
+
+        $criteria->compare('transitions', $this->transitions, true);
+
+        $criteria->compare('sum', $this->sum, true);
+
         $criteria->compare('params', $this->params, true);
-        $criteria->compare('options', $this->options, true);
+
         $criteria->compare('created_at', $this->created_at, true);
+
         $criteria->compare('updated_at', $this->updated_at, true);
 
-        return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider('BannerInput', array(
             'criteria' => $criteria,
         ));
     }
