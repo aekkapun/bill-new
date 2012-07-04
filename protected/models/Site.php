@@ -9,6 +9,7 @@
  * @property string $domain
  * @property string $created_at
  * @property string $updated_at
+ * @property string $region
  *
  * The followings are the available model relations:
  * @property Client $client
@@ -74,6 +75,7 @@ class Site extends CActiveRecord
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, client_id, domain, created_at, updated_at', 'safe', 'on' => 'search'),
+            array('region', 'length', 'max' => 255),
         );
     }
 
@@ -105,6 +107,7 @@ class Site extends CActiveRecord
             'domain' => 'Домен',
             'created_at' => 'Время создания',
             'updated_at' => 'Время обновления',
+            'region' => 'Регион продвижения',
         );
     }
 
@@ -139,6 +142,7 @@ class Site extends CActiveRecord
         $criteria->compare('domain', $this->domain, true);
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);
+        $criteria->compare('region', $this->region, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
