@@ -47,6 +47,12 @@
         <?php echo $form->textField($model, 'domain', array('size' => 60, 'maxlength' => 255)); ?>
         <?php echo $form->error($model, 'domain'); ?>
     </div>
+    
+    <div class="row">
+        <?php echo $form->labelEx($model, 'region'); ?>
+        <?php echo $form->textField($model, 'region', array('size' => 60, 'maxlength' => 255)); ?>
+        <?php echo $form->error($model, 'region'); ?>
+    </div>
 
     <div class="row buttons">
         <?php echo CHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить'); ?>

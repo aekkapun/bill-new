@@ -3,3 +3,5 @@ protected/runtime/
 themes/classic/views/
 *.log
 .idea
+/nbproject/private/
+/www/
