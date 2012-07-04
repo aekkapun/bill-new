@@ -91,7 +91,7 @@ class SubscriptionController extends Controller
 
             if ($terminateForm->validate()) {
                 $model->attributes = $terminateForm->attributes;
-                if (!$model->delete()) {
+                if (!$model->save()) {
                     Yii::app()->user->setFlash('error', 'Ошибка отключения услуги');
                 } else {
                     Yii::app()->user->setFlash('success', 'Сохранено');

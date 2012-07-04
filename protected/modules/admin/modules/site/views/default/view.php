@@ -77,13 +77,13 @@ $this->menu = array(
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'site-service-grid',
-    'dataProvider' => new CArrayDataProvider($services),
+    'dataProvider' => $services,
     'filter' => null,
     'columns' => array(
         array(
             'header' => 'Название',
             'type' => 'raw',
-            'value' => 'CHtml::link(Service::getLabel($data["service_id"]), array("/admin/service/".Service::getControllerName($data["service_id"])."/input", "siteId" => $data["site_id"]))'
+            'value' => 'CHtml::link(Service::getLabel($data->service_id), array("/admin/service/".Service::getControllerName($data["service_id"])."/input", "siteId" => $data["site_id"]))'
         ),
         array(
             'header' => 'Отключение',

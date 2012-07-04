@@ -71,7 +71,11 @@
 
     <?php
     $this->widget('zii.widgets.grid.CGridView', array(
-        'dataProvider' => new CArrayDataProvider($phrases),
+        'dataProvider' => new CArrayDataProvider($phrases, array(
+            'pagination' => array(
+                'pageSize' => 5,
+            ),
+        )),
         'filter' => null,
         'template' => "{pager}<br>{items}<br>{pager}",
         'columns' => array(
