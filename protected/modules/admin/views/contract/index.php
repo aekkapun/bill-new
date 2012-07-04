@@ -31,10 +31,13 @@ $('.search-form form').submit(function(){
 )); ?>
 </div><!-- search-form -->
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php 
+$dataProvider = $model->search();
+$dataProvider->pagination->pageSize = 20;
+$this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'contract-grid',
-	'dataProvider'=>$model->search(),
-	'filter'=>null,
+	'dataProvider'=> $dataProvider,
+	'filter' => null,
 	'columns'=>array(
 		'id',
 		'number',
