@@ -8,72 +8,35 @@
  */
 class SubscriptionCommand extends StatConsoleCommand
 {
-
-    protected $inputTable = 'subscription_input';
-
-    protected function getNextPeriod($siteId)
-    {
-        $criteria = new CDbCriteria;
-        $criteria->addColumnCondition(array(
-            'site_id' => $siteId,
-        ));
-        $criteria->order = 'period_begin DESC';
-        $criteria->limit = 1;
-
-        $model = SubscriptionPeriod::model()->find($criteria);
-
-        if (empty($model)) {
-            return FALSE;
-        }
-
-        return $model;
-    }
-
-    protected function createPeriod($timestamp, $siteId, $first = FALSE)
-    {
-
-        $bounds = $this->getPeriodBounds($timestamp, 30);
-
-        $attributes = array(
-            'period_begin' => (($first) ? Time::ts2dt($timestamp) : Time::ts2dt($bounds['begin'])),
-            'site_id' => $siteId,
-            'period_end' => Time::ts2dt($bounds['end']),
-            'period_name' => $bounds['name'],
-        );
-
-        $subscriptionStat = new SubscriptionPeriod();
-        $subscriptionStat->attributes = $attributes;
-
-        return $subscriptionStat;
-    }
-
+    protected $inputClassName = 'SubscriptionInput';
+    protected $periodClassName = 'SubscriptionPeriod';
 
     protected function countIndicators($period)
     {
-        $criteria = new CDbCriteria;
-        $criteria->addBetweenCondition('created_at', $period->period_begin, $period->period_end);
+        // select contract_id, sum(`link_count`) as link_count from subscription_input where site_id = 1 group by contract_id
+        $criteria = new CDbCriteria();
         $criteria->addColumnCondition(array(
             'site_id' => $period->site_id,
         ));
+        $criteria->addBetweenCondition('created_at', $period->period_begin, $period->period_end);
+        $criteria->select = 't.site_id, t.contract_id, SUM(t.link_count) as link_count';
+        $criteria->group = 't.contract_id';
 
-        $totalMonthLinkCount = Yii::app()->db->createCommand()
-            ->from($this->inputTable)
-            ->select('SUM(link_count)')
-            ->where('(created_at BETWEEN :period_begin AND :period_end) and (site_id = :site_id)',
-            array(
-                ':period_begin' => $period->period_begin,
-                ':period_end' => $period->period_end,
-                ':site_id' => $period->site_id,
-            ))
-            ->queryScalar();
+        $model = SubscriptionInput::model()->findAll($criteria);
+        $indicators = array();
 
-        $input = SubscriptionInput::model()->find($criteria);
-        $params = CJSON::decode($input->params);
+        foreach ($model as $data) {
 
-        $avgLinkPrice = round($params['sum'] / $totalMonthLinkCount, 2);
+            $params = $this->getPeriodParams($period, $data->contract_id);
 
-        return array(
-            'avg_link_price' => $avgLinkPrice,
-        );
+            $avgLinkPrice = round($params['sum'] / $data['link_count'], 2);
+
+            $indicators[] = array(
+                'contract_id' => $data['contract_id'],
+                'avg_link_price' => $avgLinkPrice,
+            );
+        }
+
+        return $indicators;
     }
 }

@@ -62,20 +62,14 @@ class ContextController extends Controller
         ));
     }
 
-    public function actionInput($siteId)
+    public function actionInput($ssId)
     {
-        $site = $this->loadSite($siteId);
 
-        $criteria = new CDbCriteria();
-        $criteria->addColumnCondition(array(
-            'site_id' => $siteId,
-            'service_id' => Service::CONTEXT,
-        ));
-        $criteria->order = 'created_at DESC';
-
-        $siteService = SiteService::model()->find($criteria);
+        $siteService = SiteService::model()->findByPk($ssId);
+        $site = $this->loadSite($siteService->site_id);
 
         $params = CJSON::decode($siteService->params);
+
         $availableAdvPlatforms = array();
 
         foreach ($params['advPlatforms'] as $item) {
@@ -86,7 +80,6 @@ class ContextController extends Controller
 
         if (isset($_POST['ContextInput'])) {
             $contextInput->attributes = $_POST['ContextInput'];
-            $contextInput->params = $siteService->params;
             if (!$contextInput->save()) {
                 Yii::app()->user->setFlash('error', 'Не удалось сохранить данные');
             } else {

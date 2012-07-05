@@ -13,6 +13,7 @@
  * @property string $created_at
  * @property string $updated_at
  * @property string $period_name
+ * @property integer $contract_id
  */
 class TransitionPeriod extends CActiveRecord
 {
@@ -43,6 +44,7 @@ class TransitionPeriod extends CActiveRecord
         return array(
             array('site_id, transition_count, transition_sum', 'required'),
             array('site_id, transition_count, transition_sum', 'length', 'max' => 10),
+            array('contract_id', 'numerical'),
             array('period_begin, period_end, created_at, updated_at, period_name', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.

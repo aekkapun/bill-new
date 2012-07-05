@@ -9,46 +9,13 @@
 class TransitionCommand extends StatConsoleCommand
 {
 
-    protected $inputTable = 'transition_input';
-
-    protected function createPeriod($timestamp, $siteId, $first = FALSE)
-    {
-        $bounds = $this->getPeriodBounds($timestamp, 30);
-
-        $attributes = array(
-            'period_begin' => (($first) ? Time::ts2dt($timestamp) : Time::ts2dt($bounds['begin'])),
-            'site_id' => $siteId,
-            'period_end' => Time::ts2dt($bounds['end']),
-            'period_name' => $bounds['name'],
-        );
-
-        $subscriptionStat = new TransitionPeriod();
-        $subscriptionStat->attributes = $attributes;
-
-        return $subscriptionStat;
-    }
-
-    protected function getNextPeriod($siteId)
-    {
-        $criteria = new CDbCriteria;
-        $criteria->addColumnCondition(array(
-            'site_id' => $siteId,
-        ));
-        $criteria->order = 'period_begin DESC';
-        $criteria->limit = 1;
-
-        $model = TransitionPeriod::model()->find($criteria);
-
-        if (empty($model)) {
-            return FALSE;
-        }
-
-        return $model;
-    }
-
     protected function countIndicators($period)
     {
-        print "\nНачинаем подсчет индикаторов:";
+        //@todo
+
+        return;
+
+        /*print "\nНачинаем подсчет индикаторов:";
         $criteria = new CDbCriteria;
         $criteria->addBetweenCondition('created_at', $period->period_begin, $period->period_end);
         $criteria->addColumnCondition(array(
@@ -124,6 +91,6 @@ class TransitionCommand extends StatConsoleCommand
         return array(
             'transition_sum' => $transitionSum,
             'transition_count' => $transitionCount,
-        );
+        );*/
     }
 }

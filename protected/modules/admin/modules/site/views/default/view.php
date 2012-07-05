@@ -83,17 +83,26 @@ $this->menu = array(
         array(
             'header' => 'Название',
             'type' => 'raw',
-            'value' => 'CHtml::link(Service::getLabel($data->service_id), array("/admin/service/".Service::getControllerName($data["service_id"])."/input", "siteId" => $data["site_id"]))'
+            'value' => 'CHtml::link(Service::getLabel($data->service_id), array("/admin/service/".Service::getControllerName($data->service_id)."/input", "ssId" => $data->id))'
         ),
-        array(
-            'header' => 'Отключение',
-            'type' => 'raw',
-            'value' => 'CHtml::link("Отключить", array("/admin/service/".Service::getControllerName($data["service_id"])."/terminate", "ssId" => $data["id"]))'
-        ),
+        'contract.number',
         array(
             'header' => 'Дата подключения/изменения',
             'type' => 'date',
             'value' => 'strtotime($data["created_at"])',
-        )
+        ),
+        array(
+            'class' => 'CButtonColumn',
+            'template' => '{terminate}',
+            'buttons' => array(
+                'terminate' => array(
+                    'label' => 'Отключить услугу',
+                    'url' => 'Yii::app()->createUrl("admin/service/" . Service::getControllerName($data->service_id) . "/terminate", array("ssId" => $data->id))',
+                ),
+            ),
+            'htmlOptions' => array(
+                'width' => 100,
+            ),
+        ),
     ),
 )); ?>

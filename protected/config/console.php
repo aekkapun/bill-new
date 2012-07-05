@@ -8,6 +8,8 @@ return array(
 
     'language' => 'ru',
 
+    'timeZone' => 'Europe/Moscow',
+
     'import' => array(
         'application.models.*',
         'application.components.*',
@@ -24,7 +26,7 @@ return array(
     // application components
     'components' => array(
         'db' => array(
-            'class' => 'application.components.DbConnection',
+            'class' => 'application.components.DbConnectionDev',
         ),
     ),
 );

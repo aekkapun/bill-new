@@ -11,7 +11,7 @@
  * @property string $options
  * @property string $created_at
  * @property string $updated_at
- * @property int $contract_id
+ * @property integer $contract_id
  *
  * @property int $enabled
  * @property string $terminated_at
@@ -24,6 +24,21 @@ class SiteService extends CActiveRecord
     {
         if (parent::beforeSave()) {
 
+
+            // Assume that the identical services are terminated before subscribing
+            $criteria = new CDbCriteria();
+            $criteria->addColumnCondition(array(
+                'contract_id' => $this->contract_id,
+                'site_id' => $this->site_id,
+                'service_id' => $this->service_id,
+            ));
+            $this->updateAll(array(
+                'enabled' => 0,
+                'terminated_at' => new CDbExpression('NOW()'),
+            ), $criteria);
+
+
+            // Logging
             $action = ($this->isNewRecord) ? 'Добавлена' : 'Изменена';
             $stamp = ($this->isNewRecord) ? $this->created_at : $this->updated_at;
             $log = new ActionLog();
@@ -42,14 +57,6 @@ class SiteService extends CActiveRecord
     public function afterDelete()
     {
         parent::afterDelete();
-
-        $log = new ActionLog();
-        $log->attributes = array(
-            'action' => 'Отключена услуга &laquo;' . Service::getLabel($this->service_id) . '&raquo; c ' . $this->terminated_at,
-            'site_id' => $this->site_id,
-            'contract_id' => $this->contract_id,
-        );
-        $log->save();
     }
 
     public function afterSave()
@@ -85,6 +92,7 @@ class SiteService extends CActiveRecord
             array('site_id, service_id, created_at, contract_id', 'required'),
             array('site_id, service_id', 'length', 'max' => 10),
             array('params, options, created_at, updated_at, terminated_at, enabled', 'safe'),
+            array('contract_id', 'numerical'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, site_id, service_id, params, options, created_at, updated_at', 'safe', 'on' => 'search'),

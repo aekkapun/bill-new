@@ -8,78 +8,115 @@
  */
 abstract class StatConsoleCommand extends CConsoleCommand
 {
-    protected $inputTable;
+
+    protected $inputClassName;
+    protected $periodClassName;
 
     public function actionUpdate()
     {
-        foreach ($this->siteIds as $siteId) {
-            print "\n\n------------Сайт " . $siteId . "---------";
-            print "\nСмотрим есть ли посчитанные периоды...";
-            if (($currentPeriod = $this->getNextPeriod($siteId)) === FALSE) {
-                print "нет, ищем минимальное время для начала счета";
-                $currentPeriod = $this->createPeriod($this->getMinTime(), $siteId);
+        foreach ($this->getAllSitesData() as $site) {
+
+            print "---\nРасчет показателей для сайта id=" . $site->site_id . "\n";
+            print "** Смотрим есть ли посчитанные периоды: ";
+            if (($currentPeriod = $this->getNextPeriod($site->site_id)) === false) {
+
+                print "нет, получаем минимально возможное время для начала счета статистики:";
+
+                $minTime = $this->getMinTime();
+                $currentPeriod = $this->createPeriod($minTime, $site->site_id);
+
+                print " " . Yii::app()->dateFormatter->format('dd MMMM y', $minTime) . "\n";
+
+                print "** Cчитаем\n";
+                $this->countPeriod($currentPeriod);
+            } else {
+                print "есть\n";
             }
 
-            print "\nCчитаем";
-            $this->countPeriod($currentPeriod);
-
-            print "\nПроверяем, есть ли следующий период для подсчета...";
+            print "** Проверяем, есть ли следующий период для подсчета: ";
             while ($this->hasNextPeriodAfter($currentPeriod)) {
                 print " есть";
-                $currentPeriod = $this->createPeriod((strtotime($currentPeriod->period_end) + 1), $siteId);
+                $currentPeriod = $this->createPeriod((strtotime($currentPeriod->period_end) + 1), $site->site_id);
                 $this->countPeriod($currentPeriod);
             }
-            print " нет, переходим к следующему сайту.\n";
+
+            print "нет, переходим к следующему сайту.\n\n";
+            print "Расчет для сайта id=" . $site->site_id . " закончен\n";
+            print "---\n\n";
+            flush();
         }
+    }
+
+    protected function getNextPeriod($siteId)
+    {
+        $criteria = new CDbCriteria;
+        $criteria->addColumnCondition(array(
+            'site_id' => $siteId,
+        ));
+        $criteria->order = 'period_begin DESC';
+        $criteria->limit = 1;
+
+        $component = Yii::createComponent(array('class' => $this->periodClassName));
+        $model = $component->find($criteria);
+
+        if (empty($model)) {
+            return false;
+        }
+
+        return $model;
+    }
+
+    protected function createPeriod($timestamp, $siteId, $first = false)
+    {
+        $bounds = $this->getPeriodBounds($timestamp, 30);
+
+        $attributes = array(
+            'period_begin' => (($first) ? Time::ts2dt($timestamp) : Time::ts2dt($bounds['begin'])),
+            'site_id' => $siteId,
+            'period_end' => Time::ts2dt($bounds['end']),
+            'period_name' => $bounds['name'],
+        );
+
+        $model = Yii::createComponent(array('class' => $this->periodClassName));
+        $model->attributes = $attributes;
+
+        return $model;
     }
 
     protected function hasNextPeriodAfter($period)
     {
-        $db = Yii::app()->db;
-        $row = null;
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('created_at > "' . $period->period_end . '"');
+        $criteria->addColumnCondition(array('site_id' => $period->site_id));
+        $criteria->limit = 1;
 
-        $command = $db->createCommand()
-            ->select('created_at')
-            ->from($this->inputTable)
-            ->where('created_at > :period_end and site_id = :site_id', array(':period_end' => $period->period_end, ':site_id' => $period->site_id))
-            ->limit(1);
+        $model = Yii::createComponent(array('class' => $this->inputClassName));
+        $status = $model->find($criteria);
 
-        $row = $command->queryColumn();
-
-        if (!empty($row[0])) {
-            return TRUE;
-        }
-
-        return FALSE;
+        return ($status === NULL) ? false : true;
     }
 
-    protected function getSiteIds()
+    protected function getAllSitesData()
     {
-        $command = Yii::app()->db->createCommand()
-            ->select('site_id')
-            ->from($this->inputTable);
-        $command->distinct = true;
-        $rows = $command->queryAll();
-        $ids = array();
-        foreach ($rows as $row) {
-            $ids[] = $row['site_id'];
-        }
-        return $ids;
+        $component = Yii::createComponent(array('class' => $this->inputClassName));
+
+        $criteria = new CDbCriteria();
+        $criteria->group = 't.site_id';
+
+        $model = $component->findAll($criteria);
+        return $model;
     }
 
     protected function getMinTime()
     {
-        print "\nПолучаем минимальное время: ";
-        $row = Yii::app()->db->createCommand()
-            ->select('MIN(created_at)')
-            ->from($this->inputTable)
-            ->queryColumn();
-        if (!empty($row[0])) {
-            print " " . $row[0];
-            return Time::dt2ts($row[0]);
-        }
-        print " FALSE";
-        return FALSE;
+        $criteria = new CDbCriteria();
+        $criteria->select = 'MIN(t.created_at) as created_at';
+        $criteria->limit = 1;
+
+        $component = Yii::createComponent(array('class' => $this->inputClassName));
+        $model = $component->find($criteria);
+
+        return ($model) ? Time::dt2ts($model->created_at) : false;
     }
 
     /**
@@ -88,7 +125,6 @@ abstract class StatConsoleCommand extends CConsoleCommand
      */
     protected function getPeriodBounds($timestamp, $periodType = 1)
     {
-
         $day = date('d', $timestamp);
         $month = date('m', $timestamp);
         $year = date('Y', $timestamp);
@@ -130,10 +166,41 @@ abstract class StatConsoleCommand extends CConsoleCommand
 
     protected function countPeriod($period)
     {
-        $indicators = $this->countIndicators($period);
-        $period->attributes = $indicators;
-        $period->save();
+        $result = $this->countIndicators($period);
+
+        // Assume that indicators are array of arrays for multiple contract_id support
+        foreach ($result as $indicator) {
+            if (!is_array($indicator)) {
+                $result = array($result);
+            }
+            break;
+        }
+
+        foreach ($result as $indicators) {
+            $model = Yii::createComponent(array('class' => $this->periodClassName));
+            $model->attributes = CMap::mergeArray($period->attributes, $indicators);
+            $model->save();
+        }
     }
+
+    protected function getPeriodParams($period, $contract_id)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->addColumnCondition(array(
+            'site_id' => $period->site_id,
+            'contract_id' => $contract_id,
+            'service_id' => Service::SUBSCRIPTION,
+            'enabled' => 1,
+        ));
+        $criteria->order = 'created_at DESC';
+
+        $siteService = SiteService::model()->find($criteria);
+
+        $params = CJSON::decode($siteService->params);
+
+        return $params;
+    }
+
 
     protected abstract function countIndicators($period);
 

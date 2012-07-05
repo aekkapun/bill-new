@@ -51,6 +51,7 @@ $('.params-button').click(function(){
 
 
     <?php echo $form->hiddenField($transitions, 'site_id', array('value' => $site->id)) ?>
+    <?php echo $form->hiddenField($transitions, 'contract_id', array('value' => $siteService->contract_id)) ?>
 
     <div class="row buttons">
         <?php echo CHtml::submitButton('Добавить'); ?>

@@ -1,5 +1,5 @@
-/assets/
-protected/runtime/
+public/assets/*
+protected/runtime/*
 themes/classic/views/
 *.log
 .idea

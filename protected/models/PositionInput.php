@@ -14,10 +14,13 @@
  * @property string $updated_at
  * @property float $price
  * @property integer $factor
+ * @property integer $contract_id
  *
  */
 class PositionInput extends CActiveRecord
 {
+
+    public $sum;
 
     public $factors = null;
     public $phraseMeta = null;
@@ -100,7 +103,7 @@ class PositionInput extends CActiveRecord
         // will receive user inputs.
         return array(
             array('phrase, hash, position, system_id, created_at, site_id, price, factor, factors, phraseMeta', 'required'),
-            array('system_id, site_id, position', 'numerical', 'integerOnly' => true),
+            array('system_id, site_id, position, contract_id', 'numerical', 'integerOnly' => true),
             array('hash', 'length', 'max' => 255),
             array('position', 'length', 'max' => 10),
             array('created_at, updated_at, params', 'safe'),
