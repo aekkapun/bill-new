@@ -8,6 +8,8 @@ return array(
 
     'language' => 'ru',
 
+    'timeZone' => 'Europe/Moscow',
+
     'import' => array(
         'application.models.*',
         'application.components.*',

@@ -20,6 +20,8 @@
 class PositionInput extends CActiveRecord
 {
 
+    public $sum;
+
     public $factors = null;
     public $phraseMeta = null;
 
