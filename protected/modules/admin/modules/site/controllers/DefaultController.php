@@ -8,7 +8,7 @@ class DefaultController extends Controller
      */
     public function actionView($id)
     {
-        $command = Yii::app()->db->createCommand();
+        /*$command = Yii::app()->db->createCommand();
         $inlineCommand = Yii::app()->db->createCommand()
             ->from('site_service')
             ->where('site_id = :site_id AND enabled=1')
@@ -17,6 +17,24 @@ class DefaultController extends Controller
         $command->group('service_id');
 
         $services = $command->queryAll(true, array(':site_id' => $id));
+
+        $services = SiteService::model()->findAllByAttributes(array(
+            'enabled' => 1,
+            'site_id' => $id,
+        ), array(
+            'order' => 'created_at DESC'
+        ));*/
+
+        $criteria = new CDbCriteria();
+        $criteria->addColumnCondition(array(
+            'enabled' => 1,
+            'site_id' => $id,
+        ));
+        $criteria->order = 'created_at DESC';
+
+        $services = new CActiveDataProvider('SiteService', array(
+            'criteria' => $criteria,
+        ));
 
         $this->render('view', array(
             'model' => $this->loadModel($id),

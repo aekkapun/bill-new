@@ -128,8 +128,7 @@ abstract class StatConsoleCommand extends CConsoleCommand
     }
 
 
-    protected
-    function countPeriod($period)
+    protected function countPeriod($period)
     {
         $indicators = $this->countIndicators($period);
         $period->attributes = $indicators;
