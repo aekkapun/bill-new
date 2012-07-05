@@ -8,9 +8,9 @@
  * @property string $site_id
  * @property string $transitions
  * @property string $sum
- * @property string $params
  * @property string $created_at
  * @property string $updated_at
+ * @property integer $contract_id
  */
 class BannerInput extends CActiveRecord
 {
@@ -40,12 +40,12 @@ class BannerInput extends CActiveRecord
         // will receive user inputs.
         return array(
             array('site_id, transitions, sum', 'required'),
-            array('site_id, transitions, sum', 'numerical'),
+            array('site_id, transitions, sum, contract_id', 'numerical'),
             array('site_id, transitions, sum', 'length', 'max' => 10),
-            array('params, created_at, updated_at', 'safe'),
+            array('created_at, updated_at', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, site_id, transitions, sum, params, created_at, updated_at', 'safe', 'on' => 'search'),
+            array('id, site_id, transitions, sum, created_at, updated_at', 'safe', 'on' => 'search'),
         );
     }
 
@@ -70,9 +70,9 @@ class BannerInput extends CActiveRecord
             'site_id' => 'Site',
             'transitions' => 'Transitions',
             'sum' => 'Sum',
-            'params' => 'Params',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'contract_id' => 'Договор',
         );
     }
 
@@ -109,8 +109,6 @@ class BannerInput extends CActiveRecord
         $criteria->compare('transitions', $this->transitions, true);
 
         $criteria->compare('sum', $this->sum, true);
-
-        $criteria->compare('params', $this->params, true);
 
         $criteria->compare('created_at', $this->created_at, true);
 

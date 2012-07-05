@@ -59,18 +59,10 @@ class PositionController extends Controller
         ));
     }
 
-    public function actionInput($siteId)
+    public function actionInput($ssId)
     {
-        $site = $this->loadSite($siteId);
-
-        $criteria = new CDbCriteria();
-        $criteria->addColumnCondition(array(
-            'site_id' => $siteId,
-            'service_id' => Service::POSITION,
-        ));
-        $criteria->order = 'created_at DESC';
-
-        $siteService = SiteService::model()->find($criteria);
+        $siteService = SiteService::model()->findByPk($ssId);
+        $site = $this->loadSite($siteService->site_id);
 
         $params = CJSON::decode($siteService->params);
 

@@ -12,6 +12,7 @@
  * @property string $created_at
  * @property string $updated_at
  * @property string $period_name
+ * @property integer $contract_id
  */
 class ContextPeriod extends CActiveRecord
 {
@@ -43,6 +44,7 @@ class ContextPeriod extends CActiveRecord
             array('site_id', 'required'),
             array('site_id, transitions_sum', 'length', 'max' => 10),
             array('period_begin, period_end, created_at, updated_at, period_name', 'safe'),
+            array('contract_id', 'numerical'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, site_id, period_begin, period_end, transitions_sum, created_at, updated_at', 'safe', 'on' => 'search'),

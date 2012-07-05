@@ -38,18 +38,10 @@ class BannerController extends Controller
         ));
     }
 
-    public function actionInput($siteId)
+    public function actionInput($ssId)
     {
-        $site = $this->loadSite($siteId);
-
-        $criteria = new CDbCriteria();
-        $criteria->addColumnCondition(array(
-            'site_id' => $siteId,
-            'service_id' => Service::BANNERS,
-        ));
-        $criteria->order = 'created_at DESC';
-
-        $siteService = SiteService::model()->find($criteria);
+        $siteService = SiteService::model()->findByPk($ssId);
+        $site = $this->loadSite($siteService->site_id);
 
         $params = CJSON::decode($siteService->params);
 
@@ -94,6 +86,16 @@ class BannerController extends Controller
                 if (!$model->delete()) {
                     Yii::app()->user->setFlash('error', 'Ошибка отключения услуги');
                 } else {
+
+                    // @TODO Move logs
+                    $log = new ActionLog();
+                    $log->attributes = array(
+                        'action' => 'Отключена услуга &laquo;' . Service::getLabel($model->service_id) . '&raquo; c ' . $model->terminated_at,
+                        'site_id' => $model->site_id,
+                        'contract_id' => $model->contract_id,
+                    );
+                    $log->save();
+
                     Yii::app()->user->setFlash('success', 'Сохранено');
                     $this->redirect(array('/admin/site/default/view', 'id' => $model->site_id));
                 }

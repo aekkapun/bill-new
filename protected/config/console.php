@@ -24,7 +24,7 @@ return array(
     // application components
     'components' => array(
         'db' => array(
-            'class' => 'application.components.DbConnection',
+            'class' => 'application.components.DbConnectionDev',
         ),
     ),
 );

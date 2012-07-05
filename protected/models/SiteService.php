@@ -24,6 +24,21 @@ class SiteService extends CActiveRecord
     {
         if (parent::beforeSave()) {
 
+
+            // Assume that the identical services are terminated before subscribing
+            $criteria = new CDbCriteria();
+            $criteria->addColumnCondition(array(
+                'contract_id' => $this->contract_id,
+                'site_id' => $this->site_id,
+                'service_id' => $this->service_id,
+            ));
+            $this->updateAll(array(
+                'enabled' => 0,
+                'terminated_at' => new CDbExpression('NOW()'),
+            ), $criteria);
+
+
+            // Logging
             $action = ($this->isNewRecord) ? 'Добавлена' : 'Изменена';
             $stamp = ($this->isNewRecord) ? $this->created_at : $this->updated_at;
             $log = new ActionLog();
@@ -42,14 +57,6 @@ class SiteService extends CActiveRecord
     public function afterDelete()
     {
         parent::afterDelete();
-
-        $log = new ActionLog();
-        $log->attributes = array(
-            'action' => 'Отключена услуга &laquo;' . Service::getLabel($this->service_id) . '&raquo; c ' . $this->terminated_at,
-            'site_id' => $this->site_id,
-            'contract_id' => $this->contract_id,
-        );
-        $log->save();
     }
 
     public function afterSave()

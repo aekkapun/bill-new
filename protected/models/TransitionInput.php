@@ -9,6 +9,8 @@
  * @property string $transitions
  * @property string $created_at
  * @property string $updated_at
+ * @property integer $contract_id
+ *
  */
 class TransitionInput extends CActiveRecord
 {
@@ -39,7 +41,8 @@ class TransitionInput extends CActiveRecord
         return array(
             array('site_id, transitions', 'required'),
             array('site_id, transitions', 'length', 'max' => 10),
-            array('created_at, updated_at, params', 'safe'),
+            array('created_at, updated_at', 'safe'),
+            array('contract_id', 'numerical'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, site_id, transitions, created_at, updated_at', 'safe', 'on' => 'search'),

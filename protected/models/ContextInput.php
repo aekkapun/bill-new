@@ -11,8 +11,8 @@
  * @property string $avg_transition_price
  * @property string $created_at
  * @property string $updated_at
- * @property int $adv_platform_id
- *
+ * @property integer $adv_platform_id
+ * @property integer $contract_id
  */
 class ContextInput extends CActiveRecord
 {
@@ -58,6 +58,7 @@ class ContextInput extends CActiveRecord
             array('site_id, transitions_count', 'length', 'max' => 10),
             array('transitions_sum, avg_transition_price', 'length', 'max' => 7),
             array('created_at, updated_at', 'safe'),
+            array('contract_id', 'numerical'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, site_id, transitions_count, transitions_sum, avg_transition_price, created_at, updated_at', 'safe', 'on' => 'search'),

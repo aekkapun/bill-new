@@ -9,7 +9,7 @@
  * @property string $link_count
  * @property string $created_at
  * @property string $updated_at
- * @property string $params
+ * @property integer $contract_id
  *
  */
 class SubscriptionInput extends CActiveRecord
@@ -42,7 +42,8 @@ class SubscriptionInput extends CActiveRecord
         return array(
             array('site_id, link_count', 'required'),
             array('site_id, link_count', 'length', 'max' => 10),
-            array('created_at, updated_at, params', 'safe'),
+            array('created_at, updated_at', 'safe'),
+            array('contract_id', 'numerical'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, site_id, link_count, created_at, updated_at', 'safe', 'on' => 'search'),
