@@ -49,7 +49,6 @@ class SubscriptionController extends Controller
 
         if (isset($_POST['SubscriptionInput'])) {
             $subscriptionInput->attributes = $_POST['SubscriptionInput'];
-            $subscriptionInput->params = $siteService->params;
             if (!$subscriptionInput->save()) {
                 Yii::app()->user->setFlash('error', 'Не удалось сохранить данные');
             } else {

@@ -72,7 +72,6 @@ class TransitionController extends Controller
 
         if (isset($_POST['TransitionInput'])) {
             $transitions->attributes = $_POST['TransitionInput'];
-            $transitions->params = $siteService->params;
             if (!$transitions->save()) {
                 Yii::app()->user->setFlash('error', 'Не удалось сохранить данные');
             } else {

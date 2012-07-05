@@ -11,7 +11,7 @@
  * @property string $options
  * @property string $created_at
  * @property string $updated_at
- * @property int $contract_id
+ * @property integer $contract_id
  *
  * @property int $enabled
  * @property string $terminated_at
@@ -92,6 +92,7 @@ class SiteService extends CActiveRecord
             array('site_id, service_id, created_at, contract_id', 'required'),
             array('site_id, service_id', 'length', 'max' => 10),
             array('params, options, created_at, updated_at, terminated_at, enabled', 'safe'),
+            array('contract_id', 'numerical'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, site_id, service_id, params, options, created_at, updated_at', 'safe', 'on' => 'search'),

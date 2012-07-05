@@ -22,8 +22,8 @@ $('.params-button').click(function(){
         <?php $this->renderPartial('_params', array('params' => $params)) ?>
     </div>
 
-    <br />
-    <br />
+    <br/>
+    <br/>
 
     <?php echo $form->labelEx($positionForm, 'created_at'); ?>
     <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
@@ -43,7 +43,7 @@ $('.params-button').click(function(){
         'htmlOptions' => array('value' => date('Y-m-d')),
     )); ?>
 
-    <br /><br />
+    <br/><br/>
 
     <?php foreach ($phrases as $system_id => $system): ?>
 
@@ -63,6 +63,7 @@ $('.params-button').click(function(){
 
         <?php echo $form->hiddenField($phrase, '[' . $system_id . $phrase_id . ']system_id', array('value' => $system_id)) ?>
         <?php echo $form->hiddenField($phrase, '[' . $system_id . $phrase_id . ']site_id', array('value' => $site->id)) ?>
+        <?php echo $form->hiddenField($phrase, '[' . $system_id . $phrase_id . ']contract_id', array('value' => $siteService->contract_id)) ?>
         <?php endforeach; ?>
 
     <?php endforeach; ?>

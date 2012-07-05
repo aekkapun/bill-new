@@ -49,7 +49,6 @@ class BannerController extends Controller
 
         if (isset($_POST['BannerInput'])) {
             $bannerInput->attributes = $_POST['BannerInput'];
-            $bannerInput->params = $siteService->params;
             if (!$bannerInput->save()) {
                 Yii::app()->user->setFlash('error', 'Не удалось сохранить данные');
             } else {

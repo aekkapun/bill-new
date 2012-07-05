@@ -63,6 +63,7 @@ $('.params-button').click(function(){
 
 
     <?php echo $form->hiddenField($contextInput, 'site_id', array('value' => $site->id)) ?>
+    <?php echo $form->hiddenField($contextInput, 'contract_id', array('value' => $siteService->contract_id)) ?>
 
     <div class="row buttons">
         <?php echo CHtml::submitButton('Добавить'); ?>

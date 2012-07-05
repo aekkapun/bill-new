@@ -80,7 +80,6 @@ class ContextController extends Controller
 
         if (isset($_POST['ContextInput'])) {
             $contextInput->attributes = $_POST['ContextInput'];
-            $contextInput->params = $siteService->params;
             if (!$contextInput->save()) {
                 Yii::app()->user->setFlash('error', 'Не удалось сохранить данные');
             } else {
