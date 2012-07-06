@@ -19,13 +19,16 @@
  */
 class PositionInput extends CActiveRecord
 {
-
+    /**
+     * Поле для суммирования данных статистики
+     * @var
+     */
     public $sum;
 
     public $factors = null;
     public $phraseMeta = null;
 
-    protected function calculateData()
+    protected function calculateFactorPrice()
     {
         $factors = array();
         $factorMax = 0;
@@ -69,7 +72,7 @@ class PositionInput extends CActiveRecord
     {
         if (parent::beforeValidate()) {
 
-            $this->calculateData();
+            $this->calculateFactorPrice();
 
             return true;
         }

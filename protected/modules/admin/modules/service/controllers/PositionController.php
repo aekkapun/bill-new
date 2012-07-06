@@ -19,21 +19,23 @@ class PositionController extends Controller
         ), array('index' => 'id'));
 
         if (isset($_POST['SiteService']) && isset($_POST['Factor']) && isset($_POST['SitePhrase'])) {
+
             $siteService->attributes = $_POST['SiteService'];
 
             $valid = true;
-            foreach ($_POST['Factor'] as $id => $attributes) {
-                if (isset($factors[$id])) {
-                    $factors[$id]->attributes = $attributes;
-                    $valid = $factors[$id]->validate() && $valid;
+            foreach ($_POST['Factor'] as $index => $attributes) {
+                if (isset($factors[$index])) {
+                    $factors[$index]->attributes = $attributes;
+                    $valid = $factors[$index]->validate() && $valid;
                 }
             }
 
             $valid = $valid && true;
-            foreach ($_POST['SitePhrase'] as $id => $attributes) {
-                if (isset($phrases[$id])) {
-                    $phrases[$id]->attributes = $attributes;
-                    $valid = $phrases[$id]->validate() && $valid;
+            $buf = array();
+            foreach ($_POST['SitePhrase'] as $index => $attributes) {
+                if (isset($phrases[$index])) {
+                    $phrases[$index]->attributes = $attributes;
+                    $valid = $phrases[$index]->validate() && $valid;
                 }
             }
 
@@ -69,19 +71,20 @@ class PositionController extends Controller
         $positionForm = new PositionForm();
 
         $phrases = array();
+        // Для каждой системы (яндекс, гугл) составляем список запросов
         foreach (Factor::$labels as $system_id => $label) {
             $phrases[$system_id] = array(
                 'name' => $label,
                 'phrases' => array(),
             );
             foreach ($params['phrases'] as $i => $phrase) {
-                $phrases[$system_id]['phrases'][$i] = new PositionInput();
-                $phrases[$system_id]['phrases'][$i]->factors = $params['factors'];
-                $phrases[$system_id]['phrases'][$i]->phraseMeta = $phrase;
+                $phrases[$system_id]['phrases'][$i] = new PositionInput($phrase);
                 $phrases[$system_id]['phrases'][$i]->attributes = array(
                     'phrase' => $phrase['phrase'],
                     'hash' => $phrase['hash'],
                 );
+                $phrases[$system_id]['phrases'][$i]->factors = $params['factors'];
+                $phrases[$system_id]['phrases'][$i]->phraseMeta = $phrase;
             }
         }
 

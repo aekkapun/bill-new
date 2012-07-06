@@ -24,7 +24,7 @@ class UserIdentity extends CBaseUserIdentity
      */
     public function authenticate()
     {
-        $user = User::model()->find('LOWER(email) = :email and lower(role)=:role', array(':email' => $this->email, ':role' => 'admin'));
+        $user = User::model()->find('LOWER(email) = :email', array(':email' => $this->email));
 
         $this->password = Yii::app()->securityManager->hashPassword($this->password, $user->hash);
 

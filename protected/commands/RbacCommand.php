@@ -23,11 +23,30 @@ class RbacCommand extends CConsoleCommand
 
         $db = Yii::app()->db;
 
-        $command = $db->createCommand('TRUNCATE auth_assignment')->execute();
-        $command = $db->createCommand('TRUNCATE auth_item_child')->execute();
+        $command = $db->createCommand('SET FOREIGN_KEY_CHECKS=0')->execute();
+        $command = $db->createCommand('TRUNCATE auth_assignment');
+        $command->execute();
+
+        $command = $db->createCommand('TRUNCATE auth_item_child');
+        $command->execute();
+
+        $command = $db->createCommand('TRUNCATE auth_item');
+        $command->execute();
+        $command = $db->createCommand('SET FOREIGN_KEY_CHECKS=1')->execute();
 
         $auth = Yii::app()->authManager;
 
+        $task = $auth->createTask('manageUsers');
+
+        // Права менеджера
+        $role = $auth->createRole('manager');
+
+        // Права админа
+        $role = $auth->createRole('admin');
+        $role->addChild('manager');
+        $role->addChild('manageUsers');
+
+        $auth->save();
 
         $criteria = new CDbCriteria();
         $criteria->select = array('id', 'role');

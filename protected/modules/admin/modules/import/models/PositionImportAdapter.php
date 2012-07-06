@@ -122,7 +122,7 @@ class PositionImportAdapter extends CFormModel implements AdapterInterface
 
             $rawData = array_slice($rawData, 6, count($rawData));
 
-            foreach ($rawData as $row) {
+            foreach ($rawData as $index => $row) {
                 $row = explode(';', $row);
 
                 $trim = function($val)
@@ -137,6 +137,7 @@ class PositionImportAdapter extends CFormModel implements AdapterInterface
 
                 // Google
                 $item = array(
+                    'id' => $index,
                     'phrase' => trim($row[0]),
                     'hash' => md5(trim($row[0])),
                     'system_id' => Factor::SYSTEM_GOOGLE,
@@ -147,11 +148,10 @@ class PositionImportAdapter extends CFormModel implements AdapterInterface
                     'params' => CJSON::encode($params),
                 );
 
-                if (($searchPhrase = $this->searchArray($params['phrases'], 'hash', $item['hash'])) !== false) {
+                if (($searchPhrase = Common::searchArray($params['phrases'], 'hash', $item['hash'])) !== false) {
                     $item['phraseMeta'] = $searchPhrase[0];
                 }
                 $data[] = $item;
-
 
                 // Yandex
                 $item['system_id'] = Factor::SYSTEM_YANDEX;
@@ -247,21 +247,5 @@ class PositionImportAdapter extends CFormModel implements AdapterInterface
             $transaction->rollback();
             Yii::app()->user->setFlash('notice', 'Произошла ошибка при сохранении транзакций' . $e->getMessage());
         }
-    }
-
-    function searchArray($array, $key, $value)
-    {
-        $results = array();
-
-        if (is_array($array)) {
-            if ($array[$key] == $value) {
-                $results[] = $array;
-            } else {
-                foreach ($array as $subarray)
-                    $results = array_merge($results, $this->searchArray($subarray, $key, $value));
-            }
-        }
-
-        return $results;
     }
 }
