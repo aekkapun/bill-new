@@ -71,19 +71,20 @@ class PositionController extends Controller
         $positionForm = new PositionForm();
 
         $phrases = array();
+        // Для каждой системы (яндекс, гугл) составляем список запросов
         foreach (Factor::$labels as $system_id => $label) {
             $phrases[$system_id] = array(
                 'name' => $label,
                 'phrases' => array(),
             );
             foreach ($params['phrases'] as $i => $phrase) {
-                $phrases[$system_id]['phrases'][$i] = new PositionInput();
-                $phrases[$system_id]['phrases'][$i]->factors = $params['factors'];
-                $phrases[$system_id]['phrases'][$i]->phraseMeta = $phrase;
+                $phrases[$system_id]['phrases'][$i] = new PositionInput($phrase);
                 $phrases[$system_id]['phrases'][$i]->attributes = array(
                     'phrase' => $phrase['phrase'],
                     'hash' => $phrase['hash'],
                 );
+                $phrases[$system_id]['phrases'][$i]->factors = $params['factors'];
+                $phrases[$system_id]['phrases'][$i]->phraseMeta = $phrase;
             }
         }
 

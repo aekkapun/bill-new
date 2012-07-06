@@ -122,7 +122,7 @@ class PositionImportAdapter extends CFormModel implements AdapterInterface
 
             $rawData = array_slice($rawData, 6, count($rawData));
 
-            foreach ($rawData as $row) {
+            foreach ($rawData as $index => $row) {
                 $row = explode(';', $row);
 
                 $trim = function($val)
@@ -137,6 +137,7 @@ class PositionImportAdapter extends CFormModel implements AdapterInterface
 
                 // Google
                 $item = array(
+                    'id' => $index,
                     'phrase' => trim($row[0]),
                     'hash' => md5(trim($row[0])),
                     'system_id' => Factor::SYSTEM_GOOGLE,
@@ -151,7 +152,6 @@ class PositionImportAdapter extends CFormModel implements AdapterInterface
                     $item['phraseMeta'] = $searchPhrase[0];
                 }
                 $data[] = $item;
-
 
                 // Yandex
                 $item['system_id'] = Factor::SYSTEM_YANDEX;

@@ -23,8 +23,14 @@ return array(
 
     // application components
     'components' => array(
+        'authManager' => array(
+            'class' => 'CDbAuthManager',
+            'itemTable' => 'auth_item',
+            'itemChildTable' => 'auth_item_child',
+            'assignmentTable' => 'auth_assignment',
+        ),
         'db' => array(
-            'class' => 'application.components.DbConnection',
+            'class' => 'application.components.DbConnectionDev',
         ),
     ),
 );
