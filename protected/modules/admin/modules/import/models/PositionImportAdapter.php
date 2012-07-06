@@ -147,7 +147,7 @@ class PositionImportAdapter extends CFormModel implements AdapterInterface
                     'params' => CJSON::encode($params),
                 );
 
-                if (($searchPhrase = $this->searchArray($params['phrases'], 'hash', $item['hash'])) !== false) {
+                if (($searchPhrase = Common::searchArray($params['phrases'], 'hash', $item['hash'])) !== false) {
                     $item['phraseMeta'] = $searchPhrase[0];
                 }
                 $data[] = $item;
@@ -247,21 +247,5 @@ class PositionImportAdapter extends CFormModel implements AdapterInterface
             $transaction->rollback();
             Yii::app()->user->setFlash('notice', 'Произошла ошибка при сохранении транзакций' . $e->getMessage());
         }
-    }
-
-    function searchArray($array, $key, $value)
-    {
-        $results = array();
-
-        if (is_array($array)) {
-            if ($array[$key] == $value) {
-                $results[] = $array;
-            } else {
-                foreach ($array as $subarray)
-                    $results = array_merge($results, $this->searchArray($subarray, $key, $value));
-            }
-        }
-
-        return $results;
     }
 }

@@ -71,7 +71,19 @@ class Common
         );
     }
 
-
+    public static function searchArray($array, $key, $value)
+    {
+        $results = array();
+        if (is_array($array)) {
+            if ($array[$key] == $value) {
+                $results[] = $array;
+            } else {
+                foreach ($array as $subarray)
+                    $results = array_merge($results, self::searchArray($subarray, $key, $value));
+            }
+        }
+        return $results;
+    }
 }
 
 ?>

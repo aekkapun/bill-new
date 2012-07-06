@@ -13,7 +13,7 @@ return array(
         'client_id' => 1,
         'status' => 1,
     ),
-    'contract1' => array(
+    'contract2' => array(
         'number' => '123/b',
         'client_id' => 1,
         'status' => 1,
