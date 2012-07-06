@@ -75,10 +75,9 @@ class PhraseImportAdapter extends CFormModel implements AdapterInterface
         $rawData = array_slice($rawData, 1, count($rawData));
 
         $data = array();
-        foreach ($rawData as $index => $row) {
+        foreach ($rawData as $row) {
             $row = explode(';', $row);
             $item = array(
-                'id' => $index,
                 'phrase' => $row[0],
                 'price' => $row[1],
                 'site_id' => $site->id,

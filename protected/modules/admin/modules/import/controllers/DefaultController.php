@@ -51,7 +51,9 @@ class DefaultController extends Controller
         $adapterClassName = ucfirst($src) . 'Adapter';
         $result = Yii::app()->session->get($adapterClassName . '_data');
 
-        $dataProvider = new CArrayDataProvider($result['data']);
+        $dataProvider = new CArrayDataProvider($result['data'], array(
+            'keyField' => false,
+        ));
 
         $this->render($src . DIRECTORY_SEPARATOR . 'preview', array(
             'dataProvider' => $dataProvider,
