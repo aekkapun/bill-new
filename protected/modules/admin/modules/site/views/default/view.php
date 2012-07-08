@@ -37,6 +37,7 @@ $this->menu = array(
         'domain:url',
         'created_at',
         'updated_at',
+        'region',
     ),
 )); ?>
 
