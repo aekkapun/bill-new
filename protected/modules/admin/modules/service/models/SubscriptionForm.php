@@ -10,12 +10,20 @@ class SubscriptionForm extends CFormModel
 {
 
     public $sum;
+    public $work_cost;
 
     public function rules()
     {
         return array(
             array('sum', 'required'),
-            array('sum', 'numerical'),
+            array('sum, work_cost', 'numerical'),
+        );
+    }
+    
+    public function attributeLabels() {
+        return array(
+            'sum' => 'Ссылочный бюджет',
+            'work_cost' => 'Стоимость работ',
         );
     }
 

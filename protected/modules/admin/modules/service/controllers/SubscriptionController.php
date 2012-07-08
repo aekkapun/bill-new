@@ -17,17 +17,20 @@ class SubscriptionController extends Controller
         $subscriptionForm = new SubscriptionForm();
 
         if (isset($_POST['SiteService']) && isset($_POST['SubscriptionForm'])) {
+            
             $siteService->attributes = $_POST['SiteService'];
             $subscriptionForm->attributes = $_POST['SubscriptionForm'];
 
             if ($subscriptionForm->validate()) {
                 $params['sum'] = $subscriptionForm->sum;
+                $params['work_cost'] = $subscriptionForm->work_cost ? $subscriptionForm->work_cost : 0;
                 $siteService->params = CJSON::encode($params);
                 if ($siteService->save()) {
                     $this->redirect(array('/admin/site/default/view', 'id' => $site->id));
                 }
 
             }
+            
         }
 
         $this->render('subscribe', array(

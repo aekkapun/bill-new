@@ -13,7 +13,7 @@ class Service extends CActiveRecord
 {
 
     /**
-     * Абоненская плата
+     * Абонентская плата
      */
     const SUBSCRIPTION = 1;
 

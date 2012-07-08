@@ -44,6 +44,12 @@
         <?php echo $form->error($subscriptionForm, 'sum'); ?>
     </div>
 
+    <div class="row">
+        <?php echo $form->labelEx($subscriptionForm, 'work_cost'); ?>
+        <?php echo $form->textField($subscriptionForm, 'work_cost', array('size' => 10, 'maxlength' => 10)); ?>
+        <?php echo $form->error($subscriptionForm, 'work_cost'); ?>
+    </div>
+    
     <?php echo CHtml::activeHiddenField($siteService, 'site_id', array('value' => $site->id)) ?>
     <?php echo CHtml::activeHiddenField($siteService, 'service_id', array('value' => $service->id)) ?>
 
