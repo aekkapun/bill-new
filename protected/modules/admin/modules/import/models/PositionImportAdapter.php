@@ -94,13 +94,19 @@ class PositionImportAdapter extends CFormModel implements AdapterInterface
         ));
         $criteria->order = 'created_at DESC';
 
-        $siteService = SiteService::model()->find($criteria);
-
-        $params = CJSON::decode($siteService->params);
-
-        $rawData = str_getcsv($content, "\r\n");
-
         try {
+
+            $siteService = SiteService::model()->find($criteria);
+
+            if (!$siteService) {
+                throw new CHttpException(400, 'Услуга "Оплата по позициям" не подключена к сайту');
+            }
+
+            $params = CJSON::decode($siteService->params);
+
+            $rawData = str_getcsv($content, "\r\n");
+
+
             // Sure that export mode was right (Mode:One URL - several phrases)
             if (($result = mb_stripos($rawData[0], "Mode", null, "utf-8")) === FALSE) {
                 throw new CHttpException(400, 'Файл должен быть выгружен только за 1 день и в режиме "One URL - several phrases"');
