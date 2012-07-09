@@ -29,4 +29,25 @@ return array(
         'enabled' => 1,
         'params' => '{"phrases":{"1":{"id":"1","site_id":"1","phrase":"test","hash":"098f6bcd4621d373cade4e832627b4f6","price":"1.00","active":"1","created_at":"2012-07-05 09:10:51","updated_at":"2012-07-05 09:10:51"},"2":{"id":"2","site_id":"1","phrase":"test2","hash":"ad0234829205b9033196ba818f7a872b","price":"2.00","active":"1","created_at":"2012-07-05 09:10:57","updated_at":"2012-07-05 09:10:57"}},"factors":{"1":{"id":"1","name":"Google TOP3","system_id":"1","position":"3","value":"1.00","created_at":"2012-07-05 08:51:04","updated_at":"0000-00-00 00:00:00"},"2":{"id":"2","name":"Google TOP5","system_id":"1","position":"5","value":"2.00","created_at":"2012-07-05 08:51:04","updated_at":"0000-00-00 00:00:00"},"3":{"id":"3","name":"Google TOP10","system_id":"1","position":"10","value":"3.00","created_at":"2012-07-05 08:51:04","updated_at":"0000-00-00 00:00:00"},"4":{"id":"4","name":"Yandex TOP3","system_id":"2","position":"3","value":"4.00","created_at":"2012-07-05 08:51:04","updated_at":"0000-00-00 00:00:00"},"5":{"id":"5","name":"Yandex TOP5","system_id":"2","position":"5","value":"5.00","created_at":"2012-07-05 08:51:04","updated_at":"0000-00-00 00:00:00"},"6":{"id":"6","name":"Yandex TOP10","system_id":"2","position":"10","value":"6.00","created_at":"2012-07-05 08:51:04","updated_at":"0000-00-00 00:00:00"}}}'
     ),
+    'context' => array(
+        'site_id' => 1,
+        'service_id' => Service::CONTEXT,
+        'contract_id' => 1,
+        'enabled' => 1,
+        'params' => '{"advPlatforms":{"1":{"id":"1","name":"Google","created_at":"2012-07-05 09:13:04","updated_at":"2012-07-05 09:13:04","budget":"10000.00","work_percent":"0.10"},"2":{"id":"2","name":"Yandex","created_at":"2012-07-09 14:42:57","updated_at":"2012-07-09 14:42:57","budget":"20000.00","work_percent":"0.30"}}}'
+    ),
+    'transition' => array(
+        'site_id' => 1,
+        'service_id' => Service::TRANSITION,
+        'contract_id' => 1,
+        'enabled' => 1,
+        'params' => '{"ranges":{"1":{"id":"1","site_id":"1","valueMin":"1","valueMax":"10","price":"1.00","created_at":"2012-07-05 09:11:16","updated_at":"2012-07-05 09:11:16"},"2":{"id":"2","site_id":"1","valueMin":"11","valueMax":"20","price":"2.00","created_at":"2012-07-05 09:11:24","updated_at":"2012-07-05 09:11:24"},"3":{"id":"3","site_id":"1","valueMin":"30","valueMax":"0","price":"0.50","created_at":"2012-07-09 15:43:55","updated_at":"2012-07-09 15:43:55"}},"maxSum":"4000"}'
+    ),
+    'transition2' => array(
+        'site_id' => 1,
+        'service_id' => Service::TRANSITION,
+        'contract_id' => 2,
+        'enabled' => 1,
+        'params' => '{"ranges":{"1":{"id":"1","site_id":"1","valueMin":"1","valueMax":"10","price":"1.00","created_at":"2012-07-05 09:11:16","updated_at":"2012-07-05 09:11:16"},"2":{"id":"2","site_id":"1","valueMin":"11","valueMax":"20","price":"2.00","created_at":"2012-07-05 09:11:24","updated_at":"2012-07-05 09:11:24"},"3":{"id":"3","site_id":"1","valueMin":"30","valueMax":"0","price":"0.50","created_at":"2012-07-09 15:43:55","updated_at":"2012-07-09 15:43:55"}},"maxSum":"200"}'
+    ),
 );

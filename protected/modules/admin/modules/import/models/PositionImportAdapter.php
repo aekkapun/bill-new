@@ -7,6 +7,8 @@ class PositionImportAdapter extends CFormModel implements AdapterInterface
 
     public $siteId;
 
+    public $contractId;
+
     public $dataFile;
 
     private $_months = array(
@@ -38,7 +40,7 @@ class PositionImportAdapter extends CFormModel implements AdapterInterface
     public function rules()
     {
         return array(
-            array('siteId', 'required'),
+            array('siteId, contractId', 'required'),
             array('dataFile', 'file', 'allowEmpty' => false, 'types' => array('csv')),
         );
     }
@@ -61,6 +63,11 @@ class PositionImportAdapter extends CFormModel implements AdapterInterface
                     'type' => 'dropdownlist',
                     'items' => CHtml::listData(Site::model()->findAll(), 'id', 'domain'),
                     'prompt' => 'Выберите сайт:',
+                ),
+                'contractId' => array(
+                    'type' => 'dropdownlist',
+                    'items' => CHtml::listData(Contract::model()->findAll(), 'id', 'number'),
+                    'prompt' => 'Выберите договор:',
                 ),
                 'dataFile' => array(
                     'type' => 'file',
@@ -91,16 +98,23 @@ class PositionImportAdapter extends CFormModel implements AdapterInterface
         $criteria->addColumnCondition(array(
             'site_id' => $site->id,
             'service_id' => Service::POSITION,
+            'contract_id' => $this->contractId,
+            'enabled' => 1,
         ));
         $criteria->order = 'created_at DESC';
 
-        $siteService = SiteService::model()->find($criteria);
-
-        $params = CJSON::decode($siteService->params);
-
-        $rawData = str_getcsv($content, "\r\n");
-
         try {
+
+            $siteService = SiteService::model()->find($criteria);
+
+            if (!$siteService) {
+                throw new CHttpException(400, 'Для сайта не подключена услуга Оплата по позициям');
+            }
+
+            $params = CJSON::decode($siteService->params);
+
+            $rawData = str_getcsv($content, "\r\n");
+
             // Sure that export mode was right (Mode:One URL - several phrases)
             if (($result = mb_stripos($rawData[0], "Mode", null, "utf-8")) === FALSE) {
                 throw new CHttpException(400, 'Файл должен быть выгружен только за 1 день и в режиме "One URL - several phrases"');
@@ -145,12 +159,15 @@ class PositionImportAdapter extends CFormModel implements AdapterInterface
                     'site_id' => $site->id,
                     'created_at' => date('Y-m-d H:i:s', $date),
                     'factors' => $params['factors'],
-                    'params' => CJSON::encode($params),
+                    'contract_id' => $this->contractId,
                 );
 
-                if (($searchPhrase = Common::searchArray($params['phrases'], 'hash', $item['hash'])) !== false) {
+                if (($searchPhrase = Common::searchArray($params['phrases'], 'hash', $item['hash'])) && count($searchPhrase) > 0) {
                     $item['phraseMeta'] = $searchPhrase[0];
+                } else {
+                    throw new CHttpException(400, 'Поисковая фраза ' . $item['phrase'] . ' не зарегистрирована для данной услуги');
                 }
+
                 $data[] = $item;
 
                 // Yandex
@@ -228,6 +245,9 @@ class PositionImportAdapter extends CFormModel implements AdapterInterface
 
             if (count($stat['error']) > 0) {
                 Yii::app()->user->setFlash('error', 'ВНИМАНИЕ! Произошла ошибка сервера. Попробуйте еще раз или обратитесь к администратору биллинга');
+
+                CVarDumper::dump($positionInput->getErrors(), 10, true);
+
                 $transaction->rollback();
             } else {
                 $transaction->commit();

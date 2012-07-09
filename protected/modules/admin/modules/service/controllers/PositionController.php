@@ -78,10 +78,10 @@ class PositionController extends Controller
                 'phrases' => array(),
             );
             foreach ($params['phrases'] as $i => $phrase) {
-                $phrases[$system_id]['phrases'][$i] = new PositionInput($phrase);
+                $phrases[$system_id]['phrases'][$i] = new PositionInput();
                 $phrases[$system_id]['phrases'][$i]->attributes = array(
-                    'phrase' => $phrase['phrase'],
                     'hash' => $phrase['hash'],
+                    'phrase' => $phrase['phrase'],
                 );
                 $phrases[$system_id]['phrases'][$i]->factors = $params['factors'];
                 $phrases[$system_id]['phrases'][$i]->phraseMeta = $phrase;

@@ -14,23 +14,37 @@ class ContextCommand extends StatConsoleCommand
 
     protected function countIndicators($period)
     {
-        /*$criteria = new CDbCriteria;
-        $criteria->addBetweenCondition('created_at', $period->period_begin, $period->period_end);
-        $criteria->addColumnCondition(array(
-            'site_id' => $period->site_id,
-        ));
 
-        $count = Yii::app()->db->createCommand()
-            ->select('SUM(transitions_sum)')
-            ->from($this->inputTable)
-            ->where('site_id = :site_id and created_at BETWEEN :period_begin and :period_end', array(':site_id' => $period->site_id, ':period_begin' => $period->period_begin, ':period_end' => $period->period_end))
-            ->queryScalar();
+        $advPlatforms = AdvPlatform::model()->findAll();
 
-        return array(
-            'transitions_sum' => $count,
-        );*/
+        $indicators = array();
 
-        //@todo
+        foreach ($advPlatforms as $advPlatform) {
+
+            $criteria = new CDbCriteria();
+            $criteria->addColumnCondition(array(
+                'site_id' => $period->site_id,
+                'adv_platform_id' => $advPlatform->id,
+            ));
+
+            $criteria->addBetweenCondition('created_at', $period->period_begin, $period->period_end);
+            $criteria->select = 't.site_id, t.contract_id, AVG(t.avg_transition_price) as avg_transition_price, SUM(t.transitions_count) as transitions_count, SUM(t.transitions_sum) as transitions_sum';
+            $criteria->group = 't.contract_id';
+
+            $model = ContextInput::model()->findAll($criteria);
+
+            foreach ($model as $data) {
+
+                $indicators[] = array(
+                    'contract_id' => $data['contract_id'],
+                    'transitions_sum' => $data['transitions_sum'],
+                    'avg_transition_price_per_day' => $data['avg_transition_price'],
+                    'adv_platform_id' => $advPlatform->id,
+                );
+            }
+        }
+
+        return $indicators;
     }
 
 }
