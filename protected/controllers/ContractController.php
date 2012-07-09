@@ -40,9 +40,9 @@ class ContractController extends Controller
      * Manages all models.
      */
     public function actionIndex()
-    {
+    {        
         $model = Contract::model()->by('client_id', Yii::app()->user->client_id);
-
+        
         $this->render('index', array(
             'model' => $model,
         ));

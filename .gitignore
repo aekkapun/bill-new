@@ -1,5 +1,7 @@
-.idea
+/assets/
+protected/runtime/
 themes/classic/views/
 *.log
-public/assets/*
-protected/runtime/*
+.idea
+/nbproject/private/
+/www/
