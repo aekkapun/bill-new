@@ -1,5 +1,7 @@
 <?php
 
+setlocale(LC_ALL, 'ru_RU.UTF8');
+
 $yii = dirname(__DIR__) . '/framework/framework/yii.php';
 
 if (stripos($_SERVER['HTTP_HOST'], '.dev')) {
