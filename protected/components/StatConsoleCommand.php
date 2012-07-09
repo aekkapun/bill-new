@@ -183,13 +183,14 @@ abstract class StatConsoleCommand extends CConsoleCommand
         }
     }
 
-    protected function getPeriodParams($period, $contract_id)
+    protected function getPeriodParams($period, $contract_id, $service_id)
     {
+
         $criteria = new CDbCriteria();
         $criteria->addColumnCondition(array(
             'site_id' => $period->site_id,
             'contract_id' => $contract_id,
-            'service_id' => Service::SUBSCRIPTION,
+            'service_id' => $service_id,
             'enabled' => 1,
         ));
         $criteria->order = 'created_at DESC';

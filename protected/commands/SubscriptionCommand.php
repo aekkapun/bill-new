@@ -13,7 +13,6 @@ class SubscriptionCommand extends StatConsoleCommand
 
     protected function countIndicators($period)
     {
-        // select contract_id, sum(`link_count`) as link_count from subscription_input where site_id = 1 group by contract_id
         $criteria = new CDbCriteria();
         $criteria->addColumnCondition(array(
             'site_id' => $period->site_id,
@@ -27,7 +26,7 @@ class SubscriptionCommand extends StatConsoleCommand
 
         foreach ($model as $data) {
 
-            $params = $this->getPeriodParams($period, $data->contract_id);
+            $params = $this->getPeriodParams($period, $data->contract_id, Service::SUBSCRIPTION);
 
             $avgLinkPrice = round($params['sum'] / $data['link_count'], 2);
 

@@ -36,4 +36,18 @@ return array(
         'enabled' => 1,
         'params' => '{"advPlatforms":{"1":{"id":"1","name":"Google","created_at":"2012-07-05 09:13:04","updated_at":"2012-07-05 09:13:04","budget":"10000.00","work_percent":"0.10"},"2":{"id":"2","name":"Yandex","created_at":"2012-07-09 14:42:57","updated_at":"2012-07-09 14:42:57","budget":"20000.00","work_percent":"0.30"}}}'
     ),
+    'transition' => array(
+        'site_id' => 1,
+        'service_id' => Service::TRANSITION,
+        'contract_id' => 1,
+        'enabled' => 1,
+        'params' => '{"ranges":{"1":{"id":"1","site_id":"1","valueMin":"1","valueMax":"10","price":"1.00","created_at":"2012-07-05 09:11:16","updated_at":"2012-07-05 09:11:16"},"2":{"id":"2","site_id":"1","valueMin":"11","valueMax":"20","price":"2.00","created_at":"2012-07-05 09:11:24","updated_at":"2012-07-05 09:11:24"},"3":{"id":"3","site_id":"1","valueMin":"30","valueMax":"0","price":"0.50","created_at":"2012-07-09 15:43:55","updated_at":"2012-07-09 15:43:55"}},"maxSum":"4000"}'
+    ),
+    'transition2' => array(
+        'site_id' => 1,
+        'service_id' => Service::TRANSITION,
+        'contract_id' => 2,
+        'enabled' => 1,
+        'params' => '{"ranges":{"1":{"id":"1","site_id":"1","valueMin":"1","valueMax":"10","price":"1.00","created_at":"2012-07-05 09:11:16","updated_at":"2012-07-05 09:11:16"},"2":{"id":"2","site_id":"1","valueMin":"11","valueMax":"20","price":"2.00","created_at":"2012-07-05 09:11:24","updated_at":"2012-07-05 09:11:24"},"3":{"id":"3","site_id":"1","valueMin":"30","valueMax":"0","price":"0.50","created_at":"2012-07-09 15:43:55","updated_at":"2012-07-09 15:43:55"}},"maxSum":"200"}'
+    ),
 );
