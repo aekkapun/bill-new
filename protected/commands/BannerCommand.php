@@ -28,9 +28,11 @@ class BannerCommand extends StatConsoleCommand
 
         foreach ($model as $data) {
 
-            $params = $this->getPeriodParams($period, $data->contract_id);
+            $params = $this->getPeriodParams($period, $data->contract_id, Service::BANNERS);
 
             $avgTransitionPrice = round($data['sum'] / $data['transitions'], 2);
+
+            print "*** Средняя стоимость ссылки по договору с ID " . $data['contract_id'] . ": " . $avgTransitionPrice."\n";
 
             $indicators[] = array(
                 'contract_id' => $data['contract_id'],

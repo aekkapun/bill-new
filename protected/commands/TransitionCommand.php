@@ -9,88 +9,75 @@
 class TransitionCommand extends StatConsoleCommand
 {
 
+    protected $inputClassName = 'TransitionInput';
+    protected $periodClassName = 'TransitionPeriod';
+
     protected function countIndicators($period)
     {
-        //@todo
-
-        return;
-
-        /*print "\nНачинаем подсчет индикаторов:";
-        $criteria = new CDbCriteria;
-        $criteria->addBetweenCondition('created_at', $period->period_begin, $period->period_end);
-        $criteria->addColumnCondition(array(
-            'site_id' => $period->site_id,
-        ));
-
-        $transitionCount = Yii::app()->db->createCommand()
-            ->from($this->inputTable)
-            ->select('SUM(transitions)')
-            ->where('(created_at BETWEEN :period_begin AND :period_end) and (site_id = :site_id)',
-            array(
-                ':period_begin' => $period->period_begin,
-                ':period_end' => $period->period_end,
-                ':site_id' => $period->site_id,
-            ))
-            ->queryScalar();
-
-        print "\nПереходов за месяц:" . $transitionCount;
-
         $criteria = new CDbCriteria();
         $criteria->addColumnCondition(array(
             'site_id' => $period->site_id,
-            'service_id' => Service::TRANSITION,
         ));
         $criteria->addBetweenCondition('created_at', $period->period_begin, $period->period_end);
-        $siteService = SiteService::model()->find($criteria);
+        $criteria->select = 't.site_id, t.contract_id, SUM(t.transitions) as transitions';
+        $criteria->group = 't.contract_id';
 
-        $key = md5('transition' . $period->site_id . 'params');
+        $model = TransitionInput::model()->findAll($criteria);
 
-        if ($siteService) {
-            Yii::app()->setGlobalState($key, $siteService->params);
-            $params = CJSON::decode($siteService->params);
-        } else {
-            $params = CJSON::decode(Yii::app()->getGlobalState($key));
-        }
-        print "\nИспользуемые параметры периода: " . $siteService->created_at;
+        $indicators = array();
 
-        $ranges = array();
-        foreach ($params['ranges'] as $range) {
-            $meta = array();
+        foreach ($model as $data) {
 
-            $meta['valueMin'] = $range['valueMin'];
+            print "*** Поиск текущих параметров для договора с ID " . $data['contract_id'] . "\n";
 
-            if ($range['valueMax'] != 0) {
-                $meta['valueMax'] = $range['valueMax'];
-            }
-            $meta['price'] = $range['price'];
-            $ranges[] = $meta;
-        }
+            $params = $this->getPeriodParams($period, $data['contract_id'], Service::TRANSITION);
 
-        $price = 0.0;
-        foreach ($ranges as $range) {
-            if (($transitionCount >= $range['valueMin'] && $transitionCount < $range['valueMax']) ||
-                (!isset($range['valueMax']) && isset($range['valueMin']))
-            ) {
-                $price = $range['price'];
-                break;
+            if (!$params) {
+                print "*** ERROR Найти не удалось";
             }
 
+            $transitionsCount = floatval($data['transitions']);
 
+            // Normalize ranges
+            $ranges = array();
+            foreach ($params['ranges'] as $range) {
+                $meta = array();
+                $meta['valueMin'] = $range['valueMin'];
+                if ($range['valueMax'] != 0) {
+                    $meta['valueMax'] = $range['valueMax'];
+                }
+                $meta['price'] = $range['price'];
+                $ranges[] = $meta;
+            }
+
+            $price = 0.0;
+            foreach ($ranges as $range) {
+                if (($transitionsCount >= $range['valueMin'] && $transitionsCount < $range['valueMax']) ||
+                    (!isset($range['valueMax']) && isset($range['valueMin']))
+                ) {
+                    print "*** Входит в диапазон: " . $range['valueMin'] . "-" . (empty($range['valueMax']) ? 'inf' : $range['valueMax']) . "\n";
+                    $price = $range['price'];
+                    break;
+                }
+            }
+
+            print "*** Цена за переход: " . $price . "\n";
+            $transitionSum = $price * $transitionsCount;
+
+            print "*** Сумма за текущий период: " . $transitionSum . "\n";
+
+            if ($transitionSum > $params['maxSum']) {
+                $transitionSum = $params['maxSum'];
+                print "*** Сумма превышает максимальную для этого периода (" . $params['maxSum'] . "), корректируем: " . $transitionSum . "\n";
+            }
+
+            $indicators[] = array(
+                'contract_id' => $data['contract_id'],
+                'transition_sum' => $transitionSum,
+                'transition_count' => $transitionsCount,
+            );
         }
-        print "\nЦена за переход: " . $price;
-        $transitionSum = $price * $transitionCount;
 
-
-        print "\nСумма за текущий период: " . $transitionSum;
-
-        if ($transitionSum > $params['maxSum']) {
-            $transitionSum = $params['maxSum'];
-            print "\nСумма превышает максимальную для этого периода (" . $params['maxSum'] . "), корректируем: " . $transitionSum;
-        }
-
-        return array(
-            'transition_sum' => $transitionSum,
-            'transition_count' => $transitionCount,
-        );*/
+        return $indicators;
     }
 }

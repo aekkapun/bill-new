@@ -43,7 +43,7 @@ class ContextPeriod extends CActiveRecord
         return array(
             array('site_id', 'required'),
             array('site_id, transitions_sum', 'length', 'max' => 10),
-            array('period_begin, period_end, created_at, updated_at, period_name', 'safe'),
+            array('period_begin, period_end, created_at, updated_at, period_name, avg_transition_price_per_day, adv_platform_id', 'safe'),
             array('contract_id', 'numerical'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
