@@ -11,8 +11,8 @@ class ContractController extends Controller
         $model = $this->loadModel($id);
 
         // Sites
-        $sites = SiteContract::model()->findAllByAttributes(array(
-            'contract_id' => $id,
+        $sites = Site::model()->findAllByAttributes(array(
+            'client_id' => Yii::app()->user->client_id,
         ));
 
         $attachments = ContractAttachment::model()->findAllByAttributes(array(

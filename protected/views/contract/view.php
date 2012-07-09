@@ -58,11 +58,12 @@ $this->breadcrumbs = array(
 
 <?php foreach ($sites as $site) : ?>
 <div class="row">
-    <h3><?php echo CHtml::link($site->site->domain, array('/site/view', 'id' => $site->site->id)) ?></h3>
+
+    <h3><?php echo CHtml::link($site->domain, array('/site/view', 'id' => $site->id)) ?></h3>
 
     <p><strong>Подключенные услуги:</strong></p>
     <ul>
-        <?php foreach ($site->site->siteServices as $siteService): ?>
+        <?php foreach ($site->siteServices as $siteService): ?>
         <li>
             <?php echo Service::getLabel($siteService->service_id) ?>
             c <?php echo Yii::app()->dateFormatter->format('d MMMM yyyy', $siteService->created_at) ?>
