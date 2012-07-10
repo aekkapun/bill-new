@@ -84,6 +84,7 @@ class InvoiceController extends Controller
     {
         $model = new Invoice('search');
         $model->unsetAttributes(); // clear any default values
+        $model->my();
         if (isset($_GET['Invoice']))
             $model->attributes = $_GET['Invoice'];
 

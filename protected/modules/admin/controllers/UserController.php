@@ -2,6 +2,19 @@
 
 class UserController extends Controller
 {
+
+    public function accessRules()
+    {
+        return array(
+            array('allow',
+                'roles' => array('admin'),
+            ),
+            array('deny',
+                'users' => array('*'),
+            ),
+        );
+    }
+
     /**
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed

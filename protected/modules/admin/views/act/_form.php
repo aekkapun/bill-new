@@ -12,13 +12,13 @@
 
     <div class="row">
         <?php echo $form->labelEx($model, 'client_id'); ?>
-        <?php echo $form->dropDownList($model, 'client_id', CHtml::listData(Client::model()->findAll(), 'id', 'name'), array('empty' => '--выбрать--')); ?>
+        <?php echo $form->dropDownList($model, 'client_id', CHtml::listData(Client::model()->my()->findAll(), 'id', 'name'), array('empty' => '--выбрать--')); ?>
         <?php echo $form->error($model, 'client_id'); ?>
     </div>
 
     <div class="row">
         <?php echo $form->labelEx($model, 'contract_id'); ?>
-        <?php echo $form->dropDownList($model, 'contract_id', CHtml::listData(Contract::model()->findAll(), 'id', 'number'), array('empty' => '--выбрать--')); ?>
+        <?php echo $form->dropDownList($model, 'contract_id', CHtml::listData(Contract::model()->my()->findAll(), 'id', 'number'), array('empty' => '--выбрать--')); ?>
         <?php echo $form->error($model, 'contract_id'); ?>
     </div>
 

@@ -2,6 +2,23 @@
 
 class DefaultController extends Controller
 {
+    public function accessRules()
+    {
+        return array(
+            array('allow',
+                'actions' => array('login', 'index'),
+                'users' => array('*'),
+            ),
+            array('allow',
+                'actions' => array('logout'),
+                'users' => array('@'),
+            ),
+            array('deny',
+                'users' => array('*'),
+            ),
+        );
+    }
+
     /**
      * Displays the login page
      */

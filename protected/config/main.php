@@ -41,7 +41,10 @@ return array(
             'validationKey' => md5('da0095b3833bfe649d4683213b086q76'),
         ),
         'authManager' => array(
-            'class' => 'CDbAuthManager'
+            'class' => 'CDbAuthManager',
+            'itemTable' => 'auth_item',
+            'itemChildTable' => 'auth_item_child',
+            'assignmentTable' => 'auth_assignment',
         ),
         'user' => array(
             'class' => 'WebUser',

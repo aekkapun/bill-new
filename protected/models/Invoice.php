@@ -18,6 +18,22 @@
  */
 class Invoice extends CActiveRecord
 {
+
+    /**
+     * @return Invoice
+     */
+    public function my()
+    {
+        if (Yii::app()->user->checkAccess('manager')) {
+            $clients = Client::model()->my()->findAll(array('select' => 'id', 'index' => 'id'));
+            if($clients) {
+                $criteria = $this->getDbCriteria();
+                $criteria->addInCondition('client_id', array_keys($clients));
+            }
+        }
+        return $this;
+    }
+
     /**
      * Returns the static model of the specified AR class.
      * @return Invoice the static model class

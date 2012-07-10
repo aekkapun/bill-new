@@ -33,7 +33,7 @@
     <div id="mainmenu">
         <?php $this->widget('zii.widgets.CMenu', array(
         'items' => array(
-            array('label' => 'Пользователи', 'url' => array('/admin/user'), 'visible' => !Yii::app()->user->isGuest),
+            array('label' => 'Пользователи', 'url' => array('/admin/user'), 'visible' => Yii::app()->user->checkAccess('admin')),
             array('label' => 'Клиенты', 'url' => array('/admin/client'), 'visible' => !Yii::app()->user->isGuest, 'items' => array(
                 array('label' => 'Договоры', 'url' => array('/admin/contract'), 'visible' => !Yii::app()->user->isGuest),
                 array('label' => 'Счета', 'url' => array('/admin/bill'), 'visible' => !Yii::app()->user->isGuest),
@@ -41,9 +41,9 @@
                 array('label' => 'Акты', 'url' => array('/admin/act'), 'visible' => !Yii::app()->user->isGuest),
                 array('label' => 'Платежи', 'url' => array('/admin/payment'), 'visible' => !Yii::app()->user->isGuest),
             )),
-            array('label' => 'Коэффициенты', 'url' => array('/admin/factor'), 'visible' => !Yii::app()->user->isGuest),
-            array('label' => 'Рекламные площадки', 'url' => array('/admin/advPlatform'), 'visible' => !Yii::app()->user->isGuest),
-            array('label' => 'Сайты', 'url' => array('/admin/site'), 'visible' => !Yii::app()->user->isGuest),
+            array('label' => 'Коэффициенты', 'url' => array('/admin/factor'), 'visible' => Yii::app()->user->checkAccess('admin')),
+            array('label' => 'Рекламные площадки', 'url' => array('/admin/advPlatform'), 'visible' => Yii::app()->user->checkAccess('admin')),
+            array('label' => 'Сайты', 'url' => array('/admin/site'), 'visible' => Yii::app()->user->checkAccess('manager')),
             array('label' => 'Вход', 'url' => array('/admin/default/login'), 'visible' => Yii::app()->user->isGuest),
             array('label' => 'Выход (' . Yii::app()->user->name . ')', 'url' => array('/admin/default/logout'), 'visible' => !Yii::app()->user->isGuest)
         ),

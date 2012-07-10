@@ -84,6 +84,11 @@ class ContractController extends Controller
     {
         $model = new Contract('search');
         $model->unsetAttributes(); // clear any default values
+
+        if(Yii::app()->user->checkAccess('manager')) {
+            $model->my();
+        }
+
         if (isset($_GET['Contract']))
             $model->attributes = $_GET['Contract'];
 

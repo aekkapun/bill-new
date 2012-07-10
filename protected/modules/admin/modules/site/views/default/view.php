@@ -5,19 +5,19 @@ $this->breadcrumbs = array(
 );
 
 $this->menu = array(
-    array('label' => 'Создать', 'url' => array('create')),
-    array('label' => 'Обновить', 'url' => array('update', 'id' => $model->id)),
+    array('label' => 'Создать', 'url' => array('create'), 'visible' => Yii::app()->user->checkAccess('admin')),
+    array('label' => 'Обновить', 'url' => array('update', 'id' => $model->id), 'visible' => Yii::app()->user->checkAccess('admin')),
     array('label' => 'Список', 'url' => array('index')),
-    array('label' => 'Удалить', 'url' => '#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->id), 'confirm' => 'Вы действительно хотите удалить эту запись?')),
+    array('label' => 'Удалить', 'url' => '#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->id), 'confirm' => 'Вы действительно хотите удалить эту запись?'), 'visible' => Yii::app()->user->checkAccess('admin')),
 
-    array('label' => "Запросы"),
-    array('label' => 'Список запросов', 'url' => array('/admin/site/phrase')),
-    array('label' => 'Добавить запрос', 'url' => array('/admin/site/phrase/create')),
-    array('label' => 'Импорт запросов', 'url' => array('/admin/import/default')),
+    array('label' => "Запросы", 'visible' => Yii::app()->user->checkAccess('admin')),
+    array('label' => 'Список запросов', 'url' => array('/admin/site/phrase'), 'visible' => Yii::app()->user->checkAccess('admin')),
+    array('label' => 'Добавить запрос', 'url' => array('/admin/site/phrase/create'), 'visible' => Yii::app()->user->checkAccess('admin')),
+    array('label' => 'Импорт запросов', 'url' => array('/admin/import/default'), 'visible' => Yii::app()->user->checkAccess('admin')),
 
-    array('label' => "Диапазоны"),
-    array('label' => 'Список диапазонов', 'url' => array('/admin/site/range')),
-    array('label' => 'Добавить диапазон', 'url' => array('/admin/site/range/create')),
+    array('label' => "Диапазоны", 'visible' => Yii::app()->user->checkAccess('admin')),
+    array('label' => 'Список диапазонов', 'url' => array('/admin/site/range'), 'visible' => Yii::app()->user->checkAccess('admin')),
+    array('label' => 'Добавить диапазон', 'url' => array('/admin/site/range/create'), 'visible' => Yii::app()->user->checkAccess('admin')),
 
     array('label' => "Добавить услугу"),
     array('label' => 'Абонентская плата', 'url' => array('/admin/service/subscription/subscribe', 'siteId' => $model->id)),
@@ -26,8 +26,8 @@ $this->menu = array(
     array('label' => 'Контекстная реклама', 'url' => array('/admin/service/context/subscribe', 'siteId' => $model->id)),
     array('label' => 'Баннерная реклама', 'url' => array('/admin/service/banner/subscribe', 'siteId' => $model->id)),
 
-    array('label' => "История"),
-    array('label' => 'Действия по сайту', 'url' => array('/admin/site/default/log', 'id' => $model->id)),
+    array('label' => "История", 'visible' => Yii::app()->user->checkAccess('admin')),
+    array('label' => 'Действия по сайту', 'url' => array('/admin/site/default/log', 'id' => $model->id), 'visible' => Yii::app()->user->checkAccess('admin')),
 );
 ?>
 

@@ -64,11 +64,31 @@ class Controller extends CController
     }
 
 
-    protected function loadSite($id) {
+    protected function loadSite($id)
+    {
         $site = Site::model()->findByPk($id);
-        if(!$site) {
+        if (!$site) {
             throw new CHttpException(404, 'Такого сайта нет');
         }
         return $site;
+    }
+
+    public function filters()
+    {
+        return array(
+            'accessControl',
+        );
+    }
+
+    public function accessRules()
+    {
+        return array(
+            array('allow',
+                'roles' => array('admin', 'manager'),
+            ),
+            array('deny',
+                'users' => array('*'),
+            ),
+        );
     }
 }
