@@ -13,7 +13,7 @@
     <div class="row">
         <?php echo $form->labelEx($model, 'client_id'); ?>
         <?php if ($model->isNewRecord): ?>
-        <?php echo $form->dropDownList($model, 'client_id', CHtml::listData(Client::model()->findAll(), 'id', 'name')); ?>
+        <?php echo $form->dropDownList($model, 'client_id', CHtml::listData(Client::model()->my()->findAll(), 'id', 'name')); ?>
         <?php echo $form->error($model, 'client_id'); ?>
         <?php else: ?>
         <?php echo CHtml::encode($model->client->name) ?>

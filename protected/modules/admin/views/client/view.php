@@ -5,10 +5,10 @@ $this->breadcrumbs = array(
 );
 
 $this->menu = array(
-    array('label' => 'Создать', 'url' => array('create')),
-    array('label' => 'Обновить', 'url' => array('update', 'id' => $model->id)),
+    array('label' => 'Создать', 'url' => array('create'), 'visible' => Yii::app()->user->checkAccess('accountant')),
+    array('label' => 'Обновить', 'url' => array('update', 'id' => $model->id), 'visible' => Yii::app()->user->checkAccess('accountant')),
     array('label' => 'Список', 'url' => array('index')),
-    array('label' => 'Удалить', 'url' => '#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->id), 'confirm' => 'Вы действительно хотите удалить эту запись?')),
+    array('label' => 'Удалить', 'url' => '#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->id), 'confirm' => 'Вы действительно хотите удалить эту запись?'), 'visible' => Yii::app()->user->checkAccess('accountant')),
 );
 ?>
 

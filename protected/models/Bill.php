@@ -25,6 +25,21 @@ class Bill extends CActiveRecord
 
     public $newFile;
 
+    /**
+     * @return Bill
+     */
+    public function my()
+    {
+        if (Yii::app()->user->checkAccess('manager')) {
+            $clients = Client::model()->my()->findAll(array('select' => 'id', 'index' => 'id'));
+            if($clients) {
+                $criteria = $this->getDbCriteria();
+                $criteria->addInCondition('client_id', array_keys($clients));
+            }
+        }
+        return $this;
+    }
+
     public function getFile($onlyFileName = false)
     {
         return $this->getResourcePath($this->file, 0, array('onlyFileName' => $onlyFileName));

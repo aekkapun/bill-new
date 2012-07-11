@@ -27,6 +27,20 @@ class Client extends CActiveRecord
     const STATUS_ACTIVE = 1;
     const STATUS_DISABLED = 0;
 
+    /**
+     * @return Client
+     */
+    public function my()
+    {
+        if (Yii::app()->user->checkAccess('manager')) {
+            $criteria = $this->getDbCriteria();
+            $criteria->addColumnCondition(array(
+                'manager_id' => Yii::app()->user->id,
+            ));
+        }
+        return $this;
+    }
+
     public function getStatusLabels()
     {
         return array(

@@ -3,6 +3,30 @@
 class ClientController extends Controller
 {
 
+    public function filters()
+    {
+        return array(
+            'accessControl -ajaxDependsOfClient'
+        );
+    }
+
+    public function accessRules()
+    {
+        return array(
+            array('allow',
+                'actions' => array('create', 'update'),
+                'roles' => array('accountant'),
+            ),
+            array('allow',
+                'actions' => array('index', 'view'),
+                'roles' => array('manager'),
+            ),
+            array('deny',
+                'users' => array('*'),
+            ),
+        );
+    }
+
     /**
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
@@ -82,6 +106,11 @@ class ClientController extends Controller
     {
         $model = new Client('search');
         $model->unsetAttributes(); // clear any default values
+
+        if(Yii::app()->user->checkAccess('manager')) {
+            $model->my();
+        }
+
         if (isset($_GET['Client']))
             $model->attributes = $_GET['Client'];
 

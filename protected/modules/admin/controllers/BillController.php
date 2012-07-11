@@ -85,6 +85,7 @@ class BillController extends Controller
     {
         $model = new Bill('search');
         $model->unsetAttributes(); // clear any default values
+        $model->my();
         if (isset($_GET['Bill']))
             $model->attributes = $_GET['Bill'];
 

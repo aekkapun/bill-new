@@ -22,6 +22,21 @@ class Contract extends CActiveRecord
     const STATUS_ACTIVE = 1;
     const STATUS_DISABLED = 0;
 
+    /**
+     * @return Contract
+     */
+    public function my()
+    {
+        if (Yii::app()->user->checkAccess('manager')) {
+            $clients = Client::model()->my()->findAll(array('select' => 'id', 'index' => 'id'));
+            if ($clients) {
+                $criteria = $this->getDbCriteria();
+                $criteria->addInCondition('client_id', array_keys($clients));
+            }
+        }
+        return $this;
+    }
+
     public function getStatusLabels()
     {
         return array(

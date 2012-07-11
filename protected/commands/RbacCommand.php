@@ -23,40 +23,51 @@ class RbacCommand extends CConsoleCommand
 
         $db = Yii::app()->db;
 
-        $command = $db->createCommand('SET FOREIGN_KEY_CHECKS=0')->execute();
-        $command = $db->createCommand('TRUNCATE auth_assignment');
-        $command->execute();
+        $transaction = $db->beginTransaction();
 
-        $command = $db->createCommand('TRUNCATE auth_item_child');
-        $command->execute();
+        try {
 
-        $command = $db->createCommand('TRUNCATE auth_item');
-        $command->execute();
-        $command = $db->createCommand('SET FOREIGN_KEY_CHECKS=1')->execute();
+            $command = $db->createCommand('SET FOREIGN_KEY_CHECKS=0')->execute();
 
-        $auth = Yii::app()->authManager;
+            $command = $db->createCommand('TRUNCATE auth_assignment')->execute();
+            $command = $db->createCommand('TRUNCATE auth_item_child')->execute();
+            $command = $db->createCommand('TRUNCATE auth_item')->execute();
 
-        $task = $auth->createTask('manageUsers');
+            $command = $db->createCommand('SET FOREIGN_KEY_CHECKS=1')->execute();
 
-        // Права менеджера
-        $role = $auth->createRole('manager');
+            $auth = Yii::app()->authManager;
 
-        // Права админа
-        $role = $auth->createRole('admin');
-        $role->addChild('manager');
-        $role->addChild('manageUsers');
 
-        $auth->save();
+            $role = $auth->createRole('client');
 
-        $criteria = new CDbCriteria();
-        $criteria->select = array('id', 'role');
+            // Права менеджера
+            $role = $auth->createRole('manager');
 
-        $users = User::model()->findAll($criteria);
-        foreach ($users AS $user) {
-            $auth->assign($user->role, $user->id);
+            // Права бухгалтера
+            $role = $auth->createRole('accountant');
+
+            // Права админа
+            $role = $auth->createRole('admin');
+            $role->addChild('manager');
+            $role->addChild('accountant');
+
+            $criteria = new CDbCriteria();
+            $criteria->select = array('id', 'role', 'name');
+
+            $users = User::model()->findAll($criteria);
+            foreach ($users AS $user) {
+                print "* Назначаем права доступа для " . $user->name . "\n";
+                $auth->assign($user->role, $user->id);
+            }
+
+            if($auth->save()) {
+                $transaction->commit();
+            }
+
+        } catch (CException $e) {
+            print $e->getMessage();
+            $transaction->rollback();
         }
-
-        $auth->save();
     }
 
 
