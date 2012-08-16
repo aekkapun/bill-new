@@ -37,8 +37,22 @@ class Service extends CActiveRecord
      */
     const BANNERS = 5;
 
+    /**
+     * Разовая услуга
+     */
+    const ONETIME = 6;
+
     public static function getLabel($id)
     {
+        // Если тип услуги "разовая услуга", то возвращаем название услуги
+        if ($id == self::ONETIME)
+        {
+            $params = SiteService::model()->findByPk($id)->params;
+            $JSONParams = CJSON::decode($params);
+            return $JSONParams['name'];
+        }
+
+        // Иначе - возвращаем тип услуги
         $model = self::model()->findByPk($id);
         return $model->name;
     }
@@ -60,6 +74,9 @@ class Service extends CActiveRecord
                 break;
             case self::BANNERS:
                 return 'banner';
+                break;
+            case self::ONETIME:
+                return 'onetime';
                 break;
             default:
                 return null;
