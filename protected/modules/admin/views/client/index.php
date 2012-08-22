@@ -5,7 +5,7 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Создать', 'url'=>array('create')),
+	array('label'=>'Создать', 'url'=>array('create'), 'visible' => Yii::app()->user->checkAccess('accountant')),
 );
 
 Yii::app()->clientScript->registerScript('search', "

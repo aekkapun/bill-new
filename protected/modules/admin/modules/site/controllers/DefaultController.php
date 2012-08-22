@@ -2,6 +2,25 @@
 
 class DefaultController extends Controller
 {
+
+    public function accessRules()
+    {
+        return array(
+            array('allow',
+                'actions' => array('create', 'update'),
+                'roles' => array('admin'),
+            ),
+            array('allow',
+                'actions' => array('view', 'index'),
+                'roles' => array('manager'),
+            ),
+
+            array('deny',
+                'users' => array('*'),
+            ),
+        );
+    }
+
     /**
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed

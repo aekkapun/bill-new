@@ -84,6 +84,7 @@ class ActController extends Controller
     {
         $model = new Act('search');
         $model->unsetAttributes(); // clear any default values
+        $model->my();
         if (isset($_GET['Act']))
             $model->attributes = $_GET['Act'];
 

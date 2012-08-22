@@ -6,7 +6,7 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-	array('label'=>'Создать', 'url'=>array('create')),
+	array('label'=>'Создать', 'url'=>array('create'), 'visible' => Yii::app()->user->checkAccess('accountant')),
 	array('label'=>'Просмотр', 'url'=>array('view', 'id'=>$model->id)),
 	array('label'=>'Список', 'url'=>array('index')),
 );
