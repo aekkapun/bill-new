@@ -77,6 +77,26 @@ class PhraseController extends Controller
             throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
     }
 
+	/**
+     * Deletes all phrases.
+     * @param integer $modelId the ID of the site model 
+     */
+    public function actionDeleteAll($siteId)
+    {
+		$success = SitePhrase::model()->deleteAll('site_id = :siteId', array(':siteId' => $siteId));
+		
+		if ($success)
+		{
+			Yii::app()->user->setFlash('success', 'Все запросы успешно удалены');
+		}
+		else
+		{
+			Yii::app()->user->setFlash('error', 'При удалении запросов произошла ошибка');
+		}
+		
+		$this->redirect(array('//admin/site/default/view','id'=>$siteId));
+    }
+	
     /**
      * Manages all models.
      */
