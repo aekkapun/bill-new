@@ -192,4 +192,12 @@ class Contract extends CActiveRecord
 
         return $dataProvider;
     }
+	
+	/**
+	 * Return TRUE if contract has attachments
+	 */
+	public function hasAttachment()
+	{		
+		return count($this->attachments);
+	}
 }

@@ -40,12 +40,17 @@ $this->widget('zii.widgets.grid.CGridView', array(
 	'filter' => null,
 	'columns'=>array(
 		'id',
+		array(
+			'name'=>'File',
+			'type'=>'html',
+			'value'=>'($data->hasAttachment())?CHtml::image("/images/check.png"):"&nbsp;"',
+		),
 		'number',
 		'client.name',
 		'statusLabel',
 		'created_at',
 		array(
-			'class'=>'CButtonColumn',
+			'class' => 'CButtonColumn',
 		),
 	),
 )); ?>
