@@ -25,6 +25,7 @@ $this->menu = array(
     array('label' => 'Оплата по переходам', 'url' => array('/admin/service/transition/subscribe', 'siteId' => $model->id)),
     array('label' => 'Контекстная реклама', 'url' => array('/admin/service/context/subscribe', 'siteId' => $model->id)),
     array('label' => 'Баннерная реклама', 'url' => array('/admin/service/banner/subscribe', 'siteId' => $model->id)),
+    array('label' => 'Разовая услуга', 'url' => array('/admin/service/onetime/subscribe', 'siteId' => $model->id)),
 
     array('label' => "История", 'visible' => Yii::app()->user->checkAccess('admin')),
     array('label' => 'Действия по сайту', 'url' => array('/admin/site/default/log', 'id' => $model->id), 'visible' => Yii::app()->user->checkAccess('admin')),
@@ -84,7 +85,7 @@ $this->menu = array(
         array(
             'header' => 'Название',
             'type' => 'raw',
-            'value' => 'CHtml::link(Service::getLabel($data->service_id), array("/admin/service/".Service::getControllerName($data->service_id)."/input", "ssId" => $data->id))'
+            'value' => 'CHtml::link(Service::getLabel($data->service_id, $data->id), array("/admin/service/".Service::getControllerName($data->service_id)."/input", "ssId" => $data->id))'
         ),
         'contract.number',
         array(

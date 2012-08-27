@@ -24,19 +24,20 @@ class SiteService extends CActiveRecord
     {
         if (parent::beforeSave()) {
 
-
-            // Assume that the identical services are terminated before subscribing
-            $criteria = new CDbCriteria();
-            $criteria->addColumnCondition(array(
-                'contract_id' => $this->contract_id,
-                'site_id' => $this->site_id,
-                'service_id' => $this->service_id,
-            ));
-            $this->updateAll(array(
-                'enabled' => 0,
-                'terminated_at' => new CDbExpression('NOW()'),
-            ), $criteria);
-
+            if ($this->service_id <> Service::ONETIME)
+            {
+                // Assume that the identical services are terminated before subscribing
+                $criteria = new CDbCriteria();
+                $criteria->addColumnCondition(array(
+                    'contract_id' => $this->contract_id,
+                    'site_id' => $this->site_id,
+                    'service_id' => $this->service_id,
+                ));
+                $this->updateAll(array(
+                    'enabled' => 0,
+                    'terminated_at' => new CDbExpression('NOW()'),
+                ), $criteria);
+            }
 
             // Logging
             $action = ($this->isNewRecord) ? 'Добавлена' : 'Изменена';
