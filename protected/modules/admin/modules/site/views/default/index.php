@@ -38,16 +38,14 @@ $('.search-form form').submit(function(){
     'columns' => array(
         'id',
         array(
-            'header' => 'Сайт',
-            'class' => 'CLinkColumn',
-            'labelExpression' => '$data->domain',
-            'urlExpression' => 'Yii::app()->createUrl("/admin/site/default/view/", array("id" => $data->id))',
+            'name' => 'domain',
+            'type' => 'raw',
+            'value' => 'CHtml::link($data->domain, array("/admin/site/default/view", "id" => $data->id))',
         ),
         array(
-            'header' => 'Клиент',
-            'class' => 'CLinkColumn',
-            'labelExpression' => '$data->client->name',
-            'urlExpression' => 'Yii::app()->createUrl("/admin/client/view/", array("id" => $data->client->id))',
+            'name' => 'client_id',
+            'type' => 'raw',
+            'value' => 'CHtml::link($data->client->name, array("/admin/client/view", "id"=>$data->client->id))',
         ),
         'created_at',
         'updated_at',

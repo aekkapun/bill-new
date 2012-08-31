@@ -38,12 +38,12 @@ $('.search-form form').submit(function(){
 	'columns'=>array(
 		'id',
         array(
-            'class' => 'CLinkColumn',
-            'labelExpression' => '$data->name',
-            'urlExpression' => 'Yii::app()->createUrl("/admin/factor/view/", array("id" => $data->id))',
+            'name' => 'name',
+            'type' => 'raw',
+            'value' => 'CHtml::link($data->name, array("/admin/factor/view", "id" => $data->id))',
         ),
 		array(
-            'header' => 'Система',
+            'name' => 'system_id',
             'value' => 'Factor::getLabel($data->system_id)'
         ),
 		'position',
