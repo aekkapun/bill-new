@@ -1,8 +1,12 @@
 <?php
 $this->breadcrumbs = array(
-    'Site Phrases' => array('index'),
-    'Список',
+    'Запросы' => array('index'),
 );
+if(isset($_GET['SitePhrase']['site_id'])) {
+    $this->breadcrumbs[$model->site->domain] = array('/admin/view/site', 'id' => $model->site->id);
+}
+
+//-----------
 
 $this->menu = array(
     array('label' => 'Создать', 'url' => array('create')),
@@ -36,26 +40,21 @@ $('.search-form form').submit(function(){
     'dataProvider' => $model->search(),
     'filter' => null,
     'columns' => array(
-        'id',
         array(
-            'header' => 'Запрос',
-            'class' => 'CLinkColumn',
-            'labelExpression' => '$data->phrase',
-            'urlExpression' => 'Yii::app()->createUrl("/admin/site/phrase/view/", array("id" => $data->id))',
+            'name' => 'phrase',
+            'type' => 'raw',
+            'value' => 'CHtml::link($data->phrase, array("/admin/site/phrase/view", "id" => $data->id))',
         ),
         array(
-            'header' => 'Сайт',
-            'class' => 'CLinkColumn',
-            'labelExpression' => '$data->site->domain',
-            'urlExpression' => 'Yii::app()->createUrl("/admin/site/default/view/", array("id" => $data->site->id))',
+            'name' => 'site_id',
+            'type' => 'raw',
+            'value' => 'CHtml::link($data->site->domain, array("/admin/site/default/view", "id" => $data->site->id))',
         ),
         array(
-            'header' => 'Цена',
+            'name' => 'price',
             'type' => 'raw',
             'value' => 'Yii::app()->numberFormatter->formatCurrency($data->price, "RUB")',
         ),
-        'created_at',
-        'updated_at',
         array(
             'class' => 'CButtonColumn',
         ),

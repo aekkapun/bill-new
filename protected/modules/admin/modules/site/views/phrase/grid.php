@@ -1,0 +1,19 @@
+<?php
+/**
+ * Created by JetBrains PhpStorm.
+ * User: denisboldinov
+ * Date: 8/31/12
+ * Time: 3:13 PM
+ * To change this template use File | Settings | File Templates.
+ */
+
+$this->widget('zii.widgets.grid.CGridView', array(
+    'id' => 'site-phrase-grid',
+    'dataProvider' => new CArrayDataProvider($model->sitePhrases),
+    'filter' => null,
+    'columns' => array(
+        'phrase:Запрос',
+        'price:Цена',
+        'active:boolean:Активен?'
+    ),
+));

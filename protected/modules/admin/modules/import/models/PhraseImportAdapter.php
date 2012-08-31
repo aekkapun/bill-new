@@ -40,6 +40,7 @@ class PhraseImportAdapter extends CFormModel implements AdapterInterface
     {
         return array(
             'title' => 'Импорт',
+            'method' => 'get',
 
             'elements' => array(
                 'siteId' => array(
