@@ -37,8 +37,15 @@ $('.search-form form').submit(function(){
 	'filter'=>null,
 	'columns'=>array(
 		'id',
-        'number',
-        'sum',
+        array(
+            'name' => 'number',
+            'type' => 'raw',
+            'value' => 'CHtml::link($data->number, array("/admin/act/view", "id" => $data->id))'
+        ),
+        array(
+            'name' => 'sum',
+            'type' => 'number'
+        ),
         array(
             'name' => 'client_id',
             'type' => 'raw',
@@ -49,7 +56,11 @@ $('.search-form form').submit(function(){
             'type' => 'raw',
             'value' => 'CHtml::link($data->contract->number, array("/admin/contract/view", "id"=>$data->contract->id))',
         ),
-		'period',
+        array(
+            'name' => 'period',
+            'type' => 'date',
+            'value' => 'strtotime($data->period)',
+        ),
         'signed:boolean',
 		/*
 		'file',
