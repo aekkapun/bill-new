@@ -12,7 +12,7 @@
 <div class="form">
 
     <?php $form = $this->beginWidget('CActiveForm', array(
-    'id' => 'banner-subscribe-form',
+    'id' => 'onetime-subscribe-form',
     'enableAjaxValidation' => false,
 )); ?>
 
