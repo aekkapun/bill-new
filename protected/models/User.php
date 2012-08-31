@@ -91,12 +91,12 @@ class User extends CActiveRecord
         return false;
     }
 
+
     protected function afterSave()
     {
         Yii::import('application.commands.RbacCommand');
         $commandName = 'RbacCommand';
-        $CCRunner = new CConsoleCommandRunner();
-        $shell = new RbacCommand($commandName, $CCRunner);
+        $shell = new RbacCommand($commandName, new CConsoleCommandRunner());
         $shell->run(array('update'));
 
         parent::afterSave();
@@ -208,6 +208,7 @@ class User extends CActiveRecord
         $criteria->compare('id', $this->id, true);
         $criteria->compare('name', $this->name, true);
         $criteria->compare('role', $this->role, true);
+        $criteria->compare('client_id', $this->client_id, true);
         $criteria->compare('email', $this->email, true);
         $criteria->compare('password', $this->password, true);
         $criteria->compare('hash', $this->hash, true);

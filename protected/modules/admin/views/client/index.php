@@ -41,21 +41,16 @@ $this->widget('zii.widgets.grid.CGridView', array(
 	'columns'=>array(
 		'id',
         array(
-            'class' => 'CLinkColumn',
-            'labelExpression' => '$data->name',
-            'urlExpression' => 'Yii::app()->createUrl("/admin/client/view/", array("id" => $data->id))',
+            'name' => 'name',
+            'type' => 'raw',
+            'value' => 'CHtml::link($data->name, array("/admin/client/view", "id" => $data->name))',
         ),
-        'manager.name:Менеджер',
+        array(
+            'name' => 'manager_id',
+            'value' => '$data->manager->name',
+        ),
 		'address',
 		'is_corporate:boolean',
-		/*
-		'post_code',
-		'code_1c',
-		'phone',
-		'status',
-		'created_at',
-		'updated_at',
-		*/
 		array(
 			'class'=>'CButtonColumn',
 		),

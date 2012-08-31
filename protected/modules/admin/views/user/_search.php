@@ -17,7 +17,12 @@
 
     <div class="row">
         <?php echo $form->label($model, 'role'); ?>
-        <?php echo $form->dropDownList($model, 'role', $model->roleLabels); ?>
+        <?php echo $form->dropDownList($model, 'role', $model->roleLabels, array('prompt' => 'Все')); ?>
+    </div>
+
+    <div class="row">
+        <?php echo $form->label($model, 'client_id'); ?>
+        <?php echo $form->dropDownList($model, 'client_id', CHtml::listData(Client::model()->my()->findAll(), 'id', 'name')); ?>
     </div>
 
     <div class="row">

@@ -40,8 +40,8 @@
     </div>
 
     <div class="row">
-        <?php echo $form->label($model, 'status'); ?>
-        <?php echo $form->checkbox($model, 'status'); ?>
+        <label for="Contract_status">Действующий</label>
+        <?php echo $form->checkbox($model, 'status', array('checked' => true)); ?>
     </div>
 
     <div class="row buttons">

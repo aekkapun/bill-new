@@ -38,16 +38,15 @@ $('.search-form form').submit(function(){
     'columns' => array(
         'id',
         array(
-            'class' => 'CLinkColumn',
-            'labelExpression' => '$data->name',
-            'urlExpression' => 'Yii::app()->createUrl("/admin/user/view/", array("id" => $data->id))',
+            'name' => 'name',
+            'type' => 'raw',
+            'value' => 'CHtml::link($data->name, array("/admin/user/view/", "id" => $data->id))'
         ),
-        'roleLabel:Уровень доступа',
+        array(
+            'name' => 'role',
+            'value' => '$data->roleLabel'
+        ),
         'email',
-        /*
-        'created_at',
-        'updated_at',
-        */
         array(
             'class' => 'CButtonColumn',
         ),

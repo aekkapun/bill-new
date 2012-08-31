@@ -1,11 +1,11 @@
 <?php
-$this->breadcrumbs=array(
-	'Договоры'=>array('index'),
-	'Список',
+$this->breadcrumbs = array(
+    'Договоры' => array('index'),
+    'Список',
 );
 
-$this->menu=array(
-	array('label'=>'Создать', 'url'=>array('create')),
+$this->menu = array(
+    array('label' => 'Создать', 'url' => array('create')),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -24,41 +24,44 @@ $('.search-form form').submit(function(){
 
 <h1>Список</h1>
 
-<?php echo CHtml::link('Расширенный поиск','#',array('class'=>'search-button')); ?>
+<?php echo CHtml::link('Расширенный поиск', '#', array('class' => 'search-button')); ?>
 <div class="search-form" style="display:none">
-<?php $this->renderPartial('_search',array(
-	'model'=>$model,
+    <?php $this->renderPartial('_search', array(
+    'model' => $model,
 )); ?>
 </div><!-- search-form -->
 
-<?php 
+<?php
 $dataProvider = $model->search();
 $dataProvider->pagination->pageSize = 20;
 $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'contract-grid',
-	'dataProvider'=> $dataProvider,
-	'filter' => null,
-	'columns'=>array(
-		'id',
+    'id' => 'contract-grid',
+    'dataProvider' => $dataProvider,
+    'filter' => null,
+    'columns' => array(
+        'id',
         array(
-            'class' => 'CLinkColumn',
-            'labelExpression' => '$data->number',
-            'urlExpression' => 'Yii::app()->createUrl("/admin/contract/view/", array("id" => $data->id))',
+            'name' => 'number',
+            'type' => 'raw',
+            'value' => 'CHtml::link($data->number, array("/admin/contract/view", "id"=>$data->id))',
         ),
         array(
-            'class' => 'CLinkColumn',
-            'labelExpression' => '$data->client->name',
-            'urlExpression' => 'Yii::app()->createUrl("/admin/client/view/", array("id" => $data->client->id))',
+            'name' => 'client_id',
+            'type' => 'raw',
+            'value' => 'CHtml::link($data->client->name, array("/admin/client/view/", "id" => $data->client->id))',
         ),
-		'statusLabel',
         array(
-            'name'=>'has_file',
-            'type'=>'html',
-            'value'=>'($data->hasAttachment())?CHtml::image("/images/check.png"):"&nbsp;"',
+            'name' => 'status',
+            'value' => '$data->statusLabel',
         ),
-		'created_at',
-		array(
-			'class' => 'CButtonColumn',
-		),
-	),
+        array(
+            'name' => 'has_file',
+            'type' => 'raw',
+            'value' => '($data->hasAttachment())?CHtml::image("/images/check.png"):"&nbsp;"',
+        ),
+        'created_at',
+        array(
+            'class' => 'CButtonColumn',
+        ),
+    ),
 )); ?>
