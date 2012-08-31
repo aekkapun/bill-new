@@ -47,7 +47,10 @@ $('.search-form form').submit(function(){
             'type' => 'raw',
             'value' => 'CHtml::link($data->contract->number, array("/admin/contract/view", "id" => $data->contract->id))',
         ),
-        'sum',
+        array(
+            'name' => 'sum',
+            'type' => 'number'
+        ),
         array(
             'class' => 'CButtonColumn',
         ),
