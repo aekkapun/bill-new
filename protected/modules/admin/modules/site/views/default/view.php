@@ -29,7 +29,7 @@ $this->menu = array(
     array('label' => 'Разовая услуга', 'url' => array('/admin/service/onetime/subscribe', 'siteId' => $model->id)),
 
     array('label' => "История", 'visible' => Yii::app()->user->checkAccess('admin')),
-    array('label' => 'Действия по сайту', 'url' => array('/admin/site/default/log', 'id' => $model->id), 'visible' => Yii::app()->user->checkAccess('admin')),
+//    array('label' => 'Действия по сайту', 'url' => array('/admin/site/default/log', 'id' => $model->id), 'visible' => Yii::app()->user->checkAccess('admin')),
 );
 ?>
 
@@ -101,12 +101,12 @@ $this->widget('CTabView', array(
     'tabs' => array(
         'phrases' => array(
             'title' => 'Запросы',
-            'view' => '/phrase/grid',
+            'view' => '/phrase/_grid',
             'data' => array('model' => $model),
         ),
         'ranges' => array(
             'title' => 'Диапазоны',
-            'view' => '/range/grid',
+            'view' => '/range/_grid',
             'data' => array('model' => $model),
         ),
 
