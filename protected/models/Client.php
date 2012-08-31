@@ -32,7 +32,7 @@ class Client extends CActiveRecord
      */
     public function my()
     {
-        if (Yii::app()->user->checkAccess('manager')) {
+        if (Yii::app()->user->checkAccess('manager') && !Yii::app()->user->checkAccess('admin')) {
             $criteria = $this->getDbCriteria();
             $criteria->addColumnCondition(array(
                 'manager_id' => Yii::app()->user->id,

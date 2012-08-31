@@ -37,7 +37,11 @@ $('.search-form form').submit(function(){
 	'filter'=>null,
 	'columns'=>array(
 		'id',
-		'name',
+        array(
+            'class' => 'CLinkColumn',
+            'labelExpression' => '$data->name',
+            'urlExpression' => 'Yii::app()->createUrl("/admin/factor/view/", array("id" => $data->id))',
+        ),
 		array(
             'header' => 'Система',
             'value' => 'Factor::getLabel($data->system_id)'

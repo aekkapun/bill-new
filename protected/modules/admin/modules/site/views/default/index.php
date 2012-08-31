@@ -37,8 +37,18 @@ $('.search-form form').submit(function(){
     'filter' => null,
     'columns' => array(
         'id',
-        'client.name',
-        'domain:url',
+        array(
+            'header' => 'Сайт',
+            'class' => 'CLinkColumn',
+            'labelExpression' => '$data->domain',
+            'urlExpression' => 'Yii::app()->createUrl("/admin/site/default/view/", array("id" => $data->id))',
+        ),
+        array(
+            'header' => 'Клиент',
+            'class' => 'CLinkColumn',
+            'labelExpression' => '$data->client->name',
+            'urlExpression' => 'Yii::app()->createUrl("/admin/client/view/", array("id" => $data->client->id))',
+        ),
         'created_at',
         'updated_at',
         array(

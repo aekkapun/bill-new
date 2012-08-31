@@ -37,8 +37,18 @@ $('.search-form form').submit(function(){
     'filter' => null,
     'columns' => array(
         'id',
-        'client.name:Клиент',
-        'contract.number:Номер договора',
+        array(
+            'header' => 'Клиент',
+            'class' => 'CLinkColumn',
+            'labelExpression' => '$data->client->name',
+            'urlExpression' => 'Yii::app()->createUrl("/admin/client/view/", array("id" => $data->client->id))',
+        ),
+        array(
+            'header' => 'Номер договора',
+            'class' => 'CLinkColumn',
+            'labelExpression' => '$data->contract->number',
+            'urlExpression' => 'Yii::app()->createUrl("/admin/contract/view/", array("id" => $data->id))',
+        ),
         'number',
         'sum',
         /*

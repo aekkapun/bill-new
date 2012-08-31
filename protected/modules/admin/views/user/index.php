@@ -37,7 +37,11 @@ $('.search-form form').submit(function(){
     'filter' => null,
     'columns' => array(
         'id',
-        'name',
+        array(
+            'class' => 'CLinkColumn',
+            'labelExpression' => '$data->name',
+            'urlExpression' => 'Yii::app()->createUrl("/admin/user/view/", array("id" => $data->id))',
+        ),
         'roleLabel:Уровень доступа',
         'email',
         /*

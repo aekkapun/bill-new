@@ -40,14 +40,22 @@ $this->widget('zii.widgets.grid.CGridView', array(
 	'filter' => null,
 	'columns'=>array(
 		'id',
-		array(
-			'name'=>'File',
-			'type'=>'html',
-			'value'=>'($data->hasAttachment())?CHtml::image("/images/check.png"):"&nbsp;"',
-		),
-		'number',
-		'client.name',
+        array(
+            'class' => 'CLinkColumn',
+            'labelExpression' => '$data->number',
+            'urlExpression' => 'Yii::app()->createUrl("/admin/contract/view/", array("id" => $data->id))',
+        ),
+        array(
+            'class' => 'CLinkColumn',
+            'labelExpression' => '$data->client->name',
+            'urlExpression' => 'Yii::app()->createUrl("/admin/client/view/", array("id" => $data->client->id))',
+        ),
 		'statusLabel',
+        array(
+            'name'=>'has_file',
+            'type'=>'html',
+            'value'=>'($data->hasAttachment())?CHtml::image("/images/check.png"):"&nbsp;"',
+        ),
 		'created_at',
 		array(
 			'class' => 'CButtonColumn',

@@ -40,7 +40,11 @@ $this->widget('zii.widgets.grid.CGridView', array(
 	'filter'=>null,
 	'columns'=>array(
 		'id',
-		'name',
+        array(
+            'class' => 'CLinkColumn',
+            'labelExpression' => '$data->name',
+            'urlExpression' => 'Yii::app()->createUrl("/admin/client/view/", array("id" => $data->id))',
+        ),
         'manager.name:Менеджер',
 		'address',
 		'is_corporate:boolean',

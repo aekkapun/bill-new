@@ -91,6 +91,24 @@ class User extends CActiveRecord
         return false;
     }
 
+    protected function afterSave()
+    {
+        Yii::import('application.commands.RbacCommand');
+        $commandName = 'RbacCommand';
+        $CCRunner = new CConsoleCommandRunner();
+        $shell = new RbacCommand($commandName, $CCRunner);
+        $shell->run(array('update'));
+
+        parent::afterSave();
+    }
+
+    protected function afterDelete()
+    {
+        AuthAssignment::model()->deleteAllByAttributes(array('userid' => $this->id));
+        parent::afterDelete();
+    }
+
+
     /**
      * Returns the static model of the specified AR class.
      * @return User the static model class
