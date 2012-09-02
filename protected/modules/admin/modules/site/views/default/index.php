@@ -37,10 +37,15 @@ $('.search-form form').submit(function(){
     'filter' => null,
     'columns' => array(
         'id',
-        'client.name',
-        'domain:url',
+		array(
+			'name' => 'client.name',
+			'type' => 'raw',
+			'value' => 'CHtml::link($data->client->name, array("/admin/client/view", "id"=>$data->client->id))'
+        ),
+		'domain:url',
+        'created_at',
+        
         /*
-		'created_at',
         'updated_at',
         */
 		array(

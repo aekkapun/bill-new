@@ -116,12 +116,9 @@ class ClientController extends Controller
     {
         $model = new Client('search');
         $model->unsetAttributes(); // clear any default values
-	
-        if(Yii::app()->user->checkAccess('manager')) {
-            $model->my();
-        }		
-		
-		if (isset($_GET['Client']))
+        $model->my();
+
+        if (isset($_GET['Client']))
             $model->attributes = $_GET['Client'];
 
         $this->render('index', array(

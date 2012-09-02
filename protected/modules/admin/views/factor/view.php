@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs=array(
-	'Factors'=>array('index'),
+	'Коэффициенты'=>array('index'),
 	$model->name,
 );
 

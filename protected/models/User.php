@@ -91,6 +91,24 @@ class User extends CActiveRecord
         return false;
     }
 
+
+    protected function afterSave()
+    {
+        Yii::import('application.commands.RbacCommand');
+        $commandName = 'RbacCommand';
+        $shell = new RbacCommand($commandName, new CConsoleCommandRunner());
+        $shell->run(array('update'));
+
+        parent::afterSave();
+    }
+
+    protected function afterDelete()
+    {
+        AuthAssignment::model()->deleteAllByAttributes(array('userid' => $this->id));
+        parent::afterDelete();
+    }
+
+
     /**
      * Returns the static model of the specified AR class.
      * @return User the static model class
@@ -189,14 +207,13 @@ class User extends CActiveRecord
 
         $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
-		$criteria->compare('role', $this->role, true);
+        $criteria->compare('role', $this->role);
         $criteria->compare('email', $this->email, true);
-        $criteria->compare('password', $this->password, true);
         $criteria->compare('hash', $this->hash, true);
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);
 
-		return new CActiveDataProvider($this, array(
+        return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
     }

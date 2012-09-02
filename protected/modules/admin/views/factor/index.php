@@ -39,13 +39,13 @@ $('.search-form form').submit(function(){
 		'id',
 		'name',
 		array(
-			'name' => 'system_id',
-		    'value' => 'Factor::getLabel($data->system_id)',	
-		),
+            'name' => 'system_id',
+            'value' => 'Factor::getLabel($data->system_id)'
+        ),
 		'position',
 		'value',
-		/*
 		'created_at',
+		/*
 		'updated_at',
 		*/
 		array(
@@ -53,3 +53,26 @@ $('.search-form form').submit(function(){
 		),
 	),
 )); ?>
+
+<?php /*$this->widget('zii.widgets.grid.CGridView', array(
+    'id'=>'factor-grid',
+    'dataProvider'=>$model->search(),
+    'filter'=>null,
+    'columns'=>array(
+        'id',
+        'name',
+        array(
+            'name' => 'system_id',
+            'value' => 'Factor::getLabel($data->system_id)',
+        ),
+        'position',
+        'value',
+        'created_at',
+        
+        //'updated_at',
+ 
+        array(
+            'class'=>'CButtonColumn',
+        ),
+    ),
+)); */?>

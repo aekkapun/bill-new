@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs=array(
-	'Adv Platforms'=>array('index'),
+	'Рекламные площадки'=>array('index'),
 	$model->name,
 );
 

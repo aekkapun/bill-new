@@ -42,11 +42,10 @@ class Service extends CActiveRecord
      */
     const ONETIME = 6;
 
-    public static function getLabel($serviceTypeId, $modelId=NULL)
+    public static function getLabel($serviceTypeId, $modelId = null)
     {
         // Если тип услуги "разовая услуга", то возвращаем название услуги
-        if ($serviceTypeId == self::ONETIME && $modelId !== NULL)
-        {
+        if ($serviceTypeId == self::ONETIME && $modelId !== null) {
             $params = SiteService::model()->findByPk($modelId)->params;
             $JSONParams = CJSON::decode($params);
             return $JSONParams['name'];

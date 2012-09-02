@@ -46,10 +46,5 @@ $('.search-form form').submit(function(){
 		array(
             'class' => 'CButtonColumn',
         ),
-		
-		/*
-		'created_at',
-		'updated_at',
-		*/
     ),
 )); ?>

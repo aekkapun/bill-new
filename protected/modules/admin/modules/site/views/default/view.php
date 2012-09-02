@@ -11,10 +11,10 @@ $this->menu = array(
     array('label' => 'Удалить', 'url' => '#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->id), 'confirm' => 'Вы действительно хотите удалить эту запись?'), 'visible' => Yii::app()->user->checkAccess('admin')),
 
     array('label' => "Запросы", 'visible' => Yii::app()->user->checkAccess('admin')),
-    array('label' => 'Список запросов', 'url' => array('/admin/site/phrase'), 'visible' => Yii::app()->user->checkAccess('admin')),
+    array('label' => 'Список запросов', 'url' => array('/admin/site/phrase/index', 'SitePhrase[site_id]' => $model->id), 'visible' => Yii::app()->user->checkAccess('admin')),
     array('label' => 'Добавить запрос', 'url' => array('/admin/site/phrase/create'), 'visible' => Yii::app()->user->checkAccess('admin')),
-    array('label' => 'Импорт запросов', 'url' => array('/admin/import/default'), 'visible' => Yii::app()->user->checkAccess('admin')),
-    array('label' => 'Удалить запросы', 'url' => '#', 'linkOptions' => array('submit' => array('/admin/site/phrase/deleteAll', 'siteId' => $model->id), 'confirm' => 'Вы действительно хотите удалить все запросы?'), 'visible' => Yii::app()->user->checkAccess('admin') && count($model->sitePhrases)),
+    array('label' => 'Импорт запросов', 'url' => array('/admin/import/default/index/src/phraseImport'), 'visible' => Yii::app()->user->checkAccess('admin')),
+    array('label' => 'Очистить список запросов', 'url' => '#', 'linkOptions' => array('submit' => array('/admin/site/phrase/deleteAll', 'siteId' => $model->id), 'confirm' => 'Вы действительно хотите удалить все запросы?'), 'visible' => Yii::app()->user->checkAccess('admin') && count($model->sitePhrases)),
 
     array('label' => "Диапазоны", 'visible' => Yii::app()->user->checkAccess('admin')),
     array('label' => 'Список диапазонов', 'url' => array('/admin/site/range'), 'visible' => Yii::app()->user->checkAccess('admin')),
@@ -29,17 +29,17 @@ $this->menu = array(
     array('label' => 'Разовая услуга', 'url' => array('/admin/service/onetime/subscribe', 'siteId' => $model->id)),
 
     array('label' => "История", 'visible' => Yii::app()->user->checkAccess('admin')),
-    array('label' => 'Действия по сайту', 'url' => array('/admin/site/default/log', 'id' => $model->id), 'visible' => Yii::app()->user->checkAccess('admin')),
+//    array('label' => 'Действия по сайту', 'url' => array('/admin/site/default/log', 'id' => $model->id), 'visible' => Yii::app()->user->checkAccess('admin')),
 );
 ?>
 
 <?php
-    foreach(Yii::app()->user->getFlashes() as $key => $message) {
-        echo '<div class="flash-' . $key . '">' . $message . "</div>\n";
-    }
+foreach (Yii::app()->user->getFlashes() as $key => $message) {
+    echo '<div class="flash-' . $key . '">' . $message . "</div>\n";
+}
 ?>
 
-<h1>Просмотр</h1>
+<h1>Общая информация</h1>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
     'data' => $model,
@@ -53,7 +53,7 @@ $this->menu = array(
     ),
 )); ?>
 
-<br>
+<br/>
 
 <h2>Запросы</h2>
 
@@ -62,7 +62,7 @@ $this->menu = array(
     'dataProvider' => $sitePhrases,
     'filter' => null,
     'columns' => array(
-        'id:number:ID',
+        'id:number:Код',
         'phrase:Запрос',
         'price:Цена',
         'active:boolean:Активен?'
@@ -87,6 +87,7 @@ $this->menu = array(
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'site-service-grid',
     'dataProvider' => $services,
+    'template' => '{items}<br/>{pager}',
     'filter' => null,
     'columns' => array(
         array(
@@ -95,7 +96,12 @@ $this->menu = array(
 			'name' => 'name',
             'value' => 'CHtml::link(Service::getLabel($data->service_id, $data->id), array("/admin/service/".Service::getControllerName($data->service_id)."/input", "ssId" => $data->id))'
         ),
-		'contract.number:Номер договора',
+        array(
+			'header' => 'Номер договора',
+			'name' => 'contract.number',
+            'type' => 'raw',
+            'value' => 'CHtml::link($data->contract->number, array("/admin/contract/view", "id"=>$data->contract->id))',
+        ),
         array(
             'header' => 'Дата подключения/изменения',
             'type' => 'date',
@@ -117,3 +123,23 @@ $this->menu = array(
         ),
     ),
 )); ?>
+
+<br/>
+
+<?php
+$this->widget('CTabView', array(
+    'tabs' => array(
+        'phrases' => array(
+            'title' => 'Запросы',
+            'view' => '/phrase/_grid',
+            'data' => array('model' => $model),
+        ),
+        'ranges' => array(
+            'title' => 'Диапазоны',
+            'view' => '/range/_grid',
+            'data' => array('model' => $model),
+        ),
+
+    ),
+))
+?>

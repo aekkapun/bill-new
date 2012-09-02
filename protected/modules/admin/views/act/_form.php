@@ -60,12 +60,14 @@
         <?php echo $form->error($model, ($model->isNewRecord ? 'file' : 'newFile')); ?>
     </div>
 
+    <?php if (!$model->isNewRecord): ?>
     <div class="row">
         <?php echo $form->labelEx($model, 'file'); ?>
         <?php if (!empty($model->file)): ?>
         <?php echo $model->getFile(); ?>
         <?php endif; ?>
     </div>
+    <?php endif; ?>
 
     <div class="row">
         <?php echo $form->labelEx($model, 'signed'); ?>

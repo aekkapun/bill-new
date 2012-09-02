@@ -172,7 +172,7 @@ class Bill extends CActiveRecord
         $criteria->compare('contract_id', $this->contract_id);
         $criteria->compare('t.number', $this->number, true);
         $criteria->compare('sum', $this->sum);
-        $criteria->compare('file', $this->file, true);
+        $criteria->compare('file', $this->file);
         $criteria->compare('period', $this->period, true);
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);

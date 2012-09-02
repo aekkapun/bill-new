@@ -126,6 +126,7 @@ class Contract extends CActiveRecord
             'status' => 'Статус',
             'created_at' => 'Время создания',
             'updated_at' => 'Время обновления',
+            'has_file' => 'Файлы?',
         );
     }
 

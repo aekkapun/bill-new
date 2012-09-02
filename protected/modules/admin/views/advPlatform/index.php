@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs = array(
-    'Adv Platforms' => array('index'),
+    'Рекламные площадки' => array('index'),
     'Список',
 );
 
@@ -38,7 +38,11 @@ $('.search-form form').submit(function(){
     'filter' => null,
     'columns' => array(
         'id',
-        'name',
+        array(
+            'name' => 'name',
+            'type' => 'raw',
+            'value' => 'CHtml::link($data->name, array("/admin/advPlatform/view", "id" => $data->id))'
+        ),
         array(
             'name' => 'work_percent',
             'type' => 'raw',

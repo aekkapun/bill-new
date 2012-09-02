@@ -9,6 +9,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Создать Act</h1>
+<h1>Добавить акт</h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

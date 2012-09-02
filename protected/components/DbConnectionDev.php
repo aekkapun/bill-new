@@ -23,7 +23,7 @@
 class DbConnectionDev extends CDbConnection
 {
     // Connection
-    public $connectionString = 'mysql:dbname=inmar;host=localhost';
+    public $connectionString = 'mysql:dbname=inmar;host=127.0.0.1';
     public $username = 'root';
     public $password = '';
     public $charset = 'UTF8';

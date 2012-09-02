@@ -11,14 +11,6 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'site_id'); ?>
-		<?php echo $form->dropDownList($model,'site_id',
-			CHtml::listData(Site::model()->findAll(), 'id', 'domain'),
-			array('empty' => Yii::app()->params->emptySelectLabel)
-		); ?>
-	</div>
-
-	<div class="row">
 		<?php echo $form->label($model,'phrase'); ?>
 		<?php echo $form->textField($model,'phrase',array('size'=>60,'maxlength'=>255)); ?>
 	</div>

@@ -42,7 +42,12 @@ if (!empty($model->contracts)) {
         'filter' => null,
         'template' => '{items}',
         'columns' => array(
-            'number:text:Номер',
+            array(
+				'header' => 'Номер',
+                'name' => 'number',
+                'type' => 'raw',
+                'value' => 'CHtml::link($data["number"], array("/admin/contract/view", "id" => $data["id"]))'
+            ),
             'statusLabel:text:Статус',
             array(
                 'header' => 'Дата создания',

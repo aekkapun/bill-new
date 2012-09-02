@@ -1,8 +1,12 @@
 <?php
 $this->breadcrumbs = array(
-    'Site Phrases' => array('index'),
-    'Список',
+    'Запросы' => array('index'),
 );
+if(isset($_GET['SitePhrase']['site_id'])) {
+    $this->breadcrumbs[$model->site->domain] = array('/admin/view/site', 'id' => $model->site->id);
+}
+
+//-----------
 
 $this->menu = array(
     array('label' => 'Создать', 'url' => array('create')),
@@ -37,7 +41,6 @@ $('.search-form form').submit(function(){
     'filter' => null,
     'columns' => array(
         'id',
-		'site.domain:url',
         'phrase',
         array(
             'name' => 'price',

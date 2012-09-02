@@ -70,7 +70,7 @@ class SiteRange extends CActiveRecord
     public function attributeLabels()
     {
         return array(
-            'id' => 'ID',
+            'id' => 'Код',
             'site_id' => 'Сайт',
             'valueMin' => 'Мин',
             'valueMax' => 'Макс',

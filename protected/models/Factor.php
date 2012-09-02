@@ -121,11 +121,11 @@ class Factor extends CActiveRecord
 
         $criteria = new CDbCriteria;
 
-        $criteria->compare('id', $this->id, true);
+        $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
-        $criteria->compare('system_id', $this->system_id, true);
-        $criteria->compare('position', $this->position, true);
-        $criteria->compare('value', $this->value, true);
+        $criteria->compare('system_id', $this->system_id);
+        $criteria->compare('position', $this->position);
+        $criteria->compare('value', $this->value);
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);
 

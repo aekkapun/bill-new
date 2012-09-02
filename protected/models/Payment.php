@@ -109,11 +109,11 @@ class Payment extends CActiveRecord
         $criteria = new CDbCriteria;
 
 		$criteria->with = array( 'client', 'contract' );
-        $criteria->compare('t.id', $this->id, true);
-        $criteria->compare('t.client_id', $this->client_id, true);
-        $criteria->compare('contract_id', $this->contract_id, true);
+        $criteria->compare('t.id', $this->id);
+        $criteria->compare('t.client_id', $this->client_id);
+        $criteria->compare('contract_id', $this->contract_id);
         $criteria->compare('details', $this->details, true);
-        $criteria->compare('sum', $this->sum, true);
+        $criteria->compare('sum', $this->sum);
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);
 

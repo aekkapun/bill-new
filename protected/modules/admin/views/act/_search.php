@@ -11,6 +11,16 @@
 	</div>
 
 	<div class="row">
+		<?php echo $form->label($model,'number'); ?>
+		<?php echo $form->textField($model,'number',array('size'=>20,'maxlength'=>255)); ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'sum'); ?>
+		<?php echo $form->textField($model,'sum',array('size'=>20,'maxlength'=>255)); ?>
+	</div>
+
+	<div class="row">
         <?php echo $form->label($model, 'client_id'); ?>
         <?php echo $form->dropDownList($model, 'client_id', CHtml::listData(
 			Client::model()->my()->findAll(), 'id', 'name'),
@@ -25,16 +35,6 @@
 			array('empty' => Yii::app()->params->emptySelectLabel)
 		); ?>
     </div>
-
-	<div class="row">
-		<?php echo $form->label($model,'number'); ?>
-		<?php echo $form->textField($model,'number',array('size'=>20,'maxlength'=>255)); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'sum'); ?>
-		<?php echo $form->textField($model,'sum',array('size'=>20,'maxlength'=>20)); ?>
-	</div>
 
 	<div class="row">
         <?php echo $form->label($model, 'period'); ?>

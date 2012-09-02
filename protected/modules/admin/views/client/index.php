@@ -40,7 +40,11 @@ $this->widget('zii.widgets.grid.CGridView', array(
 	'filter'=>null,
 	'columns'=>array(
 		'id',
-		'name',
+		array(
+            'name' => 'name',
+            'type' => 'raw',
+            'value' => 'CHtml::link($data->name, array("/admin/client/view", "id" => $data->id))',
+        ),  
 		array(
 			'header' => 'Менеджер',
 			'name' => 'managerName',
@@ -48,6 +52,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
 		),
 		'address',
 		'is_corporate:boolean',
+		
 		/*
 		'post_code',
 		'code_1c',
@@ -56,6 +61,7 @@ $this->widget('zii.widgets.grid.CGridView', array(
 		'created_at',
 		'updated_at',
 		*/
+		
 		array(
 			'class'=>'CButtonColumn',
 		),

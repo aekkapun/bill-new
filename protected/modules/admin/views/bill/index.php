@@ -37,8 +37,16 @@ $('.search-form form').submit(function(){
     'filter' => null,
     'columns' => array(
         'id',
-        'client.name:Клиент',
-        'contract.number:Номер договора',
+		array(
+            'name' => 'client.name',
+            'type' => 'raw',
+            'value' => 'CHtml::link($data->client->name, array("/admin/client/view", "id" => $data->client->id))',
+        ),
+		array(
+			'name' => 'contract.number',
+		    'type' => 'raw',
+            'value' => 'CHtml::link($data->contract->number, array("/admin/contract/view", "id" => $data->contract->id))',
+		),
         'number',
         'sum',
         'period',

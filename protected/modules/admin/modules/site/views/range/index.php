@@ -37,11 +37,13 @@ $('.search-form form').submit(function(){
 	'filter'=>$model,
 	'columns'=>array(
 		'id',
-		'site.domain:url',
 		'valueMin',
 		'valueMax',
 		'price',
-		'created_at',
+		array(
+			'name' => 'created_at',
+			'filter' => false,
+		),
 		/*
 		'updated_at',
 		*/

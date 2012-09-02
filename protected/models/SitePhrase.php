@@ -84,7 +84,7 @@ class SitePhrase extends CActiveRecord
     public function attributeLabels()
     {
         return array(
-            'id' => 'ID',
+            'id' => 'Код',
             'site_id' => 'Сайт',
             'phrase' => 'Запрос',
             'hash' => 'Хеш',
