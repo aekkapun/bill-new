@@ -39,9 +39,11 @@ $('.search-form form').submit(function(){
         'id',
         'client.name',
         'domain:url',
-        'created_at',
+        /*
+		'created_at',
         'updated_at',
-        array(
+        */
+		array(
             'class' => 'CButtonColumn',
         ),
     ),

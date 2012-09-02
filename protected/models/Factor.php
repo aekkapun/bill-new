@@ -18,6 +18,7 @@ class Factor extends CActiveRecord
     const SYSTEM_GOOGLE = 1;
     const SYSTEM_YANDEX = 2;
 
+	public static $qwe = 5;
     public static $labels = array(
         self::SYSTEM_GOOGLE => 'Google',
         self::SYSTEM_YANDEX => 'Yandex',

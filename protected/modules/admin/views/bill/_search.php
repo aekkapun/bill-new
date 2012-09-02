@@ -12,12 +12,18 @@
 
     <div class="row">
         <?php echo $form->label($model, 'client_id'); ?>
-        <?php echo $form->dropDownList($model, 'client_id', CHtml::listData(Client::model()->findAll(), 'id', 'name'), array('empty' => '--выбрать--')); ?>
+        <?php echo $form->dropDownList($model, 'client_id', CHtml::listData(
+			Client::model()->my()->findAll(), 'id', 'name'),
+			array('empty' => Yii::app()->params->emptySelectLabel)
+		); ?>
     </div>
 
     <div class="row">
         <?php echo $form->label($model, 'contract_id'); ?>
-        <?php echo $form->dropDownList($model, 'contract_id', CHtml::listData(Contract::model()->findAll(), 'id', 'number'), array('empty' => '--выбрать--')); ?>
+        <?php echo $form->dropDownList($model, 'contract_id', CHtml::listData(
+			Contract::model()->findAll(), 'id', 'number'),
+			array('empty' => Yii::app()->params->emptySelectLabel)
+		); ?>
     </div>
 
     <div class="row">

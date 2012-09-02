@@ -74,7 +74,7 @@ class Payment extends CActiveRecord
         return array(
             'id' => 'ID',
             'client_id' => 'Клиент',
-            'contract_id' => 'Договор',
+            'contract_id' => 'Номер договора',
             'details' => 'Назначение платежа',
             'sum' => 'Сумма',
             'created_at' => 'Время создания',
@@ -108,8 +108,9 @@ class Payment extends CActiveRecord
 
         $criteria = new CDbCriteria;
 
-        $criteria->compare('id', $this->id, true);
-        $criteria->compare('client_id', $this->client_id, true);
+		$criteria->with = array( 'client', 'contract' );
+        $criteria->compare('t.id', $this->id, true);
+        $criteria->compare('t.client_id', $this->client_id, true);
         $criteria->compare('contract_id', $this->contract_id, true);
         $criteria->compare('details', $this->details, true);
         $criteria->compare('sum', $this->sum, true);
@@ -118,6 +119,19 @@ class Payment extends CActiveRecord
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
+			'sort' => array(
+				'attributes' => array(
+					'client.name' => array(
+						'asc' => 'client.name ASC',
+						'desc' => 'client.name DESC',
+					),
+					'contract.number' => array(
+						'asc' => 'contract.number ASC',
+						'desc' => 'contract.number DESC',
+					),
+					'*',
+				),
+			),
         ));
     }
 }

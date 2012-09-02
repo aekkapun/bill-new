@@ -28,7 +28,7 @@ class Invoice extends CActiveRecord
             $clients = Client::model()->my()->findAll(array('select' => 'id', 'index' => 'id'));
             if($clients) {
                 $criteria = $this->getDbCriteria();
-                $criteria->addInCondition('client_id', array_keys($clients));
+                $criteria->addInCondition('t.client_id', array_keys($clients));
             }
         }
         return $this;
@@ -92,7 +92,7 @@ class Invoice extends CActiveRecord
             'id' => 'ID',
             'number' => 'Номер',
             'client_id' => 'Клиент',
-            'contract_id' => 'Договор',
+            'contract_id' => 'Номер договор',
             'period' => 'Период',
             'created_at' => 'Время создания',
             'updated_at' => 'Время обновления',
@@ -124,17 +124,31 @@ class Invoice extends CActiveRecord
         // should not be searched.
 
         $criteria = new CDbCriteria;
-
-        $criteria->compare('id', $this->id, true);
-        $criteria->compare('number', $this->number, true);
-        $criteria->compare('client_id', $this->client_id, true);
-        $criteria->compare('contract_id', $this->contract_id, true);
+		
+		$criteria->with = array( 'client', 'contract' );
+        $criteria->compare('t.id', $this->id);
+        $criteria->compare('t.number', $this->number, true);
+        $criteria->compare('t.client_id', $this->client_id);
+        $criteria->compare('contract_id', $this->contract_id);
         $criteria->compare('period', $this->period, true);
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
+			'sort' => array(
+				'attributes' => array(
+					'client.name' => array(
+						'asc' => 'client.name ASC',
+						'desc' => 'client.name DESC',
+					),
+					'contract.number' => array(
+						'asc' => 'contract.number ASC',
+						'desc' => 'contract.number DESC',
+					),
+					'*',
+				),
+			),
         ));
     }
 }

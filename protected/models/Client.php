@@ -38,6 +38,7 @@ class Client extends CActiveRecord
                 'manager_id' => Yii::app()->user->id,
             ));
         }
+		
         return $this;
     }
 
@@ -151,22 +152,22 @@ class Client extends CActiveRecord
 
         $criteria = new CDbCriteria;
 
-        $criteria->compare('id', $this->id, true);
-        $criteria->compare('manager_id', $this->manager_id, true);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('manager_id', $this->manager_id);
         $criteria->compare('name', $this->name, true);
         $criteria->compare('address', $this->address, true);
-        $criteria->compare('is_corporate', $this->is_corporate);
+		$criteria->compare('is_corporate', $this->is_corporate);
         $criteria->compare('post_code', $this->post_code, true);
         $criteria->compare('code_1c', $this->code_1c, true);
         $criteria->compare('phone', $this->phone, true);
         $criteria->compare('status', $this->status);
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);
-
+		
         $dataProvider = new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
-
+		
         return $dataProvider;
     }
 }

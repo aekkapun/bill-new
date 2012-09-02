@@ -33,15 +33,15 @@ $this->menu = array(
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'contract-files',
-    'dataProvider' => new CArrayDataProvider($model->attachments),
+    'dataProvider' => $attachments,
     'filter' => null,
     'template' => '{items}',
     'columns' => array(
-        array(
-            'class' => 'CLinkColumn',
-            'urlExpression' => '$data->getFile()',
-            'labelExpression' => '$data->name'
+		array(
+			'header' => 'Вложения',
+            'name' => 'name',
+            'type' => 'raw',
+			'value' => 'CHtml::link($data->name,$data->getFile())',
         ),
-
     ),
 )); ?>

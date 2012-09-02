@@ -8,8 +8,18 @@ class ContractController extends Controller
      */
     public function actionView($id)
     {
+		$model = $this->loadModel($id);
+		$attachments = new CArrayDataProvider($model->attachments, array(
+			'sort' => array(
+				'attributes' => array(
+					'name',
+				),
+			),
+		));
+		
         $this->render('view', array(
-            'model' => $this->loadModel($id),
+            'model' => $model,
+			'attachments' => $attachments,
         ));
     }
 

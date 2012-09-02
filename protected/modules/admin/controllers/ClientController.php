@@ -33,8 +33,18 @@ class ClientController extends Controller
      */
     public function actionView($id)
     {
+		$model = $this->loadModel($id);
+		$clients = new CArrayDataProvider($model->contracts, array(
+			'sort' => array(
+				'attributes' => array(
+					'number', 'statusLabel', 'created_at'
+				),
+			),
+		));
+	
         $this->render('view', array(
-            'model' => $this->loadModel($id),
+            'model' => $model,
+			'clients' => $clients,
         ));
     }
 
@@ -106,12 +116,12 @@ class ClientController extends Controller
     {
         $model = new Client('search');
         $model->unsetAttributes(); // clear any default values
-
+	
         if(Yii::app()->user->checkAccess('manager')) {
             $model->my();
-        }
-
-        if (isset($_GET['Client']))
+        }		
+		
+		if (isset($_GET['Client']))
             $model->attributes = $_GET['Client'];
 
         $this->render('index', array(

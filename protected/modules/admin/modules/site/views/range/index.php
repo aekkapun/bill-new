@@ -37,7 +37,7 @@ $('.search-form form').submit(function(){
 	'filter'=>$model,
 	'columns'=>array(
 		'id',
-		'site_id',
+		'site.domain:url',
 		'valueMin',
 		'valueMax',
 		'price',

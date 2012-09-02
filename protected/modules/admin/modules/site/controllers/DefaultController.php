@@ -44,20 +44,11 @@ class DefaultController extends Controller
             'order' => 'created_at DESC'
         ));*/
 
-        $criteria = new CDbCriteria();
-        $criteria->addColumnCondition(array(
-            'enabled' => 1,
-            'site_id' => $id,
-        ));
-        $criteria->order = 'created_at DESC';
-
-        $services = new CActiveDataProvider('SiteService', array(
-            'criteria' => $criteria,
-        ));
-
         $this->render('view', array(
             'model' => $this->loadModel($id),
-            'services' => $services,
+            'sitePhrases' => SitePhrase::model()->siteOf($id)->searchAsArray(),
+            'siteRanges' => SiteRange::model()->siteOf($id)->searchAsArray(),
+            'services' => SiteService::model()->siteOf($id)->enabled()->searchAsArray(),
         ));
     }
 

@@ -19,6 +19,11 @@
  */
 class SiteService extends CActiveRecord
 {
+	public function getName()
+	{
+		$name = Service::getLabel($this->service_id, $this->id);
+		return $name;
+	}
 
     public function beforeSave()
     {
@@ -143,7 +148,32 @@ class SiteService extends CActiveRecord
             )
         );
     }
-
+	
+	public function defaultScope()
+    {
+        return array(
+            'order' => 't.created_at DESC',
+        );
+    }	
+	
+	public function scopes()
+	{
+		return array(
+			'enabled' => array(
+				'condition' => 'enabled = 1',
+			),
+		);
+	}
+	
+	public function siteOf($siteId)
+	{
+		$this->getDbCriteria()->mergeWith(array(
+			'condition' => "site_id = $siteId",
+		));
+		
+		return $this;
+	}
+	
     /**
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
@@ -167,4 +197,17 @@ class SiteService extends CActiveRecord
             'criteria' => $criteria,
         ));
     }
+	
+	public function searchAsArray()
+	{
+		return new CArrayDataProvider($this->findAll(),array(
+			'sort' => array(
+				'attributes' => array(
+					'name',
+					'contract.number',
+					'created_at',
+				),
+			),
+		));
+	}
 }

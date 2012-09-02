@@ -94,6 +94,15 @@ class SiteRange extends CActiveRecord
             )
         );
     }
+	
+	public function siteOf($siteId)
+	{
+		$this->getDbCriteria()->mergeWith(array(
+			'condition' => "site_id = $siteId",
+		));
+		
+		return $this;
+	}
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
@@ -106,11 +115,11 @@ class SiteRange extends CActiveRecord
 
         $criteria = new CDbCriteria;
 
-        $criteria->compare('id', $this->id, true);
-        $criteria->compare('site_id', $this->site_id, true);
-        $criteria->compare('valueMin', $this->valueMin, true);
-        $criteria->compare('valueMax', $this->valueMax, true);
-        $criteria->compare('price', $this->price, true);
+        $criteria->compare('id', $this->id);
+        $criteria->compare('site_id', $this->site_id);
+        $criteria->compare('valueMin', $this->valueMin);
+        $criteria->compare('valueMax', $this->valueMax);
+        $criteria->compare('price', $this->price);
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);
 
@@ -118,4 +127,15 @@ class SiteRange extends CActiveRecord
             'criteria' => $criteria,
         ));
     }
+	
+	public function searchAsArray()
+	{
+		return new CArrayDataProvider($this->findAll(),array(
+			'sort' => array(
+				'attributes' => array(
+					'valueMin', 'valueMax', 'price',
+				),
+			),
+		));
+	}
 }

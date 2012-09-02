@@ -104,6 +104,7 @@ class AdvPlatform extends CActiveRecord
 
         $criteria->compare('id', $this->id, true);
         $criteria->compare('name', $this->name, true);
+        $criteria->compare('work_percent', $this->work_percent);
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);
 

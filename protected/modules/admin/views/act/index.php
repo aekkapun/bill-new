@@ -38,7 +38,7 @@ $('.search-form form').submit(function(){
 	'columns'=>array(
 		'id',
 		'client.name',
-		'contract.number',
+		'contract.number:Номер договора',
 		'number',
 		'sum',
 		'period',

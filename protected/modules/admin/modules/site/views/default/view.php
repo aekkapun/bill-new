@@ -59,7 +59,7 @@ $this->menu = array(
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'site-phrase-grid',
-    'dataProvider' => new CArrayDataProvider($model->sitePhrases),
+    'dataProvider' => $sitePhrases,
     'filter' => null,
     'columns' => array(
         'id:number:ID',
@@ -73,7 +73,7 @@ $this->menu = array(
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'site-range-grid',
-    'dataProvider' => new CArrayDataProvider($model->siteRanges),
+    'dataProvider' => $siteRanges,
     'filter' => null,
     'columns' => array(
         'valueMin:Мин',
@@ -92,12 +92,14 @@ $this->menu = array(
         array(
             'header' => 'Название',
             'type' => 'raw',
+			'name' => 'name',
             'value' => 'CHtml::link(Service::getLabel($data->service_id, $data->id), array("/admin/service/".Service::getControllerName($data->service_id)."/input", "ssId" => $data->id))'
         ),
-        'contract.number',
+		'contract.number:Номер договора',
         array(
             'header' => 'Дата подключения/изменения',
             'type' => 'date',
+			'name' => 'created_at',
             'value' => 'strtotime($data["created_at"])',
         ),
         array(

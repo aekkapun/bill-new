@@ -17,31 +17,17 @@
 
     <div class="row">
         <?php echo $form->label($model, 'role'); ?>
-        <?php echo $form->dropDownList($model, 'role', $model->roleLabels); ?>
+        <?php echo $form->dropDownList(
+			$model,
+			'role',
+			$model->roleLabels,
+			array('empty' => Yii::app()->params->emptySelectLabel)
+		); ?>
     </div>
 
     <div class="row">
         <?php echo $form->label($model, 'email'); ?>
         <?php echo $form->textField($model, 'email', array('size' => 60, 'maxlength' => 255)); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->label($model, 'created_at'); ?>
-        <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
-        array(
-            'model' => $model,
-            'attribute' => 'created_at',
-            'language' => 'ru',
-            'options' => array(
-                'showAnim' => 'fold',
-                'dateFormat' => 'yy-mm-dd',
-                'changeMonth' => true,
-                'changeYear' => true,
-                'showOn' => 'button',
-                'buttonImage' => '/images/calendar.png',
-                'buttonImageOnly' => true,
-            ),
-        )); ?>
     </div>
 
     <div class="row buttons">

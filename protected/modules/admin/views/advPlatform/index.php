@@ -27,8 +27,9 @@ $('.search-form form').submit(function(){
 <?php echo CHtml::link('Расширенный поиск', '#', array('class' => 'search-button')); ?>
 <div class="search-form" style="display:none">
     <?php $this->renderPartial('_search', array(
-    'model' => $model,
-)); ?>
+		'model' => $model,
+		'percentArray' => $percentArray,
+	)); ?>
 </div><!-- search-form -->
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
@@ -43,9 +44,11 @@ $('.search-form form').submit(function(){
             'type' => 'raw',
             'value' => 'Yii::app()->numberFormatter->formatPercentage($data->work_percent)',
         ),
+		/*
         'created_at',
         'updated_at',
-        array(
+        */
+		array(
             'class' => 'CButtonColumn',
         ),
     ),

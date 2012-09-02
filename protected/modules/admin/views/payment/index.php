@@ -41,7 +41,6 @@ $('.search-form form').submit(function(){
         'contract.number',
         'details',
         'sum',
-        'period',
         /*
           'created_at',
           'updated_at',

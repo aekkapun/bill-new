@@ -37,10 +37,10 @@ $('.search-form form').submit(function(){
     'filter' => null,
     'columns' => array(
         'id',
-        'site_id',
+		'site.domain:url',
         'phrase',
         array(
-            'header' => 'Цена',
+            'name' => 'price',
             'type' => 'raw',
             'value' => 'Yii::app()->numberFormatter->formatCurrency($data->price, "RUB")',
         ),

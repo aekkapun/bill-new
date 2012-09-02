@@ -12,7 +12,10 @@
 
 	<div class="row">
 		<?php echo $form->label($model,'site_id'); ?>
-		<?php echo $form->textField($model,'site_id',array('size'=>10,'maxlength'=>10)); ?>
+		<?php echo $form->dropDownList($model,'site_id',
+			CHtml::listData(Site::model()->findAll(), 'id', 'domain'),
+			array('empty' => Yii::app()->params->emptySelectLabel)
+		); ?>
 	</div>
 
 	<div class="row">
@@ -21,20 +24,22 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'hash'); ?>
-		<?php echo $form->textField($model,'hash',array('size'=>32,'maxlength'=>32)); ?>
+		<?php echo $form->label($model,'price'); ?>
+		<?php echo $form->textField($model,'price',array('size'=>32,'maxlength'=>32)); ?>
+	</div>
+
+	<!--
+	<div class="row">
+		<?php //echo $form->label($model,'created_at'); ?>
+		<?php //echo $form->textField($model,'created_at'); ?>
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'created_at'); ?>
-		<?php echo $form->textField($model,'created_at'); ?>
+		<?php //echo $form->label($model,'updated_at'); ?>
+		<?php //echo $form->textField($model,'updated_at'); ?>
 	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'updated_at'); ?>
-		<?php echo $form->textField($model,'updated_at'); ?>
-	</div>
-
+	-->
+	
 	<div class="row buttons">
 		<?php echo CHtml::submitButton('Поиск'); ?>
 	</div>

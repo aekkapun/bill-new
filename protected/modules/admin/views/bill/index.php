@@ -41,8 +41,8 @@ $('.search-form form').submit(function(){
         'contract.number:Номер договора',
         'number',
         'sum',
+        'period',
         /*
-          'period',
           'created_at',
           'updated_at',
           */

@@ -38,7 +38,7 @@ if (!empty($model->contracts)) {
 
     $this->widget('zii.widgets.grid.CGridView', array(
         'id' => 'contract-grid',
-        'dataProvider' => new CArrayDataProvider($model->contracts),
+        'dataProvider' => $clients,
         'filter' => null,
         'template' => '{items}',
         'columns' => array(
@@ -47,6 +47,7 @@ if (!empty($model->contracts)) {
             array(
                 'header' => 'Дата создания',
                 'type' => 'date',
+				'name' => 'created_at',
                 'value' => 'strtotime($data->created_at)',
             ),
             array(

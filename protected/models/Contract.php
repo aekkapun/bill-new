@@ -21,7 +21,9 @@ class Contract extends CActiveRecord
 
     const STATUS_ACTIVE = 1;
     const STATUS_DISABLED = 0;
-
+	
+	public $attachments_count;
+	
     /**
      * @return Contract
      */
@@ -93,7 +95,7 @@ class Contract extends CActiveRecord
             array('created_at, updated_at', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, number, client_id, status, created_at, updated_at', 'safe', 'on' => 'search'),
+            array('id, number, client_id, status, created_at, updated_at, attachments_count', 'safe', 'on' => 'search'),
         );
     }
 
@@ -107,6 +109,7 @@ class Contract extends CActiveRecord
         return array(
             'client' => array(self::BELONGS_TO, 'Client', 'client_id'),
             'attachments' => array(self::HAS_MANY, 'ContractAttachment', 'contract_id'),
+			'attachmentsCount' => array(self::STAT, 'ContractAttachment', 'contract_id'),
         );
     }
 
@@ -117,10 +120,10 @@ class Contract extends CActiveRecord
     {
         return array(
             'id' => 'ID',
-            'number' => 'Договор',
+			'attachments_count' => 'Вложения',
+            'number' => 'Номер договора',
             'client_id' => 'Клиент',
             'status' => 'Статус',
-            'statusLabel' => 'Статус',
             'created_at' => 'Время создания',
             'updated_at' => 'Время обновления',
         );
@@ -179,16 +182,43 @@ class Contract extends CActiveRecord
 
         $criteria = new CDbCriteria;
 
-        $criteria->compare('id', $this->id, true);
-        $criteria->compare('number', $this->number, true);
-        $criteria->compare('client_id', $this->client_id, true);
-        $criteria->compare('status', $this->status);
+		$attachments_table = ContractAttachment::model()->tableName();
+		$attachments_count_sql = "IF ((SELECT COUNT(*) FROM $attachments_table WHERE $attachments_table.contract_id = t.id) > 0, 1, 0)";
+		
+		$criteria->select = array(
+			'*',
+			$attachments_count_sql . ' as attachments_count',
+		);
+		
+		$criteria->with = array( 'client' );
+		$criteria->compare('t.id', $this->id);
+        $criteria->compare('number', $this->number);
+        $criteria->compare('client_id', $this->client_id);
+		$criteria->compare('t.status', $this->status);
+		$criteria->compare( $attachments_count_sql, $this->attachments_count );
+		
+		/*
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);
-
+		*/
+		
         $dataProvider = new CActiveDataProvider($this, array(
             'criteria' => $criteria,
-        ));
+			
+			'sort' => array(
+				'attributes' => array(
+					'client.name' => array(
+						'asc' => 'client.name ASC',
+						'desc' => 'client.name DESC',
+					),
+					'attachments_count' => array(
+						'asc' => 'attachments_count ASC',
+						'desc' => 'attachments_count DESC',
+					),
+					'*',
+				),
+			),		
+		));
 
         return $dataProvider;
     }
@@ -196,8 +226,8 @@ class Contract extends CActiveRecord
 	/**
 	 * Return TRUE if contract has attachments
 	 */
-	public function hasAttachment()
+	public function getHasAttachments()
 	{		
-		return count($this->attachments);
+		return ($this->attachmentsCount > 0);
 	}
 }

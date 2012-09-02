@@ -125,7 +125,7 @@ class Site extends CActiveRecord
             )
         );
     }
-
+	
     /**
      * Retrieves a list of models based on the current search/filter conditions.
      * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
@@ -137,8 +137,9 @@ class Site extends CActiveRecord
 
         $criteria = new CDbCriteria;
 
-        $criteria->compare('id', $this->id, true);
-        $criteria->compare('client_id', $this->client_id, true);
+		$criteria->with = array( 'client' );
+        $criteria->compare('t.id', $this->id);
+        $criteria->compare('client_id', $this->client_id);
         $criteria->compare('domain', $this->domain, true);
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);
@@ -146,6 +147,15 @@ class Site extends CActiveRecord
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
+			'sort' => array(
+				'attributes' => array(
+					'client.name' => array(
+						'asc' => 'client.name ASC',
+						'desc' => 'client.name DESC',
+					),
+					'*',
+				),
+			),
         ));
     }
 }

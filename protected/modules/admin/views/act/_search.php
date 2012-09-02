@@ -11,18 +11,24 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'client_id'); ?>
-		<?php echo $form->textField($model,'client_id',array('size'=>10,'maxlength'=>10)); ?>
-	</div>
+        <?php echo $form->label($model, 'client_id'); ?>
+        <?php echo $form->dropDownList($model, 'client_id', CHtml::listData(
+			Client::model()->my()->findAll(), 'id', 'name'),
+			array('empty' => Yii::app()->params->emptySelectLabel)
+		); ?>
+    </div>
 
 	<div class="row">
-		<?php echo $form->label($model,'contract_id'); ?>
-		<?php echo $form->textField($model,'contract_id',array('size'=>10,'maxlength'=>10)); ?>
-	</div>
+        <?php echo $form->label($model, 'contract_id'); ?>
+		<?php echo $form->dropDownList($model, 'contract_id', CHtml::listData(
+			Contract::model()->findAll(), 'id', 'number'),
+			array('empty' => Yii::app()->params->emptySelectLabel)
+		); ?>
+    </div>
 
 	<div class="row">
 		<?php echo $form->label($model,'number'); ?>
-		<?php echo $form->textField($model,'number',array('size'=>60,'maxlength'=>255)); ?>
+		<?php echo $form->textField($model,'number',array('size'=>20,'maxlength'=>255)); ?>
 	</div>
 
 	<div class="row">
@@ -31,28 +37,30 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->label($model,'period'); ?>
-		<?php echo $form->textField($model,'period'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'file'); ?>
-		<?php echo $form->textField($model,'file',array('size'=>60,'maxlength'=>255)); ?>
-	</div>
+        <?php echo $form->label($model, 'period'); ?>
+        <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
+        array(
+            'model' => $model,
+            'attribute' => 'period',
+            'language' => 'ru',
+            'options' => array(
+                'showAnim' => 'fold',
+                'dateFormat' => 'yy-mm-dd',
+                'changeMonth' => true,
+                'changeYear' => true,
+                'showOn' => 'button',
+                'buttonImage' => '/images/calendar.png',
+                'buttonImageOnly' => true,
+            ),
+        )); ?>
+    </div>
 
 	<div class="row">
 		<?php echo $form->label($model,'signed'); ?>
-		<?php echo $form->textField($model,'signed'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'created_at'); ?>
-		<?php echo $form->textField($model,'created_at'); ?>
-	</div>
-
-	<div class="row">
-		<?php echo $form->label($model,'updated_at'); ?>
-		<?php echo $form->textField($model,'updated_at'); ?>
+		 <?php echo $form->dropDownList($model, 'signed',
+			array('1' => 'Да', '0' => 'Нет'),
+			array('empty' => Yii::app()->params->emptySelectLabel)
+		); ?>
 	</div>
 
 	<div class="row buttons">

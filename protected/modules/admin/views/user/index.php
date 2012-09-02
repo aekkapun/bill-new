@@ -34,18 +34,22 @@ $('.search-form form').submit(function(){
 <?php $this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'user-grid',
     'dataProvider' => $model->search(),
-    'filter' => null,
     'columns' => array(
-        'id',
-        'name',
-        'roleLabel:Уровень доступа',
-        'email',
-        /*
-        'created_at',
-        'updated_at',
-        */
-        array(
+		'id',
+		'name',
+		array(
+			'header' => 'Уровень доступа',
+			'name' => 'role',
+			'value' => '$data->roleLabel'
+		),
+		'name' => 'email',
+		array(
             'class' => 'CButtonColumn',
         ),
+		
+		/*
+		'created_at',
+		'updated_at',
+		*/
     ),
 )); ?>

@@ -41,7 +41,11 @@ $this->widget('zii.widgets.grid.CGridView', array(
 	'columns'=>array(
 		'id',
 		'name',
-        'manager.name:Менеджер',
+		array(
+			'header' => 'Менеджер',
+			'name' => 'managerName',
+			'value' => '$data->manager->name',
+		),
 		'address',
 		'is_corporate:boolean',
 		/*

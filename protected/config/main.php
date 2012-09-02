@@ -96,5 +96,6 @@ return array(
     ),
 
     'params' => array(
+		'emptySelectLabel' => '-- выбрать --',
     ),
 );

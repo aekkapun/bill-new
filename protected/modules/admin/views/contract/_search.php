@@ -11,37 +11,36 @@
     </div>
 
     <div class="row">
+        <?php echo $form->label($model, 'attachments_count'); ?>
+        <?php echo $form->dropDownList(
+			$model,
+			'attachments_count',
+			array('1' => 'Да', '0' => 'Нет'),
+			array('empty' => Yii::app()->params->emptySelectLabel)
+		); ?>
+    </div>
+
+    <div class="row">
         <?php echo $form->label($model, 'number'); ?>
         <?php echo $form->textField($model, 'number', array('size' => 60, 'maxlength' => 255)); ?>
     </div>
 
     <div class="row">
         <?php echo $form->label($model, 'client_id'); ?>
-        <?php echo $form->dropDownList($model, 'client_id', CHtml::listData(Client::model()->findAll(), 'id', 'name'), array('empty' => '--выбрать--')); ?>
-    </div>
-
-    <div class="row">
-        <?php echo $form->label($model, 'created_at'); ?>
-        <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
-        array(
-            'model' => $model,
-            'attribute' => 'created_at',
-            'language' => 'ru',
-            'options' => array(
-                'showAnim' => 'fold',
-                'dateFormat' => 'yy-mm-dd',
-                'changeMonth' => true,
-                'changeYear' => true,
-                'showOn' => 'button',
-                'buttonImage' => '/images/calendar.png',
-                'buttonImageOnly' => true,
-            ),
-        )); ?>
+        <?php echo $form->dropDownList($model, 'client_id',
+			CHtml::listData(Client::model()->my()->findAll(), 'id', 'name'),
+			array('empty' => Yii::app()->params->emptySelectLabel)
+		); ?>
     </div>
 
     <div class="row">
         <?php echo $form->label($model, 'status'); ?>
-        <?php echo $form->checkbox($model, 'status'); ?>
+        <?php echo $form->dropDownList(
+			$model,
+			'status',
+			$model->getStatusLabels(),
+			array('empty' => Yii::app()->params->emptySelectLabel)
+		); ?>
     </div>
 
     <div class="row buttons">

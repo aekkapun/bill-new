@@ -41,14 +41,17 @@ $this->widget('zii.widgets.grid.CGridView', array(
 	'columns'=>array(
 		'id',
 		array(
-			'name'=>'File',
-			'type'=>'html',
-			'value'=>'($data->hasAttachment())?CHtml::image("/images/check.png"):"&nbsp;"',
+			'header' => 'Вложения',
+			'name' => 'attachments_count',
+			'type' => 'html',
+			'value'=>'($data->attachments_count)?CHtml::image("/images/check.png"):"&nbsp;"',	
 		),
 		'number',
 		'client.name',
-		'statusLabel',
-		'created_at',
+		array(
+			'name' => 'status',
+			'value' => '$data->statusLabel',
+		),
 		array(
 			'class' => 'CButtonColumn',
 		),

@@ -38,11 +38,11 @@ $('.search-form form').submit(function(){
 	'columns'=>array(
 		'id',
 		'number',
-		'client_id',
-		'contract_id',
+		'client.name',
+		'contract.number:Номер договора',
 		'period',
-		'created_at',
 		/*
+		'created_at',
 		'updated_at',
 		*/
 		array(

@@ -187,16 +187,16 @@ class User extends CActiveRecord
 
         $criteria = new CDbCriteria;
 
-        $criteria->compare('id', $this->id, true);
+        $criteria->compare('id', $this->id);
         $criteria->compare('name', $this->name, true);
-        $criteria->compare('role', $this->role, true);
+		$criteria->compare('role', $this->role, true);
         $criteria->compare('email', $this->email, true);
         $criteria->compare('password', $this->password, true);
         $criteria->compare('hash', $this->hash, true);
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);
 
-        return new CActiveDataProvider($this, array(
+		return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
     }

@@ -90,8 +90,16 @@ class AdvPlatformController extends Controller
 		if(isset($_GET['AdvPlatform']))
 			$model->attributes=$_GET['AdvPlatform'];
 
+		// Generate percent array
+		$percentArray = array();
+		for( $i=0.01; $i<=1.01; $i+=0.01 )
+		{
+			$percentArray[ "$i" ] = Yii::app()->numberFormatter->formatPercentage($i);
+		}
+		
 		$this->render('index',array(
 			'model'=>$model,
+			'percentArray' => $percentArray,
 		));
 	}
 

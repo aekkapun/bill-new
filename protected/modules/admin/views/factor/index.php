@@ -39,13 +39,13 @@ $('.search-form form').submit(function(){
 		'id',
 		'name',
 		array(
-            'header' => 'Система',
-            'value' => 'Factor::getLabel($data->system_id)'
-        ),
+			'name' => 'system_id',
+		    'value' => 'Factor::getLabel($data->system_id)',	
+		),
 		'position',
 		'value',
-		'created_at',
 		/*
+		'created_at',
 		'updated_at',
 		*/
 		array(

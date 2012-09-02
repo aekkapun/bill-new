@@ -108,6 +108,15 @@ class SitePhrase extends CActiveRecord
             )
         );
     }
+	
+	public function siteOf($siteId)
+	{
+		$this->getDbCriteria()->mergeWith(array(
+			'condition' => "site_id = $siteId",
+		));
+		
+		return $this;
+	}
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
@@ -120,15 +129,37 @@ class SitePhrase extends CActiveRecord
 
         $criteria = new CDbCriteria;
 
-        $criteria->compare('id', $this->id, true);
-        $criteria->compare('site_id', $this->site_id, true);
+		$criteria->with = array( 'site' );
+        $criteria->compare('t.id', $this->id);
+        $criteria->compare('site_id', $this->site_id);
         $criteria->compare('phrase', $this->phrase, true);
+        $criteria->compare('price', $this->price);
         $criteria->compare('hash', $this->hash, true);
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
+			'sort' => array(
+				'attributes' => array(
+					'site.domain' => array(
+						'asc' => 'site.domain ASC',
+						'desc' => 'site.domain DESC',
+					),
+					'*',
+				),
+			),
         ));
     }
+	
+	public function searchAsArray()
+	{
+		return new CArrayDataProvider($this->findAll(),array(
+			'sort' => array(
+				'attributes' => array(
+					'id', 'phrase', 'price', 'active'
+				),
+			),
+		));
+	}
 }
