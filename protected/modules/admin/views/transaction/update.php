@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs=array(
-	'Платежи'=>array('index'),
+	'Транзакции'=>array('index'),
 	$model->id=>array('view','id'=>$model->id),
 	'Обновление',
 );
@@ -12,6 +12,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Обновить платеж <?php echo $model->id; ?></h1>
+<h1>Обновить транзакцию <?php echo $model->id; ?></h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

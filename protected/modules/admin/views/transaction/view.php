@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs=array(
-	'Платежи'=>array('index'),
+	'Транзакции'=>array('index'),
 	$model->id,
 );
 
@@ -18,10 +18,10 @@ $this->menu=array(
 	'data'=>$model,
 	'attributes'=>array(
 		'id',
-		'client.name',
 		'contract.number',
 		'details',
 		'sum',
+		'type',
 		'created_at',
 		'updated_at',
 	),

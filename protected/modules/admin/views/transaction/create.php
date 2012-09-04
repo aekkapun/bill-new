@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs=array(
-	'Платежи'=>array('index'),
+	'Транзакции'=>array('index'),
 	'Создать',
 );
 
@@ -9,6 +9,6 @@ $this->menu=array(
 );
 ?>
 
-<h1>Создать платеж</h1>
+<h1>Создать транзакцию</h1>
 
 <?php echo $this->renderPartial('_form', array('model'=>$model)); ?>

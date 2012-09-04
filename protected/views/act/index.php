@@ -8,7 +8,7 @@ $this->breadcrumbs = array(
 <h1>Акты</h1>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-    'id' => 'payment-grid',
+    'id' => 'act-grid',
     'dataProvider' => $dataProvider,
     'filter' => null,
     'template' => '{items}',

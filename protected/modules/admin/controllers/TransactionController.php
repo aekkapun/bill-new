@@ -1,6 +1,6 @@
 <?php
 
-class PaymentController extends Controller
+class TransactionController extends Controller
 {
 
 	/**
@@ -20,14 +20,14 @@ class PaymentController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Payment;
+		$model=new Transaction;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Payment']))
+		if(isset($_POST['Transaction']))
 		{
-			$model->attributes=$_POST['Payment'];
+			$model->attributes=$_POST['Transaction'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -49,9 +49,9 @@ class PaymentController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Payment']))
+		if(isset($_POST['Transaction']))
 		{
-			$model->attributes=$_POST['Payment'];
+			$model->attributes=$_POST['Transaction'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -86,10 +86,10 @@ class PaymentController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$model=new Payment('search');
+		$model=new Transaction('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Payment']))
-			$model->attributes=$_GET['Payment'];
+		if(isset($_GET['Transaction']))
+			$model->attributes=$_GET['Transaction'];
 
 		$this->render('index',array(
 			'model'=>$model,
@@ -103,7 +103,7 @@ class PaymentController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=Payment::model()->findByPk($id);
+		$model=Transaction::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -115,7 +115,7 @@ class PaymentController extends Controller
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='payment-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='transaction-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

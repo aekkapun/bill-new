@@ -1,19 +1,13 @@
 <div class="form">
 
     <?php $form = $this->beginWidget('CActiveForm', array(
-    'id' => 'payment-form',
+    'id' => 'transaction-form',
     'enableAjaxValidation' => false,
 )); ?>
 
     <p class="note">Поля отмеченные звездочкой <span class="required">*</span> обязательны для заполнения.</p>
 
     <?php echo $form->errorSummary($model); ?>
-
-    <div class="row">
-        <?php echo $form->labelEx($model, 'client_id'); ?>
-        <?php echo $form->dropDownList($model, 'client_id', CHtml::listData(Client::model()->my()->findAll(), 'id', 'name'), array('empty' => '--выбрать--')); ?>
-        <?php echo $form->error($model, 'client_id'); ?>
-    </div>
 
     <div class="row">
         <?php echo $form->labelEx($model, 'contract_id'); ?>
@@ -32,7 +26,13 @@
         <?php echo $form->textField($model, 'sum', array('size' => 20, 'maxlength' => 20)); ?>
         <?php echo $form->error($model, 'sum'); ?>
     </div>
-
+	
+	<div class="row">
+        <?php echo $form->labelEx($model, 'type'); ?>
+        <?php echo $form->textField($model, 'type', array('size' => 20, 'maxlength' => 20)); ?>
+        <?php echo $form->error($model, 'type'); ?>
+    </div>
+	
     <div class="row">
         <?php echo $form->labelEx($model, 'created_at'); ?>
         <?php $this->widget('zii.widgets.jui.CJuiDatePicker',

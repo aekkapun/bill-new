@@ -39,7 +39,7 @@
                 array('label' => 'Счета', 'url' => array('/admin/bill'), 'visible' => !Yii::app()->user->isGuest),
                 array('label' => 'Счета-фактуры', 'url' => array('/admin/invoice'), 'visible' => !Yii::app()->user->isGuest),
                 array('label' => 'Акты', 'url' => array('/admin/act'), 'visible' => !Yii::app()->user->isGuest),
-                array('label' => 'Платежи', 'url' => array('/admin/payment'), 'visible' => !Yii::app()->user->isGuest),
+                array('label' => 'Транзакции', 'url' => array('/admin/transaction'), 'visible' => !Yii::app()->user->isGuest),
             )),
             array('label' => 'Коэффициенты', 'url' => array('/admin/factor'), 'visible' => Yii::app()->user->checkAccess('admin')),
             array('label' => 'Рекламные площадки', 'url' => array('/admin/advPlatform'), 'visible' => Yii::app()->user->checkAccess('admin')),

@@ -4,10 +4,6 @@
 	<?php echo CHtml::link(CHtml::encode($data->id), array('view', 'id'=>$data->id)); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('client_id')); ?>:</b>
-	<?php echo CHtml::encode($data->client_id); ?>
-	<br />
-
 	<b><?php echo CHtml::encode($data->getAttributeLabel('contract_id')); ?>:</b>
 	<?php echo CHtml::encode($data->contract_id); ?>
 	<br />
@@ -17,6 +13,10 @@
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('sum')); ?>:</b>
+	<?php echo CHtml::encode($data->sum); ?>
+	<br />
+
+	<b><?php echo CHtml::encode($data->getAttributeLabel('type')); ?>:</b>
 	<?php echo CHtml::encode($data->sum); ?>
 	<br />
 

@@ -1,38 +1,45 @@
 <?php
 
 /**
- * This is the model class for table "payment".
+ * This is the model class for table "transaction".
  *
- * The followings are the available columns in table 'payment':
+ * The followings are the available columns in table 'transaction':
  * @property string $id
- * @property string $client_id
  * @property string $contract_id
  * @property string $details
  * @property string $sum
+ * @property string $type
  * @property string $created_at
  * @property string $updated_at
  *
  * The followings are the available model relations:
- * @property Client $client
  * @property Contract $contract
  */
-class Payment extends CActiveRecord
+class Transaction extends CActiveRecord
 {
-    /**
+    const TYPE_CREDIT = 1;
+    const TYPE_DEBIT = 2;
+	
+	public static $labels = array(
+		self::TYPE_CREDIT => 'Зачисление',
+		self::TYPE_DEBIT => 'Списание',
+	);
+	
+	/**
      * Returns the static model of the specified AR class.
-     * @return Payment the static model class
+     * @return Transaction the static model class
      */
     public static function model($className = __CLASS__)
     {
         return parent::model($className);
     }
 
-    /**
+	/**
      * @return string the associated database table name
      */
     public function tableName()
     {
-        return 'payment';
+        return 'transaction';
     }
 
     /**
@@ -43,13 +50,15 @@ class Payment extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('client_id, contract_id, sum', 'required'),
-            array('client_id, contract_id', 'length', 'max' => 10),
+            array('type, contract_id, sum', 'required'),
+            array('contract_id', 'length', 'max' => 10),
+            array('type', 'length', 'max' => 1),
+            array('type', 'in', 'range' => array_keys(self::$labels)),
             array('sum', 'length', 'max' => 20),
             array('details, created_at, updated_at', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, client_id, contract_id, details, sum, created_at, updated_at', 'safe', 'on' => 'search'),
+            array('id, type, contract_id, details, sum, created_at, updated_at', 'safe', 'on' => 'search'),
         );
     }
 
@@ -61,7 +70,6 @@ class Payment extends CActiveRecord
         // NOTE: you may need to adjust the relation name and the related
         // class name for the relations automatically generated below.
         return array(
-            'client' => array(self::BELONGS_TO, 'Client', 'client_id'),
             'contract' => array(self::BELONGS_TO, 'Contract', 'contract_id'),
         );
     }
@@ -73,10 +81,10 @@ class Payment extends CActiveRecord
     {
         return array(
             'id' => 'ID',
-            'client_id' => 'Клиент',
             'contract_id' => 'Номер договора',
-            'details' => 'Назначение платежа',
+            'details' => 'Назначение/комментарий',
             'sum' => 'Сумма',
+            'type' => 'Тип операции',
             'created_at' => 'Время создания',
             'updated_at' => 'Время обновления',
         );
@@ -108,12 +116,12 @@ class Payment extends CActiveRecord
 
         $criteria = new CDbCriteria;
 
-		$criteria->with = array( 'client', 'contract' );
+		$criteria->with = array( 'contract' );
         $criteria->compare('t.id', $this->id);
-        $criteria->compare('t.client_id', $this->client_id);
         $criteria->compare('contract_id', $this->contract_id);
         $criteria->compare('details', $this->details, true);
         $criteria->compare('sum', $this->sum);
+        $criteria->compare('type', $this->type);
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);
 
@@ -121,10 +129,6 @@ class Payment extends CActiveRecord
             'criteria' => $criteria,
 			'sort' => array(
 				'attributes' => array(
-					'client.name' => array(
-						'asc' => 'client.name ASC',
-						'desc' => 'client.name DESC',
-					),
 					'contract.number' => array(
 						'asc' => 'contract.number ASC',
 						'desc' => 'contract.number DESC',
