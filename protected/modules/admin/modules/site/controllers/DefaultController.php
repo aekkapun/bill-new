@@ -48,7 +48,7 @@ class DefaultController extends Controller
             'model' => $this->loadModel($id),
             'sitePhrases' => SitePhrase::model()->siteOf($id)->searchAsArray(),
             'siteRanges' => SiteRange::model()->siteOf($id)->searchAsArray(),
-            'services' => SiteService::model()->siteOf($id)->enabled()->searchAsArray(),
+            'siteServices' => SiteService::model()->siteOf($id)->enabled()->searchAsArray(),
         ));
     }
 

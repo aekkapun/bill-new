@@ -31,11 +31,13 @@ $this->menu = array(
 
 <h2>Прикрепленные файлы</h2>
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php
+$attachments->pagination->pageSize = 20;
+
+$this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'contract-files',
     'dataProvider' => $attachments,
     'filter' => null,
-    'template' => '{items}',
     'columns' => array(
 		array(
 			'header' => 'Вложения',
@@ -44,4 +46,5 @@ $this->menu = array(
 			'value' => 'CHtml::link($data->name,$data->getFile())',
         ),
     ),
-)); ?>
+));
+?>

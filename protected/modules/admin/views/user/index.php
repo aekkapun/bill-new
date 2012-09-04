@@ -31,9 +31,13 @@ $('.search-form form').submit(function(){
 )); ?>
 </div><!-- search-form -->
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php
+$users = $model->search();
+$users->pagination->pageSize = 20;
+
+$this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'user-grid',
-    'dataProvider' => $model->search(),
+    'dataProvider' => $users,
     'columns' => array(
 		'id',
 		'name',
@@ -47,4 +51,5 @@ $('.search-form form').submit(function(){
             'class' => 'CButtonColumn',
         ),
     ),
-)); ?>
+));
+?>

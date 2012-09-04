@@ -34,6 +34,7 @@ $('.search-form form').submit(function(){
 <?php
 $dataProvider = $model->search();
 $dataProvider->pagination->pageSize = 20;
+
 $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'contract-grid',
 	'dataProvider'=> $dataProvider,

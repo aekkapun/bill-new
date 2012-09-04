@@ -34,7 +34,7 @@ class ClientController extends Controller
     public function actionView($id)
     {
 		$model = $this->loadModel($id);
-		$clients = new CArrayDataProvider($model->contracts, array(
+		$contracts = new CArrayDataProvider($model->contracts, array(
 			'sort' => array(
 				'attributes' => array(
 					'number', 'statusLabel', 'created_at'
@@ -44,7 +44,7 @@ class ClientController extends Controller
 	
         $this->render('view', array(
             'model' => $model,
-			'clients' => $clients,
+			'contracts' => $contracts,
         ));
     }
 

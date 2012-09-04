@@ -31,9 +31,13 @@ $('.search-form form').submit(function(){
 )); ?>
 </div><!-- search-form -->
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php
+$acts = $model->search();
+$acts->pagination->pageSize = 20;
+
+$this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'act-grid',
-	'dataProvider'=>$model->search(),
+	'dataProvider' => $acts,
 	'filter'=>null,
 	'columns'=>array(
 		'id',
@@ -69,4 +73,5 @@ $('.search-form form').submit(function(){
 			'class'=>'CButtonColumn',
 		),
 	),
-)); ?>
+));
+?>

@@ -31,9 +31,13 @@ $('.search-form form').submit(function(){
 )); ?>
 </div><!-- search-form -->
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php
+$factors = $model->search();
+$factors->pagination->pageSize = 20;
+
+$this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'factor-grid',
-	'dataProvider'=>$model->search(),
+	'dataProvider' => $factors,
 	'filter'=>null,
 	'columns'=>array(
 		'id',
@@ -52,27 +56,6 @@ $('.search-form form').submit(function(){
 			'class'=>'CButtonColumn',
 		),
 	),
-)); ?>
+));
 
-<?php /*$this->widget('zii.widgets.grid.CGridView', array(
-    'id'=>'factor-grid',
-    'dataProvider'=>$model->search(),
-    'filter'=>null,
-    'columns'=>array(
-        'id',
-        'name',
-        array(
-            'name' => 'system_id',
-            'value' => 'Factor::getLabel($data->system_id)',
-        ),
-        'position',
-        'value',
-        'created_at',
-        
-        //'updated_at',
- 
-        array(
-            'class'=>'CButtonColumn',
-        ),
-    ),
-)); */?>
+?>

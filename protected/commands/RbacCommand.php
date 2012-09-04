@@ -56,7 +56,7 @@ class RbacCommand extends CConsoleCommand
 
             $users = User::model()->findAll($criteria);
             foreach ($users AS $user) {
-                print "* Назначаем права доступа для " . $user->name . "\n";
+                Yii::log("* Назначаем права доступа для " . $user->name . "\n");
                 $auth->assign($user->role, $user->id);
             }
 

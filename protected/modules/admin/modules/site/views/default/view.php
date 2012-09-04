@@ -57,7 +57,10 @@ foreach (Yii::app()->user->getFlashes() as $key => $message) {
 
 <h2>Запросы</h2>
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php
+$sitePhrases->pagination->pageSize = 20;
+
+$this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'site-phrase-grid',
     'dataProvider' => $sitePhrases,
     'filter' => null,
@@ -67,11 +70,15 @@ foreach (Yii::app()->user->getFlashes() as $key => $message) {
         'price:Цена',
         'active:boolean:Активен?'
     ),
-)); ?>
+));
+?>
 
 <h2>Диапазоны</h2>
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php
+$siteRanges->pagination->pageSize = 20;
+
+$this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'site-range-grid',
     'dataProvider' => $siteRanges,
     'filter' => null,
@@ -80,13 +87,17 @@ foreach (Yii::app()->user->getFlashes() as $key => $message) {
         'valueMax:Макс',
         'price:Цена',
     ),
-)); ?>
+));
+?>
 
 <h2>Подключенные услуги</h2>
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php
+$siteServices->pagination->pageSize = 20;
+
+$this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'site-service-grid',
-    'dataProvider' => $services,
+    'dataProvider' => $siteServices,
     'template' => '{items}<br/>{pager}',
     'filter' => null,
     'columns' => array(
@@ -122,7 +133,8 @@ foreach (Yii::app()->user->getFlashes() as $key => $message) {
             ),
         ),
     ),
-)); ?>
+));
+?>
 
 <br/>
 

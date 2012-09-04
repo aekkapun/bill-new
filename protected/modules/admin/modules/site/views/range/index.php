@@ -31,9 +31,13 @@ $('.search-form form').submit(function(){
 )); ?>
 </div><!-- search-form -->
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php
+$ranges = $model->search();
+$ranges->pagination->pageSize = 20;
+
+$this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'site-range-grid',
-	'dataProvider'=>$model->search(),
+	'dataProvider' => $ranges,
 	'filter'=>$model,
 	'columns'=>array(
 		'id',

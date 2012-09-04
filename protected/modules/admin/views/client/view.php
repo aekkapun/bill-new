@@ -35,12 +35,12 @@ $this->menu = array(
 
 <?php
 if (!empty($model->contracts)) {
+    $contracts->pagination->pageSize = 20;
 
     $this->widget('zii.widgets.grid.CGridView', array(
         'id' => 'contract-grid',
-        'dataProvider' => $clients,
+        'dataProvider' => $contracts,
         'filter' => null,
-        'template' => '{items}',
         'columns' => array(
             array(
 				'header' => 'Номер',

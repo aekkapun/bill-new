@@ -32,9 +32,13 @@ $('.search-form form').submit(function(){
 	)); ?>
 </div><!-- search-form -->
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
+<?php
+$advPlatforms = $model->search();
+$advPlatforms->pagination->pageSize = 20;
+
+$this->widget('zii.widgets.grid.CGridView', array(
     'id' => 'adv-platform-grid',
-    'dataProvider' => $model->search(),
+    'dataProvider' => $advPlatforms,
     'filter' => null,
     'columns' => array(
         'id',

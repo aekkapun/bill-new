@@ -13,6 +13,9 @@ $this->widget('zii.widgets.grid.CGridView', array(
 		'sort' => array(
 			'attributes' => array('phrase', 'price', 'active'),
 		),
+        'pagination' => array(
+            'pageSize' => 20,
+        ),
 	)),
     'filter' => null,
     'columns' => array(
