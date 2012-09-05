@@ -24,7 +24,12 @@ class Transaction extends CActiveRecord
 		self::TYPE_CREDIT => 'Зачисление',
 		self::TYPE_DEBIT => 'Списание',
 	);
-	
+
+    public function getTypeLabel()
+    {
+        return self::$labels[$this->type];
+    }
+
 	/**
      * Returns the static model of the specified AR class.
      * @return Transaction the static model class

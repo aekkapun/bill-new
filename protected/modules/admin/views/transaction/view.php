@@ -21,7 +21,10 @@ $this->menu=array(
 		'contract.number',
 		'details',
 		'sum',
-		'type',
+        array(
+            'name' => 'type',
+            'value' => $model->typeLabel,
+        ),
 		'created_at',
 		'updated_at',
 	),

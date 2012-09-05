@@ -48,7 +48,10 @@ $this->widget('zii.widgets.grid.CGridView', array(
         ),
 		'details',
 		'sum:number',
-		'type',
+        array(
+            'name' => 'type',
+            'value' => '$data->typeLabel',
+        ),
         array(
             'class' => 'CButtonColumn',
         ),
