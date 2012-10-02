@@ -29,7 +29,12 @@
 	
 	<div class="row">
         <?php echo $form->labelEx($model, 'type'); ?>
-        <?php echo $form->dropDownList($model, 'type', Transaction::$labels); ?>
+        <?php echo $form->radioButtonList($model, 'type', Transaction::$labels, array(
+            'template' => '{input}&nbsp;{label}',
+            'labelOptions' => array(
+                'style' => 'display: inline;',
+            ),
+        )); ?>
         <?php echo $form->error($model, 'type'); ?>
     </div>
 

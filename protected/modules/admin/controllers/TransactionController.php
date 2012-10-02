@@ -32,6 +32,8 @@ class TransactionController extends Controller
 				$this->redirect(array('view','id'=>$model->id));
 		}
 
+        $model->type = Transaction::TYPE_CREDIT;
+
 		$this->render('create',array(
 			'model'=>$model,
 		));

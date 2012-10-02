@@ -30,7 +30,10 @@
 
 	<div class="row">
 		<?php echo $form->label($model,'type'); ?>
-		<?php echo $form->textField($model,'type',array('size'=>20,'maxlength'=>20)); ?>
+        <?php echo $form->dropDownList($model, 'type',
+            Transaction::$labels,
+            array('empty' => Yii::app()->params->emptySelectLabel)
+        ); ?>
 	</div>
 
     <div class="row">
