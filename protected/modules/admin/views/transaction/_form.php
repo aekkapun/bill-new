@@ -29,16 +29,16 @@
 	
 	<div class="row">
         <?php echo $form->labelEx($model, 'type'); ?>
-        <?php echo $form->textField($model, 'type', array('size' => 20, 'maxlength' => 20)); ?>
+        <?php echo $form->dropDownList($model, 'type', Transaction::$labels); ?>
         <?php echo $form->error($model, 'type'); ?>
     </div>
-	
+
     <div class="row">
-        <?php echo $form->labelEx($model, 'created_at'); ?>
+        <?php echo $form->labelEx($model, 'period'); ?>
         <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
         array(
             'model' => $model,
-            'attribute' => 'created_at',
+            'attribute' => 'period',
             'language' => 'ru',
             'options' => array(
                 'showAnim' => 'fold',
@@ -50,7 +50,7 @@
                 'buttonImageOnly' => true,
             ),
         )); ?>
-        <?php echo $form->error($model, 'created_at'); ?>
+        <?php echo $form->error($model, 'period'); ?>
     </div>
 
     <div class="row buttons">

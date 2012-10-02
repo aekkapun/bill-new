@@ -32,8 +32,27 @@
 		<?php echo $form->label($model,'type'); ?>
 		<?php echo $form->textField($model,'type',array('size'=>20,'maxlength'=>20)); ?>
 	</div>
-	
-	<div class="row buttons">
+
+    <div class="row">
+        <?php echo $form->label($model, 'period'); ?>
+        <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
+        array(
+            'model' => $model,
+            'attribute' => 'period',
+            'language' => 'ru',
+            'options' => array(
+                'showAnim' => 'fold',
+                'dateFormat' => 'yy-mm-dd',
+                'changeMonth' => true,
+                'changeYear' => true,
+                'showOn' => 'button',
+                'buttonImage' => '/images/calendar.png',
+                'buttonImageOnly' => true,
+            ),
+        )); ?>
+    </div>
+
+    <div class="row buttons">
 		<?php echo CHtml::submitButton('Поиск'); ?>
 	</div>
 
