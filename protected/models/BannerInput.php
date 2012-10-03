@@ -66,12 +66,12 @@ class BannerInput extends CActiveRecord
     public function attributeLabels()
     {
         return array(
-            'id' => 'Id',
-            'site_id' => 'Site',
-            'transitions' => 'Transitions',
-            'sum' => 'Sum',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'id' => 'ID',
+            'site_id' => 'Сайт',
+            'transitions' => 'Переходов',
+            'sum' => 'Сумма',
+            'created_at' => 'Время создания',
+            'updated_at' => 'Время обновления',
             'contract_id' => 'Договор',
         );
     }
