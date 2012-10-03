@@ -21,39 +21,25 @@ class ReportController extends Controller
     {
         $model = new Report;
 
-// Uncomment the following line if AJAX validation is needed
-// $this->performAjaxValidation($model);
+        // Uncomment the following line if AJAX validation is needed
+        // $this->performAjaxValidation($model);
 
         if (isset($_POST['Report'])) {
             $model->attributes = $_POST['Report'];
-            if ($model->save())
-                $this->redirect(array('view', 'id' => $model->id));
+            if ($model->save()) {
+                try {
+                    Yii::app()->amqp->publish($model->id, array('content-type' => 'text/plain', 'delivery_mode' => 2));
+                    Yii::app()->user->setFlash('success', 'Добавлено в очередь на расчет');
+                    $this->redirect(array('view', 'id' => $model->id));
+                } catch(AMQPException $e) {
+                    $model->deleteByPk($model->id);
+                    Yii::app()->user->setFlash('error', 'Ошибка при добавлении в очередь ('.$e->getMessage().')');
+                    $this->redirect(array('index'));
+                }
+            }
         }
 
         $this->render('create', array(
-            'model' => $model,
-        ));
-    }
-
-    /**
-     * Updates a particular model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id the ID of the model to be updated
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->loadModel($id);
-
-// Uncomment the following line if AJAX validation is needed
-// $this->performAjaxValidation($model);
-
-        if (isset($_POST['Report'])) {
-            $model->attributes = $_POST['Report'];
-            if ($model->save())
-                $this->redirect(array('view', 'id' => $model->id));
-        }
-
-        $this->render('update', array(
             'model' => $model,
         ));
     }

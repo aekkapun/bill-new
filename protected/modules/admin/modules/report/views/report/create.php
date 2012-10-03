@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs=array(
-	'Reports'=>array('index'),
+	'Отчеты'=>array('index'),
 	'Создать',
 );
 

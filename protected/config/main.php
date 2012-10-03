@@ -34,6 +34,9 @@ return array(
 
     // application components
     'components' => array(
+        'amqp' => array(
+            'class' => 'ext.amqplib.Amqp',
+        ),
         'format' => array(
             'booleanFormat' => array('Нет', 'Да'),
         ),

@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs = array(
-    'Reports' => array('index'),
+    'Отчеты' => array('index'),
     'Список',
 );
 
@@ -13,9 +13,6 @@ Yii::app()->clientScript->registerScript('search', "
     setInterval(function(){ $.fn.yiiGridView.update('report-grid') }, 5000);
 
     $('.search-button').click(function(){
-        $('.search-form').toggle();
-            return false;
-        });
         $('.search-form form').submit(function(){
             $.fn.yiiGridView.update('report-grid', {
             data: $(this).serialize()
@@ -25,10 +22,9 @@ Yii::app()->clientScript->registerScript('search', "
 ");
 ?>
 
-<h1>Список</h1>
+<h1>Отчеты</h1>
 
-<?php echo CHtml::link('Расширенный поиск', '#', array('class' => 'search-button')); ?>
-<div class="search-form" style="display:none">
+<div class="search-form">
     <?php $this->renderPartial('_search', array(
     'model' => $model,
 )); ?>
@@ -72,6 +68,12 @@ Yii::app()->clientScript->registerScript('search', "
         ),
         array(
             'class' => 'CButtonColumn',
+            'template' => '{view} {delete}',
+            'buttons' => array(
+                'delete' => array(
+                    'visible' => 'false',
+                ),
+            ),
         ),
     ),
 )); ?>

@@ -105,7 +105,7 @@ class Report extends CActiveRecord
             'id' => 'ID',
             'period_begin' => 'Начало периода',
             'period_end' => 'Окончание периода',
-            'client_id' => 'Клиента',
+            'client_id' => 'Клиент',
             'status' => 'Статус',
             'contract_status' => 'Договоры',
             'created_at' => 'Время создания',
