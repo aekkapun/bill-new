@@ -43,7 +43,8 @@ class ContextController extends Controller
             if ($valid) {
 
                 $params = array();
-                $params['advPlatforms'] = $advPlatforms;
+
+                $params['advPlatforms'] = array_values($advPlatforms);
                 $siteService->params = CJSON::encode($params);
 
                 if (!$siteService->save()) {

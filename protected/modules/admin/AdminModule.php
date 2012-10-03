@@ -30,6 +30,7 @@ class AdminModule extends CWebModule
             'site',
             'service',
             'import',
+            'report',
         );
 
         Yii::app()->setComponents(array(

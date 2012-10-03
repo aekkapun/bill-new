@@ -11,7 +11,7 @@ if (stripos($_SERVER['HTTP_HOST'], '.dev')) {
 defined('IN_DEVELOPMENT_MODE')
     || define('IN_DEVELOPMENT_MODE', (stripos($_SERVER['HTTP_HOST'], '.dev') ? true : false));
 
-$env = IN_DEVELOPMENT_MODE ? 'development' : 'development';
+$env = IN_DEVELOPMENT_MODE ? 'main' : 'main';
 $config = dirname(__DIR__) . '/protected/config/' . $env . '.php';
 
 if (IN_DEVELOPMENT_MODE) {

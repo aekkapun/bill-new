@@ -44,6 +44,7 @@
             array('label' => 'Коэффициенты', 'url' => array('/admin/factor'), 'visible' => Yii::app()->user->checkAccess('admin')),
             array('label' => 'Рекламные площадки', 'url' => array('/admin/advPlatform'), 'visible' => Yii::app()->user->checkAccess('admin')),
             array('label' => 'Сайты', 'url' => array('/admin/site'), 'visible' => Yii::app()->user->checkAccess('manager')),
+            array('label' => 'Отчеты', 'url' => array('/admin/report/report/index'), 'visible' => Yii::app()->user->checkAccess('manager')),
             array('label' => 'Вход', 'url' => array('/admin/default/login'), 'visible' => Yii::app()->user->isGuest),
             array('label' => 'Выход (' . Yii::app()->user->name . ')', 'url' => array('/admin/default/logout'), 'visible' => !Yii::app()->user->isGuest)
         ),

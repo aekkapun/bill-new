@@ -24,11 +24,11 @@ return array(
         'gii' => array(
             'class' => 'system.gii.GiiModule',
             'password' => 'qqq',
-            'ipFilters' => array('127.0.0.1'),
+            'ipFilters' => array('*'),
         ),
         'admin' => array(
             'password' => 'qqq',
-            'ipFilters' => array('*'),
+            'ipFilters' => array('127.0.0.1'),
         ),
     ),
 
@@ -74,12 +74,16 @@ return array(
             ),
         ),
         'db' => array(
-            'connectionString' => 'mysql:host=127.0.0.1;dbname=inmar',
-            'username' => 'root',
-            'password' => '',
-            'charset' => 'utf8',
-            'emulatePrepare' => 'true',
-            'tablePrefix' => '',
+            'connectionString' => '[[database.type]]:host=[[database.host]];dbname=[[database.basename]]',
+            'username' => '[[database.username]]',
+            'password' => '[[database.password]]',
+            'charset' => '[[database.charset]]',
+            'emulatePrepare' => '[[database.emulatePrepare]]',
+            'tablePrefix' => '[[database.tablePrefix]]',
+            'schemaCachingDuration' => '[[database.schemaCachingDuration]]',
+            'queryCachingDuration' => '[[database.queryCachingDuration]]',
+            'enableParamLogging' => '[[database.enableParamLogging]]',
+            'enableProfiling' => '[[database.enableProfiling]]',
         ),
         'errorHandler' => array(
             'errorAction' => 'error/error',
@@ -99,9 +103,13 @@ return array(
                 ),
             ),
         ),
+        'cache' => array(
+            'class' => 'CDummyCache',
+        ),
     ),
 
     'params' => array(
-		'emptySelectLabel' => '-- выбрать --',
+        'adminEmail' => 'denis.a.boldinov@gmail.com',
+        'uploadDir' => Yii::getPathOfAlias('webroot') . DIRECTORY_SEPARATOR . 'upload',
     ),
 );

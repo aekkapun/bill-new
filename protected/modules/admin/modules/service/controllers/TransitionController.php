@@ -35,7 +35,7 @@ class TransitionController extends Controller
 
                 try {
 
-                    $params['ranges'] = $ranges;
+                    $params['ranges'] = array_values($ranges);
                     $params['maxSum'] = $transitionForm->sumMax;
 
                     $siteService->params = CJSON::encode($params);

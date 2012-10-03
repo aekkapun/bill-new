@@ -5,3 +5,5 @@ themes/classic/views/
 .idea
 /nbproject/private/
 /www/
+protected/config/*
+!protected/config/source

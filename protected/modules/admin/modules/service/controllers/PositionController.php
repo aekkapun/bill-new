@@ -31,7 +31,6 @@ class PositionController extends Controller
             }
 
             $valid = $valid && true;
-            $buf = array();
             foreach ($_POST['SitePhrase'] as $index => $attributes) {
                 if (isset($phrases[$index])) {
                     $phrases[$index]->attributes = $attributes;
@@ -41,8 +40,8 @@ class PositionController extends Controller
 
             if ($valid) {
 
-                $params['phrases'] = $phrases;
-                $params['factors'] = $factors;
+                $params['phrases'] = array_values($phrases);
+                $params['factors'] = array_values($factors);
 
                 $siteService->params = CJSON::encode($params);
 
