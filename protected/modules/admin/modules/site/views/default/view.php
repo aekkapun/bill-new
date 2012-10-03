@@ -55,41 +55,6 @@ foreach (Yii::app()->user->getFlashes() as $key => $message) {
 
 <br/>
 
-<h2>Запросы</h2>
-
-<?php
-$sitePhrases->pagination->pageSize = 20;
-
-$this->widget('zii.widgets.grid.CGridView', array(
-    'id' => 'site-phrase-grid',
-    'dataProvider' => $sitePhrases,
-    'filter' => null,
-    'columns' => array(
-        'id:number:Код',
-        'phrase:Запрос',
-        'price:Цена',
-        'active:boolean:Активен?'
-    ),
-));
-?>
-
-<h2>Диапазоны</h2>
-
-<?php
-$siteRanges->pagination->pageSize = 20;
-
-$this->widget('zii.widgets.grid.CGridView', array(
-    'id' => 'site-range-grid',
-    'dataProvider' => $siteRanges,
-    'filter' => null,
-    'columns' => array(
-        'valueMin:Мин',
-        'valueMax:Макс',
-        'price:Цена',
-    ),
-));
-?>
-
 <h2>Подключенные услуги</h2>
 
 <?php
@@ -104,19 +69,19 @@ $this->widget('zii.widgets.grid.CGridView', array(
         array(
             'header' => 'Название',
             'type' => 'raw',
-			'name' => 'name',
+            'name' => 'name',
             'value' => 'CHtml::link(Service::getLabel($data->service_id, $data->id), array("/admin/service/".Service::getControllerName($data->service_id)."/input", "ssId" => $data->id))'
         ),
         array(
-			'header' => 'Номер договора',
-			'name' => 'contract.number',
+            'header' => 'Номер договора',
+            'name' => 'contract.number',
             'type' => 'raw',
             'value' => 'CHtml::link($data->contract->number, array("/admin/contract/view", "id"=>$data->contract->id))',
         ),
         array(
             'header' => 'Дата подключения/изменения',
             'type' => 'date',
-			'name' => 'created_at',
+            'name' => 'created_at',
             'value' => 'strtotime($data["created_at"])',
         ),
         array(
