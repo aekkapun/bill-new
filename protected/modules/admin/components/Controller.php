@@ -22,8 +22,8 @@
 class Controller extends CController
 {
 
-    public $layout = 'application.modules.admin.views.layouts.column2';
-//    public $layout = 'webroot.themes.bootstrap.views.admin.layouts.column2';
+//    public $layout = 'application.modules.admin.views.layouts.column2';
+    public $layout = 'webroot.themes.modern.views.admin.layouts.column2';
 
     /**
      * @var array context menu items. This property will be assigned to {@link CMenu::items}.
