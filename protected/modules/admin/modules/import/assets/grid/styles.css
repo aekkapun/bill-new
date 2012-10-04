@@ -1,8 +1,0 @@
-.grid-view tr.ambiguous {
-    color: #fff;
-    background: #CC0000;
-}
-
-.grid-view tr.ambiguous:hover {
-    color: #000;
-}
