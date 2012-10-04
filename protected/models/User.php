@@ -166,7 +166,7 @@ class User extends CActiveRecord
     public function attributeLabels()
     {
         return array(
-            'id' => 'Код',
+            'id' => '#',
             'name' => 'Пользователь',
             'role' => 'Уровень доступа',
             'email' => 'Электропочта',

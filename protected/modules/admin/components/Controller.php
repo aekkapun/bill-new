@@ -23,7 +23,7 @@ class Controller extends CController
 {
 
 //    public $layout = 'application.modules.admin.views.layouts.column2';
-    public $layout = 'webroot.themes.modern.views.admin.layouts.column2';
+//    public $layout = 'webroot.themes.modern.views.admin.layouts.column2';
 
     /**
      * @var array context menu items. This property will be assigned to {@link CMenu::items}.
@@ -42,8 +42,10 @@ class Controller extends CController
 
     public function init()
     {
-        Yii::app()->clientScript->registerCoreScript('jquery');
-//        $this->attachBehavior('bootstrap', new BController($this));
+        Yii::app()->clientScript->registerCoreScript('jquery')
+            ->registerScriptFile($this->getAssetsUrl() . '/js/admin.js')
+//            ->registerCssFile($this->getAssetsUrl() . '/css/bootstrap.min.css')
+            ->registerCssFile($this->getAssetsUrl() . '/css/main.css');
         parent::init();
     }
 
@@ -52,8 +54,9 @@ class Controller extends CController
      */
     public function getAssetsUrl()
     {
+
         if ($this->_assetsUrl === null)
-            $this->_assetsUrl = Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('application.modules.admin.assets'), false, -1, YII_DEBUG);
+            $this->_assetsUrl = Yii::app()->assetManager->publish(Yii::getPathOfAlias('webroot.themes.modern.assets'), false, -1, YII_DEBUG);
         return $this->_assetsUrl;
     }
 

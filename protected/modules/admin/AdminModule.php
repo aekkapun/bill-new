@@ -3,7 +3,7 @@
 class AdminModule extends CWebModule
 {
 
-//    public $layout = 'application.modules.admin.views.layouts.column2';
+    public $layout = 'webroot.themes.modern.views.admin.layouts.column2';
 
     /**
      * @var string the password that can be used to access GiiModule.
@@ -22,9 +22,12 @@ class AdminModule extends CWebModule
      */
     public $ipFilters = array('127.0.0.1', '::1');
 
+//    public $preload = array('log', 'bootstrap');
+
     public function init()
     {
         parent::init();
+
 
         $this->modules = array(
             'site',
@@ -32,6 +35,12 @@ class AdminModule extends CWebModule
             'import',
             'report',
         );
+
+        // import the module-level models and components
+        $this->setImport(array(
+            'admin.models.*',
+            'admin.components.*',
+        ));
 
         Yii::app()->setComponents(array(
             'errorHandler' => array(
@@ -42,17 +51,9 @@ class AdminModule extends CWebModule
                 'stateKeyPrefix' => 'admin',
                 'loginUrl' => Yii::app()->createUrl($this->getId() . '/default/login'),
             ),
-        ));
-        // this method is called when the module is being created
-        // you may place code here to customize the module or the application
-
-        // import the module-level models and components
-        $this->setImport(array(
-            'admin.models.*',
-            'admin.components.*',
-            'ext.bootstrap-theme.widgets.*',
-            'ext.bootstrap-theme.helpers.*',
-            'ext.bootstrap-theme.behaviors.*',
+            'amqp' => array(
+                'class' => 'ext.amqplib.Amqp',
+            ),
         ));
     }
 

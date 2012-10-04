@@ -1,23 +1,18 @@
 <?php $this->beginContent('webroot.themes.modern.views.admin.layouts.main'); ?>
-<div class="span-19">
+<div class="span3">
+    <div id="leftbar">
+        <?php
+        $this->widget('bootstrap.widgets.TbMenu', array(
+            'type' => 'list',
+//            'items' => array_map(function($arr){return $arr + array("icon" => "chevron-right");}, $this->menu),
+            'items' => $this->menu,
+        ));
+        ?>
+    </div>
+</div>
+<div class="span9">
     <div id="content">
         <?php echo $content; ?>
     </div>
-    <!-- content -->
-</div>
-<div class="span-5 last">
-    <div id="sidebar">
-        <?php
-        $this->beginWidget('zii.widgets.CPortlet', array(
-            'title' => 'Действия',
-        ));
-        $this->widget('zii.widgets.CMenu', array(
-            'items' => $this->menu,
-            'htmlOptions' => array('class' => 'operations'),
-        ));
-        $this->endWidget();
-        ?>
-    </div>
-    <!-- sidebar -->
 </div>
 <?php $this->endContent(); ?>
