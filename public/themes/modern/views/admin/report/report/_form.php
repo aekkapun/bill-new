@@ -12,7 +12,7 @@
     'ajax' => array(
         'url' => Yii::app()->createAbsoluteUrl('/admin/report/report/lastPeriodEnd'),
         'data' => array('clientId' => 'js:$(this).val()'),
-        'success' => 'js:function(data){ var obj = $("#Report_period_begin"); obj.val(data).prop("disabled", true); }'
+        'success' => 'js:function(data){ var obj = $("#Report_period_begin"); obj.val(data); }'
     ),
     'prompt' => Yii::app()->params['emptySelectLabel']
 )); ?>

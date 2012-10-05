@@ -66,7 +66,7 @@
 
     <target name="backup">
         <ssh host="${deploy.host}" port="${deploy.port}" username="${deploy.user}" password="${deploy.password}"
-             command="${mysqldump_exec} -u ${database.username} -p${database.password} -R --set-charset=${database.charset} -v ${database.basename} > /home/dboldinov/billing/backup/${database.basename}_${DSTAMP}${TSTAMP}.sql"
+             command="${mysqldump_exec} -u ${database.console.username} -p${database.console.password} -R --set-charset=${database.charset} -v ${database.basename} > /var/www/billing/backup/${database.basename}_${DSTAMP}${TSTAMP}.sql"
              display="true"/>
     </target>
 

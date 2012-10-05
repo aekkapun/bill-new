@@ -32,15 +32,15 @@ class Report extends CActiveRecord
         self::STATUS_FINISHED => 'Выполнен',
     );
 
+    public $contractStatusLabel = array(
+        self::CONTRACT_STATUS_ACTIVE => 'Только активные',
+        self::CONTRACT_STATUS_EXPIRED => 'Не активные',
+    );
+
     public $statusLabelBadge = array(
         self::STATUS_NEW => '',
         self::STATUS_PENDING => 'label-info',
         self::STATUS_FINISHED => 'label-success',
-    );
-
-    public $contractStatusLabel = array(
-        self::CONTRACT_STATUS_ACTIVE => 'Только активные',
-        self::CONTRACT_STATUS_EXPIRED => 'Не активные',
     );
 
     public function getStatusLabel($status = false)
