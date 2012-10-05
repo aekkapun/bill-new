@@ -60,7 +60,7 @@ Yii::app()->clientScript->registerScript('search', "
         array(
             'type' => 'raw',
             'name' => 'status',
-            'value' => '$data->getStatusLabel()'
+            'value' => 'CHtml::tag("span", array("class" => "label " . $data->getStatusLabelBadge()), $data->getStatusLabel())',
         ),
         array(
             'type' => 'raw',

@@ -52,14 +52,14 @@ $this->widget('bootstrap.widgets.TbGridView', array(
     'columns' => array(
         'id',
         array(
-            'name' => 'client.name',
-            'type' => 'raw',
-            'value' => 'CHtml::link($data->client->name, array("/admin/client/view", "id"=>$data->client->id))'
-        ),
-        array(
             'name' => 'domain',
             'type' => 'raw',
             'value' => 'CHtml::link($data->domain, array("/admin/site/default/view", "id"=>$data->id))'
+        ),
+        array(
+            'name' => 'client.name',
+            'type' => 'raw',
+            'value' => 'CHtml::link($data->client->name, array("/admin/client/view", "id"=>$data->client->id))'
         ),
         'created_at',
 

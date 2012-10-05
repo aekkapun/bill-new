@@ -32,6 +32,12 @@ class Report extends CActiveRecord
         self::STATUS_FINISHED => 'Выполнен',
     );
 
+    public $statusLabelBadge = array(
+        self::STATUS_NEW => '',
+        self::STATUS_PENDING => 'label-info',
+        self::STATUS_FINISHED => 'label-success',
+    );
+
     public $contractStatusLabel = array(
         self::CONTRACT_STATUS_ACTIVE => 'Только активные',
         self::CONTRACT_STATUS_EXPIRED => 'Не активные',
@@ -41,6 +47,12 @@ class Report extends CActiveRecord
     {
         $key = ($status && is_numeric($status)) ? $status : $this->status;
         return isset($this->statusLabel[$key]) ? $this->statusLabel[$key] : 'undefined';
+    }
+
+    public function getStatusLabelBadge($status = false)
+    {
+        $key = ($status && is_numeric($status)) ? $status : $this->status;
+        return isset($this->statusLabelBadge[$key]) ? $this->statusLabelBadge[$key] : '';
     }
 
     public function getContractStatusLabel($contractStatus = false)

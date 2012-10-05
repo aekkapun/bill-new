@@ -114,6 +114,7 @@ class SiteService extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'contract' => array(self::BELONGS_TO, 'Contract', 'contract_id'),
+            'service' => array(self::BELONGS_TO, 'Service', 'service_id'),
         );
     }
 
