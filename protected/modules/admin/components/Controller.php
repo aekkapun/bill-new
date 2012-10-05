@@ -44,7 +44,6 @@ class Controller extends CController
     {
         Yii::app()->clientScript->registerCoreScript('jquery')
             ->registerScriptFile($this->getAssetsUrl() . '/js/admin.js')
-//            ->registerCssFile($this->getAssetsUrl() . '/css/bootstrap.min.css')
             ->registerCssFile($this->getAssetsUrl() . '/css/main.css');
         parent::init();
     }

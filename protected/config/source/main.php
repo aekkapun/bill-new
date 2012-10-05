@@ -9,10 +9,12 @@ return array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
     'name' => 'Биллинг',
 
-    'preload' => array('log'),
+    'preload' => array('log', 'bootstrap'),
 
     'language' => 'ru',
     'timeZone' => 'Europe/Moscow',
+
+    'theme' => 'modern',
 
     'import' => array(
         'application.models.*',
@@ -24,16 +26,19 @@ return array(
         'gii' => array(
             'class' => 'system.gii.GiiModule',
             'password' => 'qqq',
-            'ipFilters' => array('*'),
+            'ipFilters' => array('127.0.0.1'),
         ),
         'admin' => array(
             'password' => 'qqq',
-            'ipFilters' => array('127.0.0.1'),
+            'ipFilters' => array('*'),
         ),
     ),
 
     // application components
     'components' => array(
+        'bootstrap' => array(
+            'class' => 'ext.bootstrap.components.Bootstrap', // assuming you extracted bootstrap under extensions
+        ),
         'format' => array(
             'booleanFormat' => array('Нет', 'Да'),
         ),
@@ -103,13 +108,9 @@ return array(
                 ),
             ),
         ),
-        'cache' => array(
-            'class' => 'CDummyCache',
-        ),
     ),
 
     'params' => array(
-        'adminEmail' => 'denis.a.boldinov@gmail.com',
-        'uploadDir' => Yii::getPathOfAlias('webroot') . DIRECTORY_SEPARATOR . 'upload',
+        'emptySelectLabel' => '-- выбрать --',
     ),
 );

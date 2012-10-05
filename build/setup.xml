@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="tvkinoradio" basedir="." default="main">
 
-    <property name="deploy.host" value="5.9.44.46"/>
-    <property name="deploy.port" value="222"/>
-    <property name="deploy.user" value="tvkinoradio"/>
-    <property name="deploy.password" value="Fz6RzSnujp3U4MRq"/>
-    <property name="deploy.path" value="/var/www/tvkinoradio.dev"/>
+    <property name="deploy.host" value=""/>
+    <property name="deploy.port" value=""/>
+    <property name="deploy.user" value=""/>
+    <property name="deploy.password" value=""/>
+    <property name="deploy.path" value=""/>
 
     <target name="main">
         <foreach list="${deploy.host}" param="current.deploy.host" target="setup"/>
@@ -24,13 +24,13 @@
         <ssh username="${deploy.user}" password="${deploy.password}" host="${current.deploy.host}" port="${deploy.port}"
              command="mkdir -p ${deploy.path}/shared/upload -m 0777"/>
 
-        <!--Sphinx-->
+        <!--Sphinx
         <ssh username="${deploy.user}" password="${deploy.password}" host="${current.deploy.host}" port="${deploy.port}"
              command="mkdir -p ${deploy.path}/shared/sphinx/pids -m 0755"/>
         <ssh username="${deploy.user}" password="${deploy.password}" host="${current.deploy.host}" port="${deploy.port}"
              command="mkdir -p ${deploy.path}/shared/sphinx/logs -m 0755"/>
         <ssh username="${deploy.user}" password="${deploy.password}" host="${current.deploy.host}" port="${deploy.port}"
-             command="mkdir -p ${deploy.path}/shared/sphinx/data -m 0755"/>
+             command="mkdir -p ${deploy.path}/shared/sphinx/data -m 0755"/>-->
 
         <!--Releases directory-->
         <ssh username="${deploy.user}" password="${deploy.password}" host="${current.deploy.host}" port="${deploy.port}"

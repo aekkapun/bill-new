@@ -3,6 +3,8 @@
 class AdminModule extends CWebModule
 {
 
+    public $defaultController = 'site/default';
+
     public $layout = 'webroot.themes.modern.views.admin.layouts.column2';
 
     /**

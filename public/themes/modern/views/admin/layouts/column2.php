@@ -4,7 +4,6 @@
         <?php
         $this->widget('bootstrap.widgets.TbMenu', array(
             'type' => 'list',
-//            'items' => array_map(function($arr){return $arr + array("icon" => "chevron-right");}, $this->menu),
             'items' => $this->menu,
         ));
         ?>

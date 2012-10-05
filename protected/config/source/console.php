@@ -32,9 +32,9 @@ return array(
             'assignmentTable' => 'auth_assignment',
         ),
         'db' => array(
-            'connectionString' => '[[database.type]]:host=[[database.host]];dbname=[[database.basename]]',
-            'username' => '[[database.username]]',
-            'password' => '[[database.password]]',
+            'connectionString' => '[[database.type]]:host=[[database.console.host]];dbname=[[database.console.basename]]',
+            'username' => '[[database.console.username]]',
+            'password' => '[[database.console.password]]',
             'charset' => '[[database.charset]]',
             'emulatePrepare' => '[[database.emulatePrepare]]',
             'tablePrefix' => '[[database.tablePrefix]]',

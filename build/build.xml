@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="tvkinoradio" basedir="." default="build">
+<project name="operpom" basedir="." default="build">
 
     <tstamp/>
 
@@ -71,21 +71,6 @@
                     <token key="database.enableParamLogging" value="${database.enableParamLogging}"/>
                     <token key="database.enableProfiling" value="${database.enableProfiling}"/>
                     <token key="database.emulatePrepare" value="${database.emulatePrepare}"/>
-                    <!--Sphinx-->
-                    <token key="sphinx.host" value="${sphinx.host}"/>
-                    <token key="sphinx.port" value="${sphinx.port}"/>
-
-                </replacetokens>
-            </filterchain>
-            <filterchain id="filter.mailchimp">
-                <replacetokens begintoken="[[" endtoken="]]">
-                    <token key="mailchimp.appId" value="${mailchimp.appId}"/>
-                    <token key="mailchimp.attempts" value="${mailchimp.attempts}"/>
-                </replacetokens>
-            </filterchain>
-            <filterchain id="filter.app">
-                <replacetokens begintoken="[[" endtoken="]]">
-                    <token key="app.host" value="${app.host}"/>
                 </replacetokens>
             </filterchain>
         </copy>
@@ -128,25 +113,6 @@
                     <token key="database.enableParamLogging" value="${database.enableParamLogging}"/>
                     <token key="database.enableProfiling" value="${database.enableProfiling}"/>
                     <token key="database.emulatePrepare" value="${database.emulatePrepare}"/>
-                </replacetokens>
-            </filterchain>
-        </copy>
-
-
-        <copy file="${build.src.dir}/protected/config/source/sphinx.conf"
-              tofile="${build.src.dir}/protected/config/sphinx.conf" overwrite="true">
-            <filterchain>
-                <replacetokens begintoken="[[" endtoken="]]">
-                    <token key="sphinx.host" value="${sphinx.host}"/>
-                    <token key="sphinx.port" value="${sphinx.port}"/>
-                    <token key="sphinx.basepath" value="${sphinx.basepath}"/>
-                    <token key="database.type" value="${database.type}"/>
-                    <token key="database.port" value="${database.port}"/>
-                    <token key="database.host" value="${database.host}"/>
-                    <token key="database.basename" value="${database.basename}"/>
-                    <token key="database.username" value="${database.username}"/>
-                    <token key="database.password" value="${database.password}"/>
-                    <token key="database.charset" value="${database.charset}"/>
                 </replacetokens>
             </filterchain>
         </copy>

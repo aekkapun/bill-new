@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="tvkinoradio" basedir="." default="deploy">
+<project name="operpom" basedir="." default="deploy">
 
     <tstamp/>
 
     <property name="build.base.dir" value="release"/>
     <property name="build.src.dir" value="${build.base.dir}/src"/>
 
-    <property name="deploy.host" value="5.9.44.46"/>
-    <property name="deploy.port" value="222"/>
-    <property name="deploy.user" value="tvkinoradio"/>
-    <property name="deploy.password" value="Fz6RzSnujp3U4MRq"/>
-    <property name="deploy.path" value="/var/www/tvkinoradio.dev"/>
+    <property name="deploy.host" value=""/>
+    <property name="deploy.port" value=""/>
+    <property name="deploy.user" value=""/>
+    <property name="deploy.password" value=""/>
+    <property name="deploy.path" value=""/>
 
     <target name="deploy">
 
@@ -37,28 +37,36 @@
              command="chmod 0777 ${deploy.path}/shared/upload &amp;&amp; chmod 0777 ${deploy.path}/shared/runtime &amp;&amp; chmod 0777 ${deploy.path}/shared/assets"
              display="true"/>
 
-        <ssh host="${deploy.host}" port="${deploy.port}" username="${deploy.user}" password="${deploy.password}"
-             command="ln -sf ${deploy.path}/shared/images ${deploy.path}/releases/${revision}/public/images"
+        <ssh description="Removing upload link" host="${deploy.host}" port="${deploy.port}" username="${deploy.user}" password="${deploy.password}"
+             command="rm -rf ${deploy.path}/releases/${revision}/public/upload"
              display="true"/>
-        <ssh host="${deploy.host}" port="${deploy.port}" username="${deploy.user}" password="${deploy.password}"
-             command="ln -sf ${deploy.path}/shared/upload ${deploy.path}/releases/${revision}/public/upload"
-             display="true"/>
-        <ssh host="${deploy.host}" port="${deploy.port}" username="${deploy.user}" password="${deploy.password}"
-             command="ln -sf ${deploy.path}/shared/assets ${deploy.path}/releases/${revision}/public/assets"
-             display="true"/>
-        <ssh host="${deploy.host}" port="${deploy.port}" username="${deploy.user}" password="${deploy.password}"
-             command="ln -sf ${deploy.path}/shared/runtime ${deploy.path}/releases/${revision}/protected/runtime"
+        <ssh description="Linking upload" host="${deploy.host}" port="${deploy.port}" username="${deploy.user}" password="${deploy.password}"
+             command="ln -s ${deploy.path}/shared/upload ${deploy.path}/releases/${revision}/public/upload"
              display="true"/>
 
-        <ssh host="${deploy.host}" port="${deploy.port}" username="${deploy.user}" password="${deploy.password}"
+        <ssh description="Removing assets link" host="${deploy.host}" port="${deploy.port}" username="${deploy.user}" password="${deploy.password}"
+             command="rm -rf ${deploy.path}/releases/${revision}/public/assets"
+             display="true"/>
+        <ssh description="Linking assets" host="${deploy.host}" port="${deploy.port}" username="${deploy.user}" password="${deploy.password}"
+             command="ln -s ${deploy.path}/shared/assets ${deploy.path}/releases/${revision}/public/assets"
+             display="true"/>
+
+        <ssh description="Removing runtime link" host="${deploy.host}" port="${deploy.port}" username="${deploy.user}" password="${deploy.password}"
+             command="rm -rf ${deploy.path}/releases/${revision}/protected/runtime"
+             display="true"/>
+        <ssh description="Linking runtime" host="${deploy.host}" port="${deploy.port}" username="${deploy.user}" password="${deploy.password}"
+             command="ln -s ${deploy.path}/shared/runtime ${deploy.path}/releases/${revision}/protected/runtime"
+             display="true"/>
+
+        <ssh description="Removing current link" host="${deploy.host}" port="${deploy.port}" username="${deploy.user}" password="${deploy.password}"
              command="rm -rf ${deploy.path}/current" display="true"/>
-        <ssh host="${deploy.host}" port="${deploy.port}" username="${deploy.user}" password="${deploy.password}"
+        <ssh description="Linking current" host="${deploy.host}" port="${deploy.port}" username="${deploy.user}" password="${deploy.password}"
              command="ln -s ${deploy.path}/releases/${revision} ${deploy.path}/current" display="true"/>
     </target>
 
     <target name="backup">
         <ssh host="${deploy.host}" port="${deploy.port}" username="${deploy.user}" password="${deploy.password}"
-             command="${mysqldump_exec} -u ${database.username} -p${database.password} -R --set-charset=${database.charset} -v ${database.basename} > ${database.basename}_${DSTAMP}${TSTAMP}.sql"
+             command="${mysqldump_exec} -u ${database.username} -p${database.password} -R --set-charset=${database.charset} -v ${database.basename} > /home/dboldinov/billing/backup/${database.basename}_${DSTAMP}${TSTAMP}.sql"
              display="true"/>
     </target>
 
@@ -67,26 +75,4 @@
              command="/usr/bin/php ${deploy.path}/current/protected/yiic migrate --interactive=0" display="true"/>
     </target>
 
-    <target name="restart" description="Restarting">
-
-        <ssh host="${deploy.host}" port="${deploy.port}" username="${deploy.user}" password="${deploy.password}"
-             command="searchd -c ${deploy.path}/current/protected/config/sphinx.conf --status" display="true" property="searchdStatus"/>
-        <if>
-            <contains string="${searchdStatus}" substring="WARNING" casesensitive="false"/>
-            <then>
-                <ssh host="${deploy.host}" port="${deploy.port}" username="${deploy.user}" password="${deploy.password}"
-                     command="indexer --all --config ${deploy.path}/current/protected/config/sphinx.conf" display="true"/>
-                <ssh host="${deploy.host}" port="${deploy.port}" username="${deploy.user}" password="${deploy.password}"
-                     command="searchd -c ${deploy.path}/current/protected/config/sphinx.conf" display="true"/>
-            </then>
-            <else>
-                <ssh host="${deploy.host}" port="${deploy.port}" username="${deploy.user}" password="${deploy.password}"
-                     command="searchd -c ${deploy.path}/current/protected/config/sphinx.conf --stop" display="true"/>
-                <ssh host="${deploy.host}" port="${deploy.port}" username="${deploy.user}" password="${deploy.password}"
-                     command="indexer --all --config ${deploy.path}/current/protected/config/sphinx.conf" display="true"/>
-                <ssh host="${deploy.host}" port="${deploy.port}" username="${deploy.user}" password="${deploy.password}"
-                     command="searchd -c ${deploy.path}/current/protected/config/sphinx.conf" display="true"/>
-            </else>
-        </if>
-    </target>
 </project>

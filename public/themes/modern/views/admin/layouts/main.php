@@ -51,10 +51,10 @@
 </div>
 
 <script type="text/javascript">
-    $(function () {
+    $(function() {
         $('.dropdown-toggle').dropdown();
     });
 </script>
-<!-- page -->
+
 </body>
 </html>
