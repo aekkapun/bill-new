@@ -71,6 +71,7 @@ class PositionImportAdapter extends CFormModel implements AdapterInterface
                 ),
                 'dataFile' => array(
                     'type' => 'file',
+                    'visible' => true,
                 ),
             ),
 

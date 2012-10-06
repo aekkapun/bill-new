@@ -49,6 +49,7 @@ class BankclientAdapter extends CFormModel implements AdapterInterface
                 ),
                 'dataFile' => array(
                     'type' => 'file',
+                    'visible' => true,
                 ),
             ),
 
