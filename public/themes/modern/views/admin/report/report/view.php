@@ -47,3 +47,16 @@ $this->menu = array(
         'updated_at',
     ),
 )); ?>
+
+<?php $this->widget('bootstrap.widgets.TbGridView', array(
+    'type' => 'striped bordered',
+    'id' => 'report-position-grid',
+    'dataProvider' => new CArrayDataProvider($position),
+    'filter' => null,
+    'columns' => array(
+        array(
+            'type' => 'raw',
+            'value' => $data->bySystemId(Factor::SYSTEM_YANDEX)->count(),
+        ),
+    ),
+)); ?>

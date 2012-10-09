@@ -1,3 +1,6 @@
 [submodule "framework"]
 	path = framework
 	url = git://github.com/yiisoft/yii.git
+[submodule "stat-module"]
+	path = stat-module
+	url = git@github.com:INMAR-MEDIA/stat-module.git

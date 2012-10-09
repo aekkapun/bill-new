@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="operpom" basedir="." default="deploy">
+<project name="operpom" basedir="." default="main">
 
     <tstamp/>
 
     <property name="build.base.dir" value="release"/>
     <property name="build.src.dir" value="${build.base.dir}/src"/>
 
-    <property name="deploy.host" value=""/>
-    <property name="deploy.port" value=""/>
-    <property name="deploy.user" value=""/>
-    <property name="deploy.password" value=""/>
-    <property name="deploy.path" value=""/>
+    <property name="deploy.host" value="localhost"/>
+    <property name="deploy.port" value="22"/>
+    <property name="deploy.user" value="root"/>
+    <property name="deploy.password" value="root"/>
+    <property name="deploy.path" value="~"/>
+    <property name="mysqldump_exec" value="/usr/bin/mysqldump"/>
 
     <target name="deploy">
 
@@ -26,12 +27,7 @@
 
         <echo>Unpacking sources on staging server...</echo>
         <ssh host="${deploy.host}" port="${deploy.port}" username="${deploy.user}" password="${deploy.password}"
-             command="tar -xvz -C ${deploy.path}/releases/${revision} -f ${deploy.path}/releases/${revision}/build-${revision}.tar.gz"/>
-
-        <echo>Migrating database...</echo>
-        <ssh host="${deploy.host}" port="${deploy.port}" username="${deploy.user}" password="${deploy.password}"
-             command="/usr/bin/php ${deploy.path}/releases/${revision}/protected/yiic migrate --interactive=0"
-             display="true"/>
+             command="tar -xz -C ${deploy.path}/releases/${revision} -f ${deploy.path}/releases/${revision}/build-${revision}.tar.gz"/>
 
         <ssh host="${deploy.host}" port="${deploy.port}" username="${deploy.user}" password="${deploy.password}"
              command="chmod 0777 ${deploy.path}/shared/upload &amp;&amp; chmod 0777 ${deploy.path}/shared/runtime &amp;&amp; chmod 0777 ${deploy.path}/shared/assets"
@@ -75,4 +71,5 @@
              command="/usr/bin/php ${deploy.path}/current/protected/yiic migrate --interactive=0" display="true"/>
     </target>
 
+    <target name="main" depends="deploy, migrate"></target>
 </project>

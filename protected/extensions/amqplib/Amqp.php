@@ -29,9 +29,9 @@ class Amqp extends CApplicationComponent
 
     public $vhost = '/';
 
-    public $exchange = 'router';
+//    public $exchange = '';
 
-    public $queue = 'reports';
+    public $queue = 'report';
 
     private $_connection;
 
@@ -57,14 +57,14 @@ class Amqp extends CApplicationComponent
     {
         $this->_connection = new AMQPConnection($this->host, $this->port, $this->user, $this->pass, $this->vhost);
         $this->_channel = $this->_connection->channel();
-        $this->getChannel()->queue_declare($this->queue, false, true, false, false);
-        $this->getChannel()->exchange_declare($this->exchange, 'direct', false, true, false);
-        $this->getChannel()->queue_bind($this->queue, $this->exchange);
+//        $this->getChannel()->queue_declare($this->queue, false, true, false, false);
+//        $this->getChannel()->exchange_declare($this->exchange, 'direct', false, true, false);
+//        $this->getChannel()->queue_bind($this->queue, '', 'report');
     }
 
-    public function publish($body, $properties)
+    public function publish($body, $properties = array())
     {
         $message = new AMQPMessage($body, $properties);
-        $this->getChannel()->basic_publish($message, $this->exchange);
+        $this->getChannel()->basic_publish($message, '', 'report');
     }
 }

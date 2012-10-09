@@ -12,7 +12,7 @@ $this->menu = array(
 );
 ?>
 
-<h1>Просмотр</h1>
+<h2>Просмотр</h2>
 
 <?php $this->widget('zii.widgets.CDetailView', array(
     'data' => $model,

@@ -6,18 +6,29 @@ class ReportController extends Controller
     public function filters()
     {
         return array(
-//            'ajaxOnly +lastPeriodEnd'
+            'ajaxOnly +lastPeriodEnd'
         );
     }
+
     /**
      * Displays a particular model.
      * @param integer $id the ID of the model to be displayed
      */
     public function actionView($id)
     {
+        $criteria = new CDbCriteria();
+        $criteria->addColumnCondition(array(
+            'report_id' => $id,
+        ));
+        $reports['position'] = ReportPosition::model()->findAll($criteria);
+        $reports['banner'] = ReportBanner::model()->findAll($criteria);
+        $reports['context'] = ReportContext::model()->findAll($criteria);
+        $reports['custom'] = ReportCustom::model()->findAll($criteria);
+        $reports['subscription'] = ReportSubscription::model()->findAll($criteria);
+
         $this->render('view', array(
             'model' => $this->loadModel($id),
-        ));
+        ) + $reports);
     }
 
     /**
@@ -35,7 +46,7 @@ class ReportController extends Controller
             $model->attributes = $_POST['Report'];
             if ($model->save()) {
                 try {
-                    Yii::app()->amqp->publish($model->id, array('content-type' => 'text/plain', 'delivery_mode' => 2));
+                    Yii::app()->amqp->publish($model->id);
                     Yii::app()->user->setFlash('success', 'Добавлено в очередь на расчет');
                     $this->redirect(array('view', 'id' => $model->id));
                 } catch (AMQPException $e) {
@@ -114,7 +125,7 @@ class ReportController extends Controller
         $model = Report::model()->findByAttributes(array('client_id' => $clientId), array(
             'order' => 'period_end DESC'
         ));
-        if($model) {
+        if ($model) {
             print $model->period_end;
         } else {
             return false;
