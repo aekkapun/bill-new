@@ -43,7 +43,7 @@
         'language' => 'ru',
         'options' => array(
             'showAnim' => 'fold',
-            'dateFormat' => 'yy/mm/dd',
+            'dateFormat' => 'yy-mm-dd',
             'changeMonth' => true,
             'changeYear' => true,
             'showOn' => 'button',

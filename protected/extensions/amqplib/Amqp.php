@@ -19,7 +19,7 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 class Amqp extends CApplicationComponent
 {
-    public $host = '127.0.0.1';
+    public $host = '10.0.1.113';
 
     public $port = 5672;
 

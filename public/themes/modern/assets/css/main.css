@@ -5,3 +5,15 @@ body {
 #leftbar {
     padding-top: 40px;
 }
+
+/******************* report *******************/
+.report-section-header {
+    margin-bottom: 2px;
+}
+
+.report-section-grid {
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+/******************* end_report *******************/

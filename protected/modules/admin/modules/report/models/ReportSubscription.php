@@ -49,16 +49,15 @@ array('id, report_id, site_id, sum, link_count, avg_link_price, created_at, upda
 );
 }
 
-/**
-* @return array relational rules.
-*/
-public function relations()
-{
-// NOTE: you may need to adjust the relation name and the related
-// class name for the relations automatically generated below.
-return array(
-);
-}
+    /**
+    * @return array relational rules.
+    */
+    public function relations()
+    {
+        return array(
+            'site' => array(self::BELONGS_TO, 'Site', 'site_id'),
+        );
+    }
 
 /**
 * @return array customized attribute labels (name=>label)
