@@ -54,7 +54,9 @@ class ResourcesBehavior extends CActiveRecordBehavior
         $uploadPath = $this->getAbsoluteResourcePath() . DIRECTORY_SEPARATOR . $hash;
 
         if (!is_dir($uploadPath)) {
-            mkdir($uploadPath, 0755, true);
+            if (!mkdir($uploadPath, 0755, true)) {
+                throw new CHttpException(500, 'Uncable to create upload directory:' . $uploadPath);
+            }
         }
 
         return $uploadPath;
