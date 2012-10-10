@@ -16,9 +16,7 @@ $this->menu = array(
 
 <h2>Отчёт за период с <?php echo $model->period_begin; ?> по <?php echo $model->period_end; ?></h2>
 
-
 <h3>Сводная информация по услугам</h3>
-
 
 <h4 class="report-section-header">По услуге "Оплата по позициям"</h4>
 <?php $this->widget('bootstrap.widgets.TbGridView', array(
