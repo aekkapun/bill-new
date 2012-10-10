@@ -15,5 +15,17 @@ body {
     margin-top: 0;
     margin-bottom: 30px;
 }
+.section-row {
+    font-weight: bold;
+}
+.report-total {
+    margin-bottom: 20px;
+    font-size: 16px;
+    line-height: 20px;
+}
+.report-total-sum {
+    text-align: right;
+    font-weight: bold;
+}
 
 /******************* end_report *******************/

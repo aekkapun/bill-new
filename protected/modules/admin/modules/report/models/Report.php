@@ -43,6 +43,15 @@ class Report extends CActiveRecord
         self::STATUS_FINISHED => 'label-success',
     );
 
+    public $subReports = array(
+        'ReportPosition',
+        'ReportSubscription',
+        'ReportContext',
+        'ReportBanner',
+        'ReportCustom',
+    );
+
+
     public function getStatusLabel($status = false)
     {
         $key = ($status && is_numeric($status)) ? $status : $this->status;
@@ -164,5 +173,38 @@ class Report extends CActiveRecord
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
         ));
+    }
+
+
+    /**
+     * Returns balance array
+     *
+     *  return array(
+     *      'totalBalancePerPeriod' => 300000,
+     *      'balanceByContract' => -100000,
+     *      'totalBalance' => 400000,
+     *  )
+     *
+     */
+    public function getBalanceInfo()
+    {
+        $totalBalancePerPeriod = 0;
+
+        foreach( $this->subReports as $subReport )
+        {
+            $totalBalancePerPeriod += $subReport::getBalance( $this->id );
+        }
+
+        $balanceByContract = -100000;
+
+        $totalBalance = $totalBalancePerPeriod - $balanceByContract;
+
+        $balanceArray = array(
+           'totalBalancePerPeriod' => $totalBalancePerPeriod,
+           'balanceByContract' => $balanceByContract,
+           'totalBalance' => $totalBalance,
+        );
+
+        return $balanceArray;
     }
 }

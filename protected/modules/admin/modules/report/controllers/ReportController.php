@@ -16,19 +16,24 @@ class ReportController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->loadModel($id);
+
         $criteria = new CDbCriteria();
         $criteria->addColumnCondition(array(
             'report_id' => $id,
         ));
-        $reports['position'] = ReportPosition::model()->findAll($criteria);
+
+        $reports['position'] = ReportPosition::model()->grouped($id);
         $reports['banner'] = ReportBanner::model()->findAll($criteria);
         $reports['context'] = ReportContext::model()->findAll($criteria);
         $reports['custom'] = ReportCustom::model()->findAll($criteria);
         $reports['subscription'] = ReportSubscription::model()->findAll($criteria);
 
+        $balance = $model->getBalanceInfo();
+
         $this->render('view', array(
-            'model' => $this->loadModel($id),
-        ) + $reports);
+            'model' => $model,
+        ) + $reports + $balance);
     }
 
     /**

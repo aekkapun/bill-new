@@ -14,10 +14,11 @@ class TotalColumn extends CDataColumn {
 
     public function renderDataCellContent($row, $data)
     {
-        $this->_total += $data->{$this->name};
+        $value = is_object($data) ? $data->{$this->name} : $data[$this->name];
 
-        echo $data->{$this->name};
+        $this->_total += $value;
 
+        echo $value;
     }
 
 

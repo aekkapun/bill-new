@@ -15,6 +15,10 @@
 class ReportPosition extends CActiveRecord
 {
 
+    public $yandex;
+    public $google;
+
+
     /**
      * Returns the static model of the specified AR class.
      * @return ReportPosition the static model class
@@ -113,4 +117,52 @@ class ReportPosition extends CActiveRecord
             'criteria' => $criteria,
         ));
     }
+
+    /*
+     * Return grouped data for report view
+     */
+    public function grouped($reportId)
+    {
+        $query = 'select
+                    site_id,
+                    sum(sum) as sum,
+                    system_id,
+                    (select sum from report_position where system_id = :google_id and site_id = t.site_id) as google,
+                    (select sum from report_position where system_id = :yandex_id and site_id = t.site_id) as yandex
+                from
+                    report_position t
+                where
+                    `report_id` = :report_id
+                group by
+                    `site_id`';
+
+
+        $params = array(
+            ':report_id' => $reportId,
+            ':yandex_id' => Factor::SYSTEM_YANDEX,
+            ':google_id' => Factor::SYSTEM_GOOGLE,
+        );
+
+
+        return $this->findAllBySql($query, $params);
+    }
+
+
+    /**
+     * Returns total balance
+     *
+     *  return 321554;
+     */
+    public static function getBalance($reportId)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = 'sum(sum) as sum';
+        $criteria->condition = 'report_id = :report_id';
+        $criteria->params = array(':report_id' => $reportId);
+
+        $balance = self::model()->find($criteria)->sum;
+
+        return $balance;
+    }
+
 }

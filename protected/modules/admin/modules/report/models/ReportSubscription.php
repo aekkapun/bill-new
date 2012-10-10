@@ -115,4 +115,23 @@ return new CActiveDataProvider($this, array(
 'criteria'=>$criteria,
 ));
 }
+
+
+    /**
+     * Returns total balance
+     *
+     *  return 321554;
+     */
+    public static function getBalance($reportId)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = 'sum(sum) as sum';
+        $criteria->condition = 'report_id = :report_id';
+        $criteria->params = array(':report_id' => $reportId);
+
+        $balance = self::model()->find($criteria)->sum;
+
+        return $balance;
+    }
+
 }

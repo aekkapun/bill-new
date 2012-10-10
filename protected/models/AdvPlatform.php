@@ -14,6 +14,14 @@
  */
 class AdvPlatform extends CActiveRecord
 {
+    const SYSTEM_GOOGLE = 1;
+    const SYSTEM_YANDEX = 2;
+
+    public static $labels = array(
+        self::SYSTEM_GOOGLE => 'Google.AdWords',
+        self::SYSTEM_YANDEX => 'Яндекс.Директ',
+    );
+
     /**
      * Returns the static model of the specified AR class.
      * @return AdvPlatform the static model class

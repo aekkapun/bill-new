@@ -21,7 +21,7 @@ $this->menu = array(
 
 
 <h4 class="report-section-header">По услуге "Оплата по позициям"</h4>
-<?php $this->widget('bootstrap.widgets.TbGridView', array(
+<?php  $this->widget('bootstrap.widgets.TbGridView', array(
     'type' => 'striped bordered',
     'template' => '{items}',
     'htmlOptions' => array('class' => 'report-section-grid'),
@@ -34,16 +34,22 @@ $this->menu = array(
             'footer' => '<strong>Итого</strong>'
         ),
         array(
-            'header' => 'Система',
-            'value' => 'Factor::$labels[$data->system_id]',
+            'header' => 'Yandex',
+            'name' => 'yandex',
+            'class'  => 'TotalColumn',
         ),
         array(
-            'header' => 'Сумма',
+            'header' => 'Google',
+            'name' => 'google',
+            'class'  => 'TotalColumn',
+        ),
+        array(
+            'header' => 'Всего',
             'name' => 'sum',
             'class'  => 'TotalColumn',
         ),
     ),
-)); ?>
+));  ?>
 
 
 <h4 class="report-section-header">По услуге "Абонентская плата"</h4>
@@ -64,22 +70,33 @@ $this->menu = array(
             'name' => 'sum',
             'class'  => 'TotalColumn',
         ),
+        array(
+            'header' => 'Количество ссылок',
+            'name' => 'link_count',
+        ),
+        array(
+            'header' => 'Средняя стоимость ссылки',
+            'value' => 'Yii::app()->numberFormatter->format("#,##0.00", $data->sum / $data->link_count)',
+        ),
     ),
 )); ?>
 
 
 <h4 class="report-section-header">По услуге "Контекстная реклама"</h4>
-<?php $this->widget('bootstrap.widgets.TbGridView', array(
+<?php $this->widget('TbGroupedGridView', array(
     'type' => 'striped bordered',
     'template' => '{items}',
     'htmlOptions' => array('class' => 'report-section-grid'),
     'dataProvider' => new CArrayDataProvider($context),
     'filter' => null,
+    'groupField' => 'site_id',
+    'sectionList' => ReportContext::getSectionData(),
     'columns' => array(
         array(
-            'header' => 'Сайт',
-            'value' => '$data->site->domain',
-            'footer' => '<strong>Итого</strong>'
+            'header' => 'Площадка',
+            'name' => 'platform_id',
+            'value' => 'AdvPlatform::$labels[$data["platform_id"]]',
+            'footer' => '<strong>Итого</strong>',
         ),
         array(
             'header' => 'Бюджет',
@@ -87,14 +104,15 @@ $this->menu = array(
             'class'  => 'TotalColumn',
         ),
         array(
-            'header' => 'Кол-во переходов',
-            'name' => 'transition_sum',
-        ),
-        array(
             'header' => 'Средняя стоимость перехода',
             'name' => 'avg_transition_price',
+        ),
+        array(
+            'header' => 'Сумма',
+            'name' => 'transition_sum',
             'class'  => 'TotalColumn',
         ),
+
     ),
 )); ?>
 
@@ -130,15 +148,17 @@ $this->menu = array(
 
 
 <h4 class="report-section-header">По прочим услугам</h4>
-<?php $this->widget('bootstrap.widgets.TbGridView', array(
+<?php $this->widget('bootstrap.widgets.TbGroupedGridView', array(
     'type' => 'striped bordered',
     'template' => '{items}',
     'htmlOptions' => array('class' => 'report-section-grid'),
     'dataProvider' => new CArrayDataProvider($custom),
     'filter' => null,
+    'groupField' => 'site_id',
+    'sectionList' => ReportCustom::getSectionData(),
     'columns' => array(
         array(
-            'name' => 'Название',
+            'name' => 'name',
             'value' => '$data->name',
             'footer' => '<strong>Итого</strong>',
         ),
@@ -150,4 +170,20 @@ $this->menu = array(
     ),
 )); ?>
 
+
+
+<div class="report-total">
+    <div class="row">
+        <div class="span5">Итого за период с <?php echo $model->period_begin; ?> по <?php echo $model->period_end; ?></div>
+        <div class="span2 report-total-sum"><?php echo Yii::app()->numberFormatter->formatCurrency($totalBalancePerPeriod, 'RUB'); ?></div>
+    </div>
+    <div class="row">
+        <div class="span5">Баланс по договору</div>
+        <div class="span2 report-total-sum"><?php echo Yii::app()->numberFormatter->formatCurrency($balanceByContract, 'RUB'); ?></div>
+    </div>
+    <div class="row">
+        <div class="span5">Итого к оплате</div>
+        <div class="span2 report-total-sum"><?php echo Yii::app()->numberFormatter->formatCurrency($totalBalance, 'RUB'); ?></div>
+    </div>
+</div>
 

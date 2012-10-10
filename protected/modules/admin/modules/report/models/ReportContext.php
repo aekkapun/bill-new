@@ -118,4 +118,74 @@ return new CActiveDataProvider($this, array(
 'criteria'=>$criteria,
 ));
 }
+
+
+    /**
+     * Return array, contains all sites id from table
+     *
+     *      return Array
+     *          [1] => Array
+     *          (
+     *              [platform_id] => http://test.ru
+     *              [transition_sum] => 8756.00
+     *          )
+     *
+     *          [2] => Array
+     *          (
+     *              [platform_id] => http://habrahabr.ru
+     *              [transition_sum] => 1552.00
+     *          )
+     *      )
+     *
+     * 'platform_id' - it is ALIAS for 'site_id'
+     * It is need for TbGroupedGridView
+     *
+     */
+    public static function getSectionData()
+    {
+        $data = self::model()->findAll(array(
+            'select' => 'site_id, sum(transition_sum) as transition_sum',
+            'group' => 'site_id',
+        ));
+
+        if( empty($data) )
+        {
+            return array();
+        }
+
+
+        $sectionData = array();
+
+        foreach( $data as $item )
+        {
+            $site = Site::model()->findByPk($item->site_id)->domain;
+            $transition_sum = $item->transition_sum;
+
+            $sectionData[$item->site_id] = array(
+                'platform_id' => $site,
+                'transition_sum' => $transition_sum,
+            );
+        }
+
+        return $sectionData;
+    }
+
+
+    /**
+     * Returns total balance
+     *
+     *  return 321554;
+     */
+    public static function getBalance($reportId)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->select = 'sum(transition_sum) as transition_sum';
+        $criteria->condition = 'report_id = :report_id';
+        $criteria->params = array(':report_id' => $reportId);
+
+        $balance = self::model()->find($criteria)->transition_sum;
+
+        return $balance;
+    }
+
 }
