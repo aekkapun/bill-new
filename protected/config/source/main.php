@@ -112,5 +112,6 @@ return array(
 
     'params' => array(
         'emptySelectLabel' => '-- выбрать --',
+        'uploadDir' => Yii::getPathOfAlias('webroot') . DIRECTORY_SEPARATOR . 'upload',
     ),
 );
