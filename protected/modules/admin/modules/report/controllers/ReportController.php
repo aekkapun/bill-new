@@ -33,7 +33,9 @@ class ReportController extends Controller
 
         $this->render('view', array(
             'model' => $model,
-        ) + $reports + $balance);
+            'reports' => $reports,
+            'balance' => $balance,
+        ));
     }
 
     /**
