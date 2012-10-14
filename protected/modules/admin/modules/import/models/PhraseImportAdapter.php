@@ -40,7 +40,6 @@ class PhraseImportAdapter extends CFormModel implements AdapterInterface
     {
         return array(
             'title' => 'Импорт',
-            'method' => 'get',
 
             'elements' => array(
                 'siteId' => array(
@@ -52,6 +51,7 @@ class PhraseImportAdapter extends CFormModel implements AdapterInterface
                     'type' => 'file',
                     'visible' => true,
                 ),
+                '<div class="row">Файл должен быть в кодировке UTF-8</div>',
             ),
 
             'buttons' => array(
