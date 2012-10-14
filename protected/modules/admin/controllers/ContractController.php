@@ -131,4 +131,25 @@ class ContractController extends Controller
             Yii::app()->end();
         }
     }
+
+
+    /**
+     * Delete attachment by ID
+     */
+    public function actionDeleteAttachment($id)
+    {
+        if (Yii::app()->request->isPostRequest)
+        {
+            ContractAttachment::model()->deleteByPk($id);
+
+            if (!isset($_GET['ajax']))
+            {
+                $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+            }
+        }
+        else
+        {
+            throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
+        }
+    }
 }

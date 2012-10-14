@@ -45,6 +45,12 @@ $this->widget('bootstrap.widgets.TbGridView', array(
             'type' => 'raw',
 			'value' => 'CHtml::link($data->name,$data->getFile())',
         ),
+        array(
+            'class' => 'bootstrap.widgets.TbButtonColumn',
+            'template' => '{delete}',
+            'deleteButtonUrl' => 'Yii::app()->createUrl("admin/contract/deleteAttachment", array("id" => $data->id))',
+            'deleteConfirmation' => 'Вы действительно хотите удалить это вложение?',
+        ),
     ),
 ));
 ?>
