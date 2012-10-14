@@ -30,8 +30,6 @@ $this->menu = array(
 <br/>
 
 <?php
-$attachments->pagination->pageSize = 20;
-
 $this->widget('bootstrap.widgets.TbGridView', array(
     'type' => 'striped bordered',
     'id' => 'contract-files',
@@ -44,12 +42,6 @@ $this->widget('bootstrap.widgets.TbGridView', array(
             'name' => 'name',
             'type' => 'raw',
 			'value' => 'CHtml::link($data->name,$data->getFile())',
-        ),
-        array(
-            'class' => 'bootstrap.widgets.TbButtonColumn',
-            'template' => '{delete}',
-            'deleteButtonUrl' => 'Yii::app()->createUrl("admin/contract/deleteAttachment", array("id" => $data->id))',
-            'deleteConfirmation' => 'Вы действительно хотите удалить это вложение?',
         ),
     ),
 ));

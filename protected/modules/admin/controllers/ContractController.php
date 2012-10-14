@@ -9,17 +9,10 @@ class ContractController extends Controller
     public function actionView($id)
     {
 		$model = $this->loadModel($id);
-		$attachments = new CArrayDataProvider($model->attachments, array(
-			'sort' => array(
-				'attributes' => array(
-					'name',
-				),
-			),
-		));
-		
+
         $this->render('view', array(
             'model' => $model,
-			'attachments' => $attachments,
+			'attachments' => $model->attachmentsAsDataProvider(),
         ));
     }
 
@@ -54,9 +47,6 @@ class ContractController extends Controller
     {
         $model = $this->loadModel($id);
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
         if (isset($_POST['Contract'])) {
             $model->attributes = $_POST['Contract'];
             if ($model->save())
@@ -65,6 +55,7 @@ class ContractController extends Controller
 
         $this->render('update', array(
             'model' => $model,
+            'attachments' => $model->attachmentsAsDataProvider(),
         ));
     }
 

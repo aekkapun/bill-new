@@ -23,7 +23,12 @@ class Contract extends CActiveRecord
     const STATUS_DISABLED = 0;
 	
 	public $attachments_count;
-	
+
+    /**
+     * How many attachments will be view in table
+     */
+    public $attachmentsPageSize = 20;
+
     /**
      * @return Contract
      */
@@ -231,4 +236,24 @@ class Contract extends CActiveRecord
 	{		
 		return ($this->attachmentsCount > 0);
 	}
+
+
+    /**
+     * Returns attachments as DataProvider object
+     */
+    public function attachmentsAsDataProvider()
+    {
+        return new CArrayDataProvider($this->attachments, array(
+            'sort' => array(
+                'attributes' => array(
+                    'name',
+                ),
+            ),
+            'pagination' => array(
+                'pageSize' => $this->attachmentsPageSize,
+            ),
+        ));
+    }
+
+
 }
