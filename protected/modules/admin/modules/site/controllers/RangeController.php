@@ -82,16 +82,19 @@ class RangeController extends Controller
 	}
 
 	/**
-	 * Manages all models.
+	 * View all sites ranges
 	 */
 	public function actionIndex()
 	{
 		$model=new SiteRange('search');
+
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['SiteRange']))
 			$model->attributes=$_GET['SiteRange'];
 
-		$this->render('index',array(
+		$model->site_id = Yii::app()->request->getParam('siteId');
+
+        $this->render('index',array(
 			'model'=>$model,
 		));
 	}
