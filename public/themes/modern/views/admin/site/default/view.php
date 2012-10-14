@@ -19,7 +19,7 @@ $this->menu = array(
 
     array('label' => "Диапазоны", 'visible' => Yii::app()->user->checkAccess('admin')),
     array('label' => 'Список диапазонов', 'url' => array('/admin/site/range/index', 'siteId' => $model->id), 'visible' => Yii::app()->user->checkAccess('admin')),
-    array('label' => 'Добавить диапазон', 'url' => array('/admin/site/range/create'), 'visible' => Yii::app()->user->checkAccess('admin')),
+    array('label' => 'Добавить диапазон', 'url' => array('/admin/site/range/create', 'siteId' => $model->id), 'visible' => Yii::app()->user->checkAccess('admin')),
 
     array('label' => "Добавить услугу"),
     array('label' => 'Абонентская плата', 'url' => array('/admin/service/subscription/subscribe', 'siteId' => $model->id)),

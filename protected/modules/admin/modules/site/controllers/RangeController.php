@@ -22,8 +22,7 @@ class RangeController extends Controller
 	{
 		$model=new SiteRange;
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+        $model->site_id = Yii::app()->request->getQuery('siteId');
 
 		if(isset($_POST['SiteRange']))
 		{
@@ -92,7 +91,7 @@ class RangeController extends Controller
 		if(isset($_GET['SiteRange']))
 			$model->attributes=$_GET['SiteRange'];
 
-		$model->site_id = Yii::app()->request->getParam('siteId');
+		$model->site_id = Yii::app()->request->getQuery('siteId');
 
         $this->render('index',array(
 			'model'=>$model,
