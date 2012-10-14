@@ -1,4 +1,5 @@
-/assets/
+public/assets/
+public/upload/
 protected/runtime/
 themes/classic/views/
 *.log
