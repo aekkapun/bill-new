@@ -22,7 +22,11 @@ $this->menu=array(
         'contract.number:text:Номер договора',
 		'number',
 		'sum',
-		'file',
+        array(
+            'name' => 'file',
+            'type' => 'raw',
+            'value' => CHtml::link($model->file, $model->getFile()),
+        ),
 		'period',
 		'created_at',
 		'updated_at',
