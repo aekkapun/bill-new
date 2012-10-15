@@ -91,8 +91,6 @@ class RangeController extends Controller
 		if(isset($_GET['SiteRange']))
 			$model->attributes=$_GET['SiteRange'];
 
-		$model->site_id = Yii::app()->request->getQuery('siteId');
-
         $this->render('index',array(
 			'model'=>$model,
 		));

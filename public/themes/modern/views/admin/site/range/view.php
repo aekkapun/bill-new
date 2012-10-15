@@ -7,7 +7,7 @@ $this->breadcrumbs=array(
 $this->menu=array(
     array('label'=>'Создать', 'url'=>array('create')),
 	array('label'=>'Обновить', 'url'=>array('update', 'id'=>$model->id)),
-	array('label'=>'Список', 'url'=>array('index')),
+	array('label'=>'Список', 'url'=>array('index', 'SiteRange[site_id]' => $model->site_id)),
 	array('label'=>'Удалить', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Вы действительно хотите удалить эту запись?')),
 );
 ?>
