@@ -75,7 +75,7 @@ class Common
     {
         $results = array();
         if (is_array($array)) {
-            if ($array[$key] == $value) {
+            if ( isset($array[$key]) && $array[$key] == $value) {
                 $results[] = $array;
             } else {
                 foreach ($array as $subarray)
