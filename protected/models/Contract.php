@@ -260,12 +260,14 @@ class Contract extends CActiveRecord
      * Returns array
      *
      *  array(
-     *      [1] => '10/12 от '
-     * )
+     *      [1] => '10/12 от 11.10.2012',
+     *      [2] => '11/12 от 06.11.2012',
+     *      [3] => '12/12 от 25.12.2012',
+     *  )
      */
-    public static function getTogetherIdAndDate()
+    public static function getTogetherIdAndDate( $attributes = array() )
     {
-        $contracts = self::model()->my()->findAll();
+        $contracts = self::model()->my()->findAllByAttributes( $attributes );
 
         $array = array();
 

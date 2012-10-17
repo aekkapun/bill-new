@@ -8,7 +8,7 @@
 
 <?php echo $form->errorSummary($siteService); ?>
 
-<?php echo $form->dropDownListRow($siteService, 'contract_id', CHtml::listData(Contract::model()->findAllByAttributes(array('client_id' => $site->client->id)), 'id', 'number')) ?>
+<?php echo $form->dropDownListRow($siteService, 'contract_id', Contract::getTogetherIdAndDate(array('client_id' => $site->client->id))); ?>
 
 <?php echo $form->labelEx($siteService, 'created_at'); ?>
 <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
