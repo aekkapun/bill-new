@@ -10,6 +10,7 @@
  * @property string $created_at
  * @property string $updated_at
  * @property integer $contract_id
+ * @property integer $transitions_count
  *
  */
 class SubscriptionInput extends CActiveRecord
@@ -40,13 +41,13 @@ class SubscriptionInput extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('site_id, link_count', 'required'),
-            array('site_id, link_count', 'length', 'max' => 10),
+            array('site_id, link_count, transitions_count', 'required'),
+            array('site_id, link_count, transitions_count', 'length', 'max' => 10),
             array('created_at, updated_at', 'safe'),
             array('contract_id', 'numerical'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
-            array('id, site_id, link_count, created_at, updated_at', 'safe', 'on' => 'search'),
+            array('id, site_id, link_count, created_at, updated_at, transitions_count', 'safe', 'on' => 'search'),
         );
     }
 
@@ -72,6 +73,7 @@ class SubscriptionInput extends CActiveRecord
             'link_count' => 'Количество ссылок',
             'created_at' => 'Время создания',
             'updated_at' => 'Время обновления',
+            'transitions_count' => 'Количество переходов',
         );
     }
 
@@ -104,6 +106,7 @@ class SubscriptionInput extends CActiveRecord
         $criteria->compare('id', $this->id, true);
         $criteria->compare('site_id', $this->site_id, true);
         $criteria->compare('link_count', $this->link_count, true);
+        $criteria->compare('transitions_count', $this->transitions_count, true);
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);
 

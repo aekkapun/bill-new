@@ -12,11 +12,7 @@ $this->breadcrumbs = array(
     'items' => Yii::app()->getModule('admin')->getModule('import')->availableDriversForCMenu,
 )); ?>
 
-<?php if(Yii::app()->user->hasFlash('error')):?>
-    <div class="alert alert-error">
-        <?php echo Yii::app()->user->getFlash('error'); ?>
-    </div>
-<?php endif; ?>
+<?php $this->widget('bootstrap.widgets.TbAlert'); ?>
 
 <?php if (isset($form)) : ?>
     <?php echo CHtml::errorSummary($model) ?>

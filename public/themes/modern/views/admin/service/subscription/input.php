@@ -1,5 +1,7 @@
 <h1>Ввод данных по услуге</h1>
 
+<?php $this->widget('bootstrap.widgets.TbAlert'); ?>
+
 <?php $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     'id' => 'position-input-form',
     'enableAjaxValidation' => false,
@@ -25,7 +27,10 @@
 
 <?php echo $form->textFieldRow($subscriptionInput, 'link_count', array('size' => 10, 'maxlength' => 10)); ?>
 
+<?php echo $form->textFieldRow($subscriptionInput, 'transitions_count', array('size' => 10, 'maxlength' => 10)); ?>
+
 <?php echo $form->hiddenField($subscriptionInput, 'site_id', array('value' => $site->id)) ?>
+
 <?php echo $form->hiddenField($subscriptionInput, 'contract_id', array('value' => $siteService->contract_id)) ?>
 
 <p>

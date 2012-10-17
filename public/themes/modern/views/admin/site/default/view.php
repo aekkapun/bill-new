@@ -34,11 +34,7 @@ $this->menu = array(
 );
 ?>
 
-<?php
-foreach (Yii::app()->user->getFlashes() as $key => $message) {
-    echo '<div class="flash-' . $key . '">' . $message . "</div>\n";
-}
-?>
+<?php $this->widget('bootstrap.widgets.TbAlert'); ?>
 
 <h1>Общая информация</h1>
 
