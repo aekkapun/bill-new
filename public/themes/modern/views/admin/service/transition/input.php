@@ -1,13 +1,14 @@
 <h1>Ввод данных по услуге</h1>
 
+<?php $this->widget('bootstrap.widgets.TbAlert'); ?>
 
 <?php $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     'id' => 'position-input-form',
     'enableAjaxValidation' => false,
     'htmlOptions' => array('class' => 'well well-small'),
 )); ?>
-    <?php echo $form->labelEx($transitions, 'created_at'); ?>
-    <?php $this->widget('zii.widgets.jui.CJuiDatePicker',
+<?php echo $form->labelEx($transitions, 'created_at'); ?>
+<?php $this->widget('zii.widgets.jui.CJuiDatePicker',
     array(
         'model' => $transitions,
         'attribute' => 'created_at',

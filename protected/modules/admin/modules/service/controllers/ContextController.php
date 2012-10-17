@@ -65,7 +65,6 @@ class ContextController extends Controller
 
     public function actionInput($ssId)
     {
-
         $siteService = SiteService::model()->findByPk($ssId);
         $site = $this->loadSite($siteService->site_id);
 
