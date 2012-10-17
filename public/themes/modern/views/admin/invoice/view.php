@@ -21,7 +21,12 @@ $this->menu=array(
 		'number',
 		'client.name',
 		'contract.number',
-		'period',
+        array(
+            'name' => 'file',
+            'type' => 'raw',
+            'value' => CHtml::link($model->file, $model->getFile()),
+        ),
+        'period',
 		'created_at',
 		'updated_at',
 	),

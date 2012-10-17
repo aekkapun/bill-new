@@ -1,7 +1,7 @@
 <?php $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     'id' => 'invoice-form',
     'enableAjaxValidation' => false,
-    'htmlOptions' => array('class' => 'well'),
+    'htmlOptions' => array('enctype' => 'multipart/form-data', 'class' => 'well'),
 )); ?>
 
 <?php echo $form->errorSummary($model); ?>
@@ -11,6 +11,12 @@
 <?php echo $form->dropDownListRow($model, 'client_id', CHtml::listData(Client::model()->my()->findAll(), 'id', 'name'), array('empty' => '--выбрать--')); ?>
 
 <?php echo $form->dropDownListRow($model, 'contract_id', CHtml::listData(Contract::model()->my()->findAll(), 'id', 'number'), array('empty' => '--выбрать--')); ?>
+
+<?php echo $form->fileFieldRow($model, ($model->isNewRecord ? 'file' : 'newFile')); ?>
+
+<?php if (!empty($model->file)): ?>
+    <?php echo $model->getFile(); ?>
+<?php endif; ?>
 
 <?php echo $form->labelEx($model, 'period'); ?>
 <?php $this->widget('zii.widgets.jui.CJuiDatePicker',

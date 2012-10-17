@@ -63,10 +63,11 @@ $this->widget('bootstrap.widgets.TbGridView', array(
             'value' => 'CHtml::link($data->contract->number, array("/admin/contract/view", "id" => $data->contract->id))',
 		),
 		'period',
-		/*
-		'created_at',
-		'updated_at',
-		*/
+        array(
+            'name' => 'file',
+            'type' => 'raw',
+            'value' => '!empty($data->file) ? CHtml::link("Скачать", $data->getFile()) : ""',
+        ),
 		array(
 			'class'=>'CButtonColumn',
 		),

@@ -11,6 +11,7 @@
  * @property string $period
  * @property string $created_at
  * @property string $updated_at
+ * @property string $file
  *
  * The followings are the available model relations:
  * @property Client $client
@@ -18,6 +19,10 @@
  */
 class Invoice extends CActiveRecord
 {
+    public $allowedFileType = 'jpg,jpeg,png,doc,docx,xls,xlsx,pdf';
+
+    public $newFile;
+
 
     /**
      * @return Invoice
@@ -61,12 +66,14 @@ class Invoice extends CActiveRecord
         return array(
             array('number', 'unique'),
             array('number, client_id, contract_id, period', 'required'),
-            array('number', 'length', 'max' => 255),
+            array('number, file', 'length', 'max' => 255),
             array('client_id, contract_id', 'length', 'max' => 10),
             array('period, created_at, updated_at', 'safe'),
-            // The following rule is used by search().
-            // Please remove those attributes that should not be searched.
-            array('id, number, client_id, contract_id, period, created_at, updated_at', 'safe', 'on' => 'search'),
+
+            array('file', 'file', 'types' => $this->allowedFileType, 'allowEmpty' => false, 'on' => 'insert'),
+            array('newFile', 'file', 'types' => $this->allowedFileType, 'allowEmpty' => true),
+
+            array('id, number, client_id, contract_id, file, period, created_at, updated_at', 'safe', 'on' => 'search'),
         );
     }
 
@@ -96,6 +103,8 @@ class Invoice extends CActiveRecord
             'period' => 'Период',
             'created_at' => 'Время создания',
             'updated_at' => 'Время обновления',
+            'file' => 'Файл',
+            'newFile' => 'Новый файл',
         );
     }
 
@@ -110,7 +119,11 @@ class Invoice extends CActiveRecord
                 'createAttribute' => 'created_at',
                 'updateAttribute' => 'updated_at',
                 'setUpdateOnCreate' => true
-            )
+            ),
+            'ResourcesBehavior' => array(
+                'class' => 'ext.resourcesBehavior.ResourcesBehavior',
+                'resourcePath' => Yii::app()->params['uploadDir'],
+            ),
         );
     }
 
@@ -131,6 +144,7 @@ class Invoice extends CActiveRecord
         $criteria->compare('t.client_id', $this->client_id);
         $criteria->compare('contract_id', $this->contract_id);
         $criteria->compare('period', $this->period, true);
+        $criteria->compare('file', $this->file);
         $criteria->compare('created_at', $this->created_at, true);
         $criteria->compare('updated_at', $this->updated_at, true);
 
@@ -150,5 +164,30 @@ class Invoice extends CActiveRecord
 				),
 			),
         ));
+    }
+
+
+    public function afterSave()
+    {
+        $attribute = $this->isNewRecord ? 'file' : 'newFile';
+        $file = CUploadedFile::getInstance($this, $attribute);
+
+        $hashString = $this->generatePathHash();
+
+        if ($file !== null) {
+            $fileName = Common::processFile($this, $file, $hashString);
+            $this->updateByPk($this->id, array(
+                'file' => $fileName,
+            ));
+            $this->setAttribute('file', $fileName);
+        }
+
+        parent::afterSave();
+    }
+
+
+    public function getFile($onlyFileName = false)
+    {
+        return $this->getResourcePath($this->file, 0, array('onlyFileName' => $onlyFileName));
     }
 }

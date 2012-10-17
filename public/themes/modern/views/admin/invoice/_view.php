@@ -16,7 +16,11 @@
 	<?php echo CHtml::encode($data->contract_id); ?>
 	<br />
 
-	<b><?php echo CHtml::encode($data->getAttributeLabel('period')); ?>:</b>
+    <b><?php echo CHtml::encode($data->getAttributeLabel('file')); ?>:</b>
+    <?php echo CHtml::encode($data->file); ?>
+    <br />
+
+    <b><?php echo CHtml::encode($data->getAttributeLabel('period')); ?>:</b>
 	<?php echo CHtml::encode($data->period); ?>
 	<br />
 
