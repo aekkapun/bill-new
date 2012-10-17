@@ -11,10 +11,9 @@
     array('empty' => Yii::app()->params->emptySelectLabel)
 ); ?>
 
-<?php echo $form->dropDownListRow($model, 'contract_id', CHtml::listData(
-        Contract::model()->findAll(), 'id', 'number'),
-    array('empty' => Yii::app()->params->emptySelectLabel)
-); ?>
+<?php echo $form->dropDownListRow($model, 'contract_id', Contract::getTogetherIdAndDate(), array(
+    'empty' => Yii::app()->params->emptySelectLabel
+)); ?>
 
 <?php echo $form->textFieldRow($model, 'number', array('size' => 60, 'maxlength' => 255)); ?>
 

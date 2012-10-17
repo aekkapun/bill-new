@@ -6,10 +6,9 @@
 
 <?php echo $form->textFieldRow($model, 'id', array('size' => 10, 'maxlength' => 10)); ?>
 
-<?php echo $form->dropDownListRow($model, 'contract_id', CHtml::listData(
-        Contract::model()->findAll(), 'id', 'number'),
-    array('empty' => Yii::app()->params->emptySelectLabel)
-); ?>
+<?php echo $form->dropDownListRow($model, 'contract_id', Contract::getTogetherIdAndDate(), array(
+    'empty' => Yii::app()->params->emptySelectLabel
+)); ?>
 
 <?php echo $form->textAreaRow($model, 'details', array('rows' => 6, 'cols' => 50)); ?>
 

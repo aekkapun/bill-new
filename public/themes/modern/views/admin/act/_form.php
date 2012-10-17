@@ -6,7 +6,7 @@
 
 <?php echo $form->dropDownListRow($model, 'client_id', CHtml::listData(Client::model()->my()->findAll(), 'id', 'name'), array('empty' => '--выбрать--')); ?>
 
-<?php echo $form->dropDownListRow($model, 'contract_id', CHtml::listData(Contract::model()->my()->findAll(), 'id', 'number'), array('empty' => '--выбрать--')); ?>
+<?php echo $form->dropDownListRow($model, 'contract_id', Contract::getTogetherIdAndDate(), array('empty' => '--выбрать--')); ?>
 
 <?php echo $form->textFieldRow($model, 'number', array('size' => 60, 'maxlength' => 255)); ?>
 

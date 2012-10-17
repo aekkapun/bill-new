@@ -256,4 +256,27 @@ class Contract extends CActiveRecord
     }
 
 
+    /**
+     * Returns array
+     *
+     *  array(
+     *      [1] => '10/12 от '
+     * )
+     */
+    public static function getTogetherIdAndDate()
+    {
+        $contracts = self::model()->my()->findAll();
+
+        $array = array();
+
+        foreach( $contracts as $contract )
+        {
+            $date = Yii::app()->dateFormatter->format('dd.MM.yyyy', strtotime($contract->created_at));
+            $array[$contract->id] = "{$contract->number} от $date";
+        }
+
+        return $array;
+    }
+
+
 }

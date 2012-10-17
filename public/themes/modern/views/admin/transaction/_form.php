@@ -6,7 +6,7 @@
 
 <?php echo $form->errorSummary($model); ?>
 
-<?php echo $form->dropDownListRow($model, 'contract_id', CHtml::listData(Contract::model()->my()->findAll(), 'id', 'number'), array('empty' => '--выбрать--')); ?>
+<?php echo $form->dropDownListRow($model, 'contract_id', Contract::getTogetherIdAndDate(), array('empty' => '--выбрать--')); ?>
 
 <?php echo $form->textAreaRow($model, 'details', array('rows' => 6, 'cols' => 50)); ?>
 

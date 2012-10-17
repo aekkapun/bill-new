@@ -66,7 +66,7 @@ class PositionImportAdapter extends CFormModel implements AdapterInterface
                 ),
                 'contractId' => array(
                     'type' => 'dropdownlist',
-                    'items' => CHtml::listData(Contract::model()->findAll(), 'id', 'number'),
+                    'items' => Contract::getTogetherIdAndDate(),
                     'prompt' => 'Выберите договор:',
                 ),
                 'dataFile' => array(
