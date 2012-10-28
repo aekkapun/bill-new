@@ -170,4 +170,6 @@ class Client extends CActiveRecord
 		
         return $dataProvider;
     }
+
+
 }

@@ -6,6 +6,17 @@ body {
     padding-top: 40px;
 }
 
+
+/******************* global *******************/
+.jquery-plugin-load {
+    display: inline-block;
+    background:url(../img/loading.gif) no-repeat;
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+}
+/******************* end_global *******************/
+
 /******************* report *******************/
 .report-section-header {
     margin-bottom: 2px;
@@ -26,5 +37,8 @@ body {
 .report-total-sum {
     text-align: right;
     font-weight: bold;
+}
+.report-files-table {
+    padding: 0;
 }
 /******************* end_report *******************/

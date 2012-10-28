@@ -57,6 +57,10 @@
 
 <?php echo $form->dropDownListRow($model, 'contract_status', $model->contractStatusLabel); ?>
 
+<?php $this->widget('application.modules.admin.modules.report.widgets.FilesTable.FilesTable', array(
+    'model' => $model
+)); ?>
+
 <p>
     <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType' => 'submit', 'label' => 'Сохранить')); ?>
 </p>

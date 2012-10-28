@@ -46,9 +46,6 @@ class ReportController extends Controller
     {
         $model = new Report;
 
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
-
         if (isset($_POST['Report'])) {
             $model->attributes = $_POST['Report'];
             if ($model->save()) {
@@ -138,4 +135,21 @@ class ReportController extends Controller
             return false;
         }
     }
+
+
+    public function actionGetAllClientFiles( $clientId )
+    {
+        if( Client::model()->findByPk( $clientId ) === null )
+        {
+            throw new CHttpException(400, "Client with id $clientId not found");
+        }
+
+        $files = Report::getAllClientFiles( $clientId );
+
+        $data = $this->renderPartial('_allClientFiles', array(
+            'files' => $files,
+        ));
+    }
+
+
 }

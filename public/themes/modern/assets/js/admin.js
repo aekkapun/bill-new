@@ -100,3 +100,16 @@ $.fn.copyValue = function(srcId) {
 
     });
 }
+
+$.fn.loading = function( mode ) {
+    div = $('<div></div>').addClass('jquery-plugin-load');
+
+    if( mode )
+    {
+        $(this).after(div);
+    }
+    else
+    {
+        $(this).siblings('.jquery-plugin-load').remove();
+    }
+}

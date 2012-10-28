@@ -13,6 +13,7 @@
  * @property string $created_at
  * @property string $updated_at
  * @property string $name
+ * @property string $files
  *
  * The followings are the available model relations:
  * @property Client $client
@@ -50,6 +51,10 @@ class Report extends CActiveRecord
         'ReportBanner',
         'ReportCustom',
     );
+
+    private $_files = array();
+
+
 
 
     public function getStatusLabel($status = false)
@@ -98,7 +103,7 @@ class Report extends CActiveRecord
             array('period_begin, period_end, client_id, name', 'required'),
             array('status, contract_status', 'numerical', 'integerOnly' => true),
             array('client_id', 'length', 'max' => 10),
-            array('created_at, updated_at', 'safe'),
+            array('created_at, updated_at, files', 'safe'),
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
             array('id, period_begin, period_end, client_id, status, contract_status, created_at, updated_at', 'safe', 'on' => 'search'),
@@ -110,12 +115,11 @@ class Report extends CActiveRecord
      */
     public function relations()
     {
-// NOTE: you may need to adjust the relation name and the related
-// class name for the relations automatically generated below.
         return array(
             'client' => array(self::BELONGS_TO, 'Client', 'client_id'),
         );
     }
+
 
     /**
      * @return array customized attribute labels (name=>label)
@@ -132,6 +136,7 @@ class Report extends CActiveRecord
             'created_at' => 'Время создания',
             'updated_at' => 'Время обновления',
             'name' => 'Название',
+            'files' => 'Файлы',
         );
     }
 
@@ -206,5 +211,89 @@ class Report extends CActiveRecord
         );
 
         return $balanceArray;
+    }
+
+
+    /**
+     * Returns all files that are associated with the client
+     */
+    public static function getAllClientFiles( $clientId )
+    {
+        $files = array();
+
+
+        // Contract attachments
+        $contracts = Client::model()->findByPk( $clientId )->contracts;
+
+        foreach( $contracts as $contract )
+        {
+            foreach( $contract->attachments as $attachment)
+            {
+                $files[] = array(
+                    'className' => get_class($attachment),
+                    'id' => $attachment->id,
+                    'file' => CHtml::link($attachment->name, $attachment->getFile()),
+                );
+            }
+        }
+
+
+        // Bills files
+        $bills = Bill::model()->findAllByAttributes(array(
+            'client_id' => $clientId,
+        ));
+
+        foreach( $bills as $bill )
+        {
+            $files[] = array(
+                'className' => get_class($bill),
+                'id' => $bill->id,
+                'file' => CHtml::link($bill->file, $bill->getFile()),
+            );
+        }
+
+
+        // Invoices files
+        $invoices = Invoice::model()->findAllByAttributes(array(
+            'client_id' => $clientId,
+        ));
+
+        foreach( $invoices as $invoice )
+        {
+            $files[] = array(
+                'className' => get_class($invoice),
+                'id' => $invoice->id,
+                'file' => CHtml::link($invoice->file, $invoice->getFile())
+            );
+        }
+
+
+        // Acts files
+        $acts = Act::model()->findAllByAttributes(array(
+            'client_id' => $clientId,
+        ));
+
+        foreach( $acts as $act )
+        {
+            $files[] = array(
+                'className' => get_class($act),
+                'id' => $act->id,
+                'file' => CHtml::link($act->file, $act->getFile()),
+            );
+        }
+
+        return $files;
+    }
+
+
+    public function setFiles( $value )
+    {
+        $this->_files = $value;
+    }
+
+
+    public function getFiles()
+    {
+        return $this->_files;
     }
 }

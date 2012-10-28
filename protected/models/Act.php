@@ -72,7 +72,7 @@ class Act extends CActiveRecord
         // will receive user inputs.
         return array(
             array('number', 'unique'),
-            array('client_id, contract_id, number, period, sum', 'required'),
+            array('client_id, contract_id, number, period, sum, file', 'required'),
             array('signed', 'numerical', 'integerOnly' => true),
             array('client_id, contract_id', 'length', 'max' => 10),
             array('number, file', 'length', 'max' => 255),

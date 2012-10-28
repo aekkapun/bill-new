@@ -166,4 +166,6 @@ class ClientController extends Controller
             'contracts' => $contracts,
         ));
     }
+
+
 }
