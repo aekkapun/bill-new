@@ -2,18 +2,20 @@
     'type' => 'striped bordered',
     'id' => 'report-grid',
     'template' => '{items}',
-    'dataProvider' => new CArrayDataProvider( $files ),
+    'dataProvider' => $dataProvider,
     'filter' => null,
     'htmlOptions' => array('class' => 'report-files-table'),
     'emptyText' => 'Файлов нет',
     'columns' => array(
         array(
+            'type' => 'raw',
             'header' => 'Сущность',
-            'name' => 'className',
+            'name' => 'class_name',
+            'value' => '$data["class_name"]::model()->tableName("ru")',
         ),
         array(
             'header' => 'Номер',
-            'name' => 'id',
+            'name' => 'class_name_id',
         ),
         array(
             'type' => 'raw',
@@ -23,7 +25,7 @@
         array(
             'type' => 'raw',
             'header' => 'Прикрепить?',
-            'value' => 'CHtml::checkBox("Report[files][$data[className]][$data[id]]")',
+            'value' => 'CHtml::checkBox("Report[files][$data[class_name]][$data[class_name_id]]")',
         ),
     ),
 )); ?>

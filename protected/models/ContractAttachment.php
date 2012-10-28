@@ -36,9 +36,14 @@ class ContractAttachment extends CActiveRecord
     /**
      * @return string the associated database table name
      */
-    public function tableName()
+    public function tableName( $lang='en' )
     {
-        return 'contract_attachment';
+        $names = array(
+            'en' => 'contract_attachment',
+            'ru' => 'Приложение к договору',
+        );
+
+        return isset( $names[$lang] ) ? $names[$lang] : '';
     }
 
     /**

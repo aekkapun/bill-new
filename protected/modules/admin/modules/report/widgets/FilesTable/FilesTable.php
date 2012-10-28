@@ -22,29 +22,30 @@ class FilesTable extends CWidget
                     disable         : function() {
                         this.select.attr( 'disabled', 'disabled' );
                         this.submitButton.attr( 'disabled', 'disabled' );
+                        this.select.loading(true);
                     },
 
                     enable          : function() {
                         this.select.removeAttr( 'disabled' );
                         this.submitButton.removeAttr( 'disabled' );
-                    },
-
-                    loading         : function( mode ) {
-                        this.select.loading(mode);
+                        this.select.loading(false);
                     },
 
                     loadFiles       : function() {
-                        $.get('/admin/report/report/getAllClientFiles', {clientId: handler.select.val()}, function( data ) {
-                            handler.loading(false);
+                        $.get('/admin/report/report/getAllClientFiles', {clientId: handler.select.val()})
+                         .done(function( data ) {
                             $('#files_area').show();
                             $('#files_table').html(data);
+                            handler.enable();
+                        })
+                        .fail(function( xhr, status, error) {
+                            alert(error);
                             handler.enable();
                         });
                     }
                 }
 
                 handler.disable();
-                handler.loading(true);
                 handler.loadFiles();
             }
         ", CClientScript::POS_HEAD);

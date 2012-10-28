@@ -146,9 +146,14 @@ class ReportController extends Controller
 
         $files = Report::getAllClientFiles( $clientId );
 
-        $data = $this->renderPartial('_allClientFiles', array(
-            'files' => $files,
-        ));
+        $dataProvider = new CArrayDataProvider($files);
+        $dataProvider->keyField = 'class_name';
+
+        echo $this->renderPartial('_allClientFiles', array(
+            'dataProvider' => $dataProvider,
+        ), true);
+
+        die();
     }
 
 

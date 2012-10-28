@@ -58,10 +58,16 @@ class Act extends CActiveRecord
     /**
      * @return string the associated database table name
      */
-    public function tableName()
+    public function tableName( $lang='en' )
     {
-        return 'act';
+        $names = array(
+            'en' => 'act',
+            'ru' => 'Акт',
+        );
+
+        return isset( $names[$lang] ) ? $names[$lang] : '';
     }
+
 
     /**
      * @return array validation rules for model attributes.

@@ -230,8 +230,8 @@ class Report extends CActiveRecord
             foreach( $contract->attachments as $attachment)
             {
                 $files[] = array(
-                    'className' => get_class($attachment),
-                    'id' => $attachment->id,
+                    'class_name' => get_class($attachment),
+                    'class_name_id' => $attachment->id,
                     'file' => CHtml::link($attachment->name, $attachment->getFile()),
                 );
             }
@@ -246,8 +246,8 @@ class Report extends CActiveRecord
         foreach( $bills as $bill )
         {
             $files[] = array(
-                'className' => get_class($bill),
-                'id' => $bill->id,
+                'class_name' => get_class($bill),
+                'class_name_id' => $bill->id,
                 'file' => CHtml::link($bill->file, $bill->getFile()),
             );
         }
@@ -261,8 +261,8 @@ class Report extends CActiveRecord
         foreach( $invoices as $invoice )
         {
             $files[] = array(
-                'className' => get_class($invoice),
-                'id' => $invoice->id,
+                'class_name' => get_class($invoice),
+                'class_name_id' => $invoice->id,
                 'file' => CHtml::link($invoice->file, $invoice->getFile())
             );
         }
@@ -276,8 +276,8 @@ class Report extends CActiveRecord
         foreach( $acts as $act )
         {
             $files[] = array(
-                'className' => get_class($act),
-                'id' => $act->id,
+                'class_name' => get_class($act),
+                'class_name_id' => $act->id,
                 'file' => CHtml::link($act->file, $act->getFile()),
             );
         }

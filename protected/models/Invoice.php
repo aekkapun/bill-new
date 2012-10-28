@@ -51,10 +51,16 @@ class Invoice extends CActiveRecord
     /**
      * @return string the associated database table name
      */
-    public function tableName()
+    public function tableName( $lang='en' )
     {
-        return 'invoice';
+        $names = array(
+            'en' => 'invoice',
+            'ru' => 'Счет-фактура',
+        );
+
+        return isset( $names[$lang] ) ? $names[$lang] : '';
     }
+
 
     /**
      * @return array validation rules for model attributes.

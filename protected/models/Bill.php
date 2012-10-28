@@ -57,10 +57,16 @@ class Bill extends CActiveRecord
     /**
      * @return string the associated database table name
      */
-    public function tableName()
+    public function tableName( $lang='en' )
     {
-        return 'bill';
+        $names = array(
+            'en' => 'bill',
+            'ru' => 'Счет',
+        );
+
+        return isset( $names[$lang] ) ? $names[$lang] : '';
     }
+
 
     /**
      * @return array validation rules for model attributes.
