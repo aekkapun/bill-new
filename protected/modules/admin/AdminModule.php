@@ -36,6 +36,7 @@ class AdminModule extends CWebModule
             'service',
             'import',
             'report',
+            'staticIndex',
         );
 
         // import the module-level models and components

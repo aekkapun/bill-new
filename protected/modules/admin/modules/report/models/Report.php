@@ -281,6 +281,8 @@ class Report extends CActiveRecord
 
     /**
      * Returns all files that are associated with the client
+     *
+     * TODO: поиск файлов реализовать через behavior
      */
     public static function getAllClientFiles( $clientId )
     {
