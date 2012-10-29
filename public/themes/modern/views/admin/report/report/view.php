@@ -26,6 +26,7 @@ $this->menu = array(
 
 
 <!-- Файлы -->
+<h4 class="report-section-header">Файлы</h4>
 <?php $this->renderPartial('_all_client_files', array(
     'filesDataProvider' => $model->getAttachedFiles(),
 )); ?>
