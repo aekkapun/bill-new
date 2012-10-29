@@ -19,8 +19,15 @@ $this->menu = array(
 <h3>Сводная информация по услугам</h3>
 
 
+<!-- Сводная информация по услугам -->
 <?php $this->renderPartial('_report_tables', array(
     'reports' => $reports,
+)); ?>
+
+
+<!-- Файлы -->
+<?php $this->renderPartial('_all_client_files', array(
+    'filesDataProvider' => $model->getAttachedFiles(),
 )); ?>
 
 

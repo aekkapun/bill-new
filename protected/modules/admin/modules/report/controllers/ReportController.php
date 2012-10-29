@@ -144,13 +144,11 @@ class ReportController extends Controller
             throw new CHttpException(400, "Client with id $clientId not found");
         }
 
-        $files = Report::getAllClientFiles( $clientId );
+        $filesDataProvider = Report::getAllClientFiles( $clientId );
 
-        $dataProvider = new CArrayDataProvider($files);
-        $dataProvider->keyField = 'class_name';
-
-        echo $this->renderPartial('_allClientFiles', array(
-            'dataProvider' => $dataProvider,
+        echo $this->renderPartial('_all_client_files', array(
+            'filesDataProvider' => $filesDataProvider,
+            'showCheckBox' => true,
         ), true);
 
         die();

@@ -239,6 +239,47 @@ class Report extends CActiveRecord
 
 
     /**
+     * Returns attached files
+     */
+    public function getAttachedFiles()
+    {
+        $filesModel = ReportAttachment::model()->findAllByAttributes(array(
+            'report_id' => $this->id
+        ));
+
+        if( is_null($filesModel) )
+        {
+            return new CArrayDataProvider(array());
+        }
+
+
+        $files = array();
+
+        foreach( $filesModel as $file )
+        {
+            $modelName = $file->class_name;
+
+            $model = $modelName::model()->findByPk( $file->class_name_id );
+
+            $fileAttributeName = ($file->class_name == 'ContractAttachment') ? 'name' : 'file';
+
+            $attachment = array(
+                'class_name' => $file->class_name,
+                'class_name_id' => $file->class_name_id,
+                'file' => CHtml::link($model->$fileAttributeName, $model->getFile()),
+            );
+
+            $files[] = $attachment;
+        }
+
+        $dataProvider = new CArrayDataProvider($files);
+        $dataProvider->keyField = 'class_name';
+
+        return $dataProvider;
+    }
+
+
+    /**
      * Returns all files that are associated with the client
      */
     public static function getAllClientFiles( $clientId )
@@ -306,7 +347,11 @@ class Report extends CActiveRecord
             );
         }
 
-        return $files;
+
+        $dataProvider = new CArrayDataProvider($files);
+        $dataProvider->keyField = 'class_name';
+
+        return $dataProvider;
     }
 
 
