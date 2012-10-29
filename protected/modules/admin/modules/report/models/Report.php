@@ -52,7 +52,7 @@ class Report extends CActiveRecord
         'ReportCustom',
     );
 
-    private $_files = array();
+    public $files = array();
 
 
 
@@ -153,6 +153,30 @@ class Report extends CActiveRecord
                 'setUpdateOnCreate' => true
             )
         );
+    }
+
+
+    public function afterSave()
+    {
+        // Save files
+        if( count($this->files) )
+        {
+            foreach( $this->files as $className => $files )
+            {
+                foreach( $files as $classNameId => $file )
+                {
+                    $attachment = new ReportAttachment;
+
+                    $attachment->report_id = $this->id;
+                    $attachment->class_name = $className;
+                    $attachment->class_name_id = $classNameId;
+
+                    $attachment->save();
+                }
+            }
+        }
+
+        return parent::afterSave();
     }
 
     /**
@@ -286,14 +310,4 @@ class Report extends CActiveRecord
     }
 
 
-    public function setFiles( $value )
-    {
-        $this->_files = $value;
-    }
-
-
-    public function getFiles()
-    {
-        return $this->_files;
-    }
 }
