@@ -52,6 +52,15 @@ $this->menu = array(
 
 <br/>
 
+
+<h2>Статические показатели</h2>
+<?php $this->widget('application.modules.admin.modules.staticIndex.widgets.InputStaticIndex.InputStaticIndex', array('siteId' => $model->id)); ?>
+
+<?php
+
+
+?>
+
 <h2>Подключенные услуги</h2>
 
 <?php

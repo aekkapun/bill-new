@@ -91,4 +91,12 @@ class StaticIndexInput extends CActiveRecord
             'criteria'=>$criteria,
         ));
     }
+
+
+    public static function getIndexes( $siteId )
+    {
+        $models = self::model()->findAllByAttributes(array(
+            'site_id' => $siteId,
+        ));
+    }
 }
