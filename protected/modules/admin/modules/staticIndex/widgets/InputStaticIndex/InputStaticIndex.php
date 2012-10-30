@@ -19,6 +19,8 @@ class InputStaticIndex extends CWidget
     {
         Yii::import('application.modules.admin.modules.staticIndex.models.*');
 
+        $this->_registerCss();
+
         $indexes = $this->_generateIndexes();
 
         $this->_generateDataProvider( $indexes );
@@ -40,101 +42,59 @@ class InputStaticIndex extends CWidget
             $fields[] = array(
                 'name'         => $model->name,
                 'index'        => $model->title,
-                'date'         => $indexes[$model->name]['date'],
+                'inputDate'    => date( 'd.m.Y', strtotime($indexes[$model->name]['inputDate'])),
                 'currentValue' => $indexes[$model->name]['currentValue'],
                 'lastValue'    => $indexes[$model->name]['lastValue'],
-                'inputButton'  => $this->_generateInputButton(),
+                'inputButton'  => $this->_generateInputButton( $model->id ),
             );
         }
 
         $this->_dataProvider = new CArrayDataProvider( $fields );
+        $this->_dataProvider->keyField = 'name';
     }
 
 
     private function _generateIndexes()
     {
-        $indexes = StaticIndexInput::getIndexes( $this->siteId );
-
-        return array(
-            'tic' => array(
-                'date' => '01.01.2001',
-                'currentValue' => '500',
-                'lastValue' => '450',
-            ),
-            'pr' => array(
-                'date' => '01.01.2002',
-                'currentValue' => '500',
-                'lastValue' => '450',
-            ),
-            'pages_in_yandex' => array(
-                'date' => '01.01.2003',
-                'currentValue' => '500',
-                'lastValue' => '450',
-            ),
-            'pages_in_google' => array(
-                'date' => '01.01.2004',
-                'currentValue' => '500',
-                'lastValue' => '450',
-            ),
-            'total_view_counts' => array(
-                'date' => '01.01.2005',
-                'currentValue' => '500',
-                'lastValue' => '450',
-            ),
-            'avg_uniq_users_count_per_month' => array(
-                'date' => '01.01.2005',
-                'currentValue' => '500',
-                'lastValue' => '450',
-            ),
-            'avg_view_depth' => array(
-                'date' => '01.01.2007',
-                'currentValue' => '500',
-                'lastValue' => '450',
-            ),
-        );
+        return StaticIndexInput::getIndexes( $this->siteId );
     }
 
 
-
-    private function _generateInputButton()
+    private function _generateInputButton( $indexId )
     {
-        $button = CHtml::tag(
+        return CHtml::tag(
             'button',
-            array('class' => 'btn btn-mini'),
+            array(
+                'class' => 'btn btn-mini static-input-button',
+                'data-site-id' => $this->siteId,
+                'data-index-id' => $indexId,
+            ),
             '<i class="icon-pencil"></i>'
         );
-
-        return $button;
     }
 
 
-    /*
+    private function _registerCss()
+    {
+        Yii::app()->clientScript->registerScript('static_index_input_button', "
+            $('.static-input-button').bind('click', function(){
 
-    select id, v.id
+                $.ajax({
+                    url  : '/admin/staticIndex/staticIndexInput/input',
+                    data : {
+                        siteId : $(this).data('site-id'),
+                        indexId : $(this).data('index-id'),
+                    }
+                })
+                .success(function(){
 
-	(select
-		`value`
-	from
-		static_index_input v
-	where
-		v.static_index_id = s.id
-	limit 1) as q
+                })
+                .fail(function(){
+                    alert('fail');
+                });
+            });
+        ");
+    }
 
-from static_index as s
-
-(select
-	static_index_id, input_date, value
-from
-	static_index_input
-where
-	site_id = 1
-	and
-	static_index_id = 1
-order by
-	input_date DESC
-limit 1) as q
-
-
-     */
 
 }

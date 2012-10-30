@@ -93,10 +93,59 @@ class StaticIndexInput extends CActiveRecord
     }
 
 
+    public function getName()
+    {
+        return $this->staticIndex->name;
+    }
+
+
+    /**
+     * Returns array, contains index info
+     *
+     *  array(
+     *      'tic' => array(
+     *          'inputDate' => '01.01.2001',
+     *          'currentValue' => '500',
+     *          'lastValue' => '450',
+     *      ),
+     *      'pr' => array(
+     *          'inputDate' => '01.01.2002',
+     *          'currentValue' => '500',
+     *          'lastValue' => '450',
+     *      ),
+     *      ...
+     *      'pages_in_yandex' => array(
+     *          'inputDate' => '01.01.2003',
+     *          'currentValue' => '500',
+     *          'lastValue' => '450',
+     *      ),
+     *  );
+     */
     public static function getIndexes( $siteId )
     {
-        $models = self::model()->findAllByAttributes(array(
-            'site_id' => $siteId,
-        ));
+        $fields = StaticIndex::model()->findAll();
+
+        $indexes = array();
+
+        foreach( $fields as $field )
+        {
+            $criteria = new CDbCriteria;
+            $criteria->addColumnCondition(array(
+                'site_id' => $siteId,
+                'static_index_id' => $field->id,
+            ));
+            $criteria->order = 'input_date DESC';
+
+            $index = self::model()->find( $criteria );
+
+            $indexes[$index->name] = array(
+                'inputDate' => $index->input_date,
+                'currentValue' => $index->value,
+                'lastValue' => $index->value,
+            );
+        }
+
+
+        return $indexes;
     }
 }

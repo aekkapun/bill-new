@@ -11,7 +11,15 @@
         ),
         array(
             'header' => 'Дата показателя',
-            'name' => 'date',
+            'name' => 'inputDate',
+        ),
+        array(
+            'header' => 'Текущее значение',
+            'name' => 'currentValue',
+        ),
+        array(
+            'header' => 'Предыдущее значение',
+            'name' => 'lastValue',
         ),
         array(
             'type' => 'raw',
