@@ -10,6 +10,8 @@ class InputStaticIndex extends CWidget
 
     public $siteId;
 
+    public $emptyValue = '-';
+
     private $_dataProvider;
 
 
@@ -30,6 +32,7 @@ class InputStaticIndex extends CWidget
     public function run()
     {
         $this->render('view', array('dataProvider' => $this->_dataProvider));
+        $this->render('_modal');
     }
 
 
@@ -42,7 +45,7 @@ class InputStaticIndex extends CWidget
             $fields[] = array(
                 'name'         => $model->name,
                 'index'        => $model->title,
-                'inputDate'    => date( 'd.m.Y', strtotime($indexes[$model->name]['inputDate'])),
+                'inputDate'    => $indexes[$model->name]['inputDate'],
                 'currentValue' => $indexes[$model->name]['currentValue'],
                 'lastValue'    => $indexes[$model->name]['lastValue'],
                 'inputButton'  => $this->_generateInputButton( $model->id ),
@@ -56,19 +59,23 @@ class InputStaticIndex extends CWidget
 
     private function _generateIndexes()
     {
-        return StaticIndexInput::getIndexes( $this->siteId );
+        return StaticIndexInput::getIndexes( $this->siteId, $this->emptyValue );
     }
 
 
     private function _generateInputButton( $indexId )
     {
+        $htmlOptions = array(
+            'class'         => 'btn btn-mini static-input-button',
+            'data-site-id'  => $this->siteId,
+            'data-index-id' => $indexId,
+            'data-toggle'   => 'modal',
+            'data-target'   => '#modal_window',
+        );
+
         return CHtml::tag(
             'button',
-            array(
-                'class' => 'btn btn-mini static-input-button',
-                'data-site-id' => $this->siteId,
-                'data-index-id' => $indexId,
-            ),
+            $htmlOptions,
             '<i class="icon-pencil"></i>'
         );
     }
@@ -79,6 +86,8 @@ class InputStaticIndex extends CWidget
         Yii::app()->clientScript->registerScript('static_index_input_button', "
             $('.static-input-button').bind('click', function(){
 
+                $('#modal_body').loading(true, 'in');
+
                 $.ajax({
                     url  : '/admin/staticIndex/staticIndexInput/input',
                     data : {
@@ -86,8 +95,12 @@ class InputStaticIndex extends CWidget
                         indexId : $(this).data('index-id'),
                     }
                 })
-                .success(function(){
+                .success(function(data){
+                    $('#modal_body').loading(false);
 
+                    var content = $.parseJSON( data );
+                    $('#modal_header').text(content.header);
+                    $('#modal_body').html(content.body);
                 })
                 .fail(function(){
                     alert('fail');

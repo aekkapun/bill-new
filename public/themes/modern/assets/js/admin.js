@@ -101,15 +101,51 @@ $.fn.copyValue = function(srcId) {
     });
 }
 
-$.fn.loading = function( mode ) {
-    div = $('<div></div>').addClass('jquery-plugin-load');
 
-    if( mode )
+/**
+ * @action: true - loading on
+ * @action: false - loading off
+ *
+ * $position: after - after element
+ * $position: in - in element
+ */
+$.fn.loading = function( action, _position ) {
+
+    // Define position
+    if( _position )
     {
-        $(this).after(div);
+        $(this).data('position', _position);
+        var position = _position
     }
     else
     {
-        $(this).siblings('.jquery-plugin-load').remove();
+        var position = $(this).data('position');
+    }
+
+
+    // After position
+    if( position == 'after' )
+    {
+        var div = $('<div></div>').addClass('jquery-plugin-load').addClass(position);
+
+        if( action )
+            $(this).after(div);
+        else
+            $(this).siblings('.jquery-plugin-load').remove();
+    }
+
+
+    // In position
+    if( position == 'in')
+    {
+        if( action )
+            $(this).addClass('jquery-plugin-load').addClass(position);
+    }
+
+
+    // Remove data position
+    if( !action )
+    {
+        $(this).removeClass('jquery-plugin-load').removeData('position');
     }
 }

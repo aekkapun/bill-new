@@ -13,22 +13,35 @@ class StaticIndexInputController extends Controller
 	}
 
 
-	public function actionInput()
+	public function actionInput( $siteId, $indexId )
 	{
-		$model=new StaticIndexInput;
+        $model=new StaticIndexInput;
 
 		$this->performAjaxValidation($model);
 
 		if(isset($_POST['StaticIndexInput']))
 		{
+            /*
 			$model->attributes=$_POST['StaticIndexInput'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
+            */
 		}
 
-		$this->render('create',array(
-			'model'=>$model,
-		));
+        if( Yii::app()->request->isAjaxRequest)
+        {
+            $response = array(
+                'header' => StaticIndex::model()->findByPk( $indexId )->title,
+                'body' => $this->renderPartial('_input',array('model'=>$model), true),
+            );
+
+            echo CJSON::encode( $response );
+            die();
+        }
+        else
+        {
+            $this->render('_input',array('model'=>$model));
+        }
 	}
 
 

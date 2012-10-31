@@ -22,13 +22,13 @@ class FilesTable extends CWidget
                     disable         : function() {
                         this.select.attr( 'disabled', 'disabled' );
                         this.submitButton.attr( 'disabled', 'disabled' );
-                        this.select.loading(true);
+                        this.select.loading(true, 'after');
                     },
 
                     enable          : function() {
                         this.select.removeAttr( 'disabled' );
                         this.submitButton.removeAttr( 'disabled' );
-                        this.select.loading(false);
+                        this.select.loading(false, 'after');
                     },
 
                     loadFiles       : function() {

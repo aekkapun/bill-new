@@ -54,8 +54,8 @@ class StaticIndexInput extends CActiveRecord
             'id' => 'ID',
             'site_id' => 'Site',
             'static_index_id' => 'Static Index',
-            'value' => 'Value',
-            'input_date' => 'Input Date',
+            'value' => 'Значение',
+            'input_date' => 'Дата',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         );
@@ -121,7 +121,7 @@ class StaticIndexInput extends CActiveRecord
      *      ),
      *  );
      */
-    public static function getIndexes( $siteId )
+    public static function getIndexes( $siteId, $emptyValue='' )
     {
         $fields = StaticIndex::model()->findAll();
 
@@ -138,10 +138,13 @@ class StaticIndexInput extends CActiveRecord
 
             $index = self::model()->find( $criteria );
 
-            $indexes[$index->name] = array(
-                'inputDate' => $index->input_date,
-                'currentValue' => $index->value,
-                'lastValue' => $index->value,
+
+            $date = isset($index->input_date) ? date( 'd.m.Y', strtotime($index->input_date)) : $emptyValue;
+
+            $indexes[$field->name] = array(
+                'inputDate'    =>  $date,
+                'currentValue' => isset($index->value) ? $index->value : $emptyValue,
+                'lastValue'    => isset($index->value) ? $index->value : $emptyValue,
             );
         }
 
