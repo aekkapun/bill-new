@@ -50,6 +50,14 @@ class StaticIndexInputController extends Controller
     }
 
 
+    public function actionGetIndex( $siteId, $indexName )
+    {
+        $indexes = StaticIndexInput::getIndex( $siteId, $indexName );
+
+        exit(json_encode( $indexes ));
+    }
+
+
     public function actionValidate()
     {
         if(isset($_POST['StaticIndexInput']))
@@ -63,9 +71,6 @@ class StaticIndexInputController extends Controller
     }
 
 
-
-
-
 	public function loadModel($id)
 	{
 		$model=StaticIndexInput::model()->findByPk($id);
@@ -75,12 +80,4 @@ class StaticIndexInputController extends Controller
 	}
 
 
-	protected function performAjaxValidation($model)
-	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='static-index-input-form')
-		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
-	}
 }

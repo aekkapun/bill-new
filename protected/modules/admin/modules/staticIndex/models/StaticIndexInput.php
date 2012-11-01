@@ -15,6 +15,7 @@
 
 class StaticIndexInput extends CActiveRecord
 {
+
     public static function model($className=__CLASS__)
     {
         return parent::model($className);
@@ -24,6 +25,12 @@ class StaticIndexInput extends CActiveRecord
     public function tableName()
     {
         return 'static_index_input';
+    }
+
+
+    public function init()
+    {
+        $this->input_date = date('Y-m-d');
     }
 
 
@@ -137,8 +144,9 @@ class StaticIndexInput extends CActiveRecord
      *          'lastValue' => '450',
      *      ),
      *  );
+     *
      */
-    public static function getIndexes( $siteId, $emptyValue='' )
+    public static function getIndexes( $siteId, $emptyValue='-' )
     {
         $fields = StaticIndex::model()->findAll();
 
@@ -146,26 +154,58 @@ class StaticIndexInput extends CActiveRecord
 
         foreach( $fields as $field )
         {
-            $criteria = new CDbCriteria;
-            $criteria->addColumnCondition(array(
-                'site_id' => $siteId,
-                'static_index_id' => $field->id,
-            ));
-            $criteria->order = 'input_date DESC';
+            $indexes[$field->name] = self::getIndex( $siteId, $field->name, $emptyValue );
+        }
 
-            $index = self::model()->find( $criteria );
+        return $indexes;
+    }
 
 
-            $date = isset($index->input_date) ? date( 'd.m.Y', strtotime($index->input_date)) : $emptyValue;
+    /**
+     * Returns array, contains index info
+     *
+     *  array(
+     *      'inputDate' => '01.01.2001',
+     *      'currentValue' => '500',
+     *      'lastValue' => '450',
+     *  );
+     *
+     */
+    public static function getIndex( $siteId, $indexName, $emptyValue='-' )
+    {
+        $criteria = new CDbCriteria;
+        $criteria->order = 'input_date DESC';
+        $criteria->limit = 2;
+        $criteria->join = 'JOIN static_index b ON t.static_index_id = b.id';
+        $criteria->addColumnCondition(array(
+            'site_id' => $siteId,
+            'b.name' => $indexName,
+        ));
+        $criteria->order = 'input_date DESC, t.created_at DESC';
 
-            $indexes[$field->name] = array(
-                'inputDate'    =>  $date,
-                'currentValue' => isset($index->value) ? $index->value : $emptyValue,
-                'lastValue'    => isset($index->value) ? $index->value : $emptyValue,
+        $models = self::model()->findAll( $criteria );
+
+
+        if( !count($models) )
+        {
+            return array(
+                'inputDate'    => $emptyValue,
+                'currentValue' => $emptyValue,
+                'lastValue'    => $emptyValue,
             );
         }
 
+        $currentModel = $models[0];
+        $lastModel = isset($models[1]) ? $models[1] : null;
 
-        return $indexes;
+        $date = isset($currentModel->input_date) ? date( 'd.m.Y', strtotime($currentModel->input_date)) : $emptyValue;
+        $currentValue = isset($currentModel->value) ? $currentModel->value : $emptyValue;
+        $lastValue = isset($lastModel->value) ? $lastModel->value : $emptyValue;
+
+        return array(
+            'inputDate'    => $date,
+            'currentValue' => $currentValue,
+            'lastValue'    => $lastValue,
+        );
     }
 }

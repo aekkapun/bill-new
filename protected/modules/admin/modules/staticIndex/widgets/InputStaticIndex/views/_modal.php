@@ -55,23 +55,39 @@
 
         var form = {
             action : '/admin/staticIndex/staticIndexInput/create',
-            data : $('#static-index-input-form').serialize()
+            data   : $('#static-index-input-form').serialize(),
+            reset  : function() {
+                var today = $.datepicker.formatDate('yy-mm-dd', new Date());
+                $('#StaticIndexInput_input_date').val( today );
+                $('#StaticIndexInput_value').val('');
+            }
         }
 
         var dataTable = $('#static-index-grid');
         dataTable.update = function( indexName ){
-
-            $.get();
 
             var row = {
                 inputDate    : $(this).find( 'tr.' + indexName + ' td.inputDate' ),
                 currentValue : $(this).find( 'tr.' + indexName + ' td.currentValue' ),
                 lastValue    : $(this).find( 'tr.' + indexName + ' td.lastValue' )
             }
+
+            // Get and update new indexes
+            $.get('/admin/staticIndex/staticIndexInput/getIndex', {
+                siteId    : <?php echo $siteId; ?>,
+                indexName : indexName
+            })
+            .success(function(data){
+                newIndexes = $.parseJSON( data );
+
+                row.inputDate.text( newIndexes.inputDate );
+                row.currentValue.text( newIndexes.currentValue );
+                row.lastValue.text( newIndexes.lastValue );
+            });
         }
 
 
-
+        // Send form
         $.post(
             form.action,
             form.data
@@ -81,8 +97,9 @@
 
             if( response.status == 'success' )
             {
-                modal.modal('hide');
                 dataTable.update( response.indexName );
+                modal.modal('hide');
+                form.reset();
             }
             else
             {

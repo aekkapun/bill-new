@@ -33,6 +33,7 @@ class InputStaticIndex extends CWidget
 
         $this->render('_modal', array(
             'model' => new StaticIndexInput,
+            'siteId' => $this->siteId,
         ));
     }
 
