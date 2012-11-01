@@ -13,36 +13,57 @@ class StaticIndexInputController extends Controller
 	}
 
 
-	public function actionInput( $siteId, $indexId )
+	public function actionCreate()
 	{
-        $model=new StaticIndexInput;
+        $response = array();
 
-		$this->performAjaxValidation($model);
-
-		if(isset($_POST['StaticIndexInput']))
-		{
-            /*
-			$model->attributes=$_POST['StaticIndexInput'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-            */
-		}
-
-        if( Yii::app()->request->isAjaxRequest)
+        if (isset($_POST['StaticIndexInput']))
         {
-            $response = array(
-                'header' => StaticIndex::model()->findByPk( $indexId )->title,
-                'body' => $this->renderPartial('_input',array('model'=>$model), true),
-            );
+            $model = new StaticIndexInput;
+            $model->attributes = $_POST['StaticIndexInput'];
 
-            echo CJSON::encode( $response );
-            die();
+            if ($model->save())
+            {
+                $response = array(
+                    'indexName' => $model->name,
+                    'status' => 'success',
+                    'data' => 'Данные были успешно сохранены'
+                );
+            }
+            else
+            {
+                $response = array(
+                    'status' => 'error',
+                    'data' => CHtml::errorSummary( $model ),
+                );
+            }
         }
         else
         {
-            $this->render('_input',array('model'=>$model));
+            exit(json_encode(array(
+                    'status' => 'error',
+                    'data' => 'Необходимо ввести данные.',
+            )));
         }
-	}
+
+        exit(json_encode( $response ));
+    }
+
+
+    public function actionValidate()
+    {
+        if(isset($_POST['StaticIndexInput']))
+        {
+            $model = new StaticIndexInput();
+			$model->attributes=$_POST['StaticIndexInput'];
+
+            echo CActiveForm::validate($model);
+            Yii::app()->end();
+        }
+    }
+
+
+
 
 
 	public function loadModel($id)

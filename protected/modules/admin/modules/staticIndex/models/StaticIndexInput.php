@@ -30,12 +30,29 @@ class StaticIndexInput extends CActiveRecord
     public function rules()
     {
         return array(
-            array('site_id, static_index_id, value, input_date', 'required'),
-            array('value', 'numerical', 'integerOnly'=>true),
-            array('site_id, static_index_id', 'length', 'max'=>10),
             array('created_at, updated_at', 'safe'),
             array('id, site_id, static_index_id, value, input_date, created_at, updated_at', 'safe', 'on'=>'search'),
+
+            // Value
+            array('value', 'required'),
+            array('value', 'numerical', 'integerOnly' => true),
+            array('value', 'length', 'max' => 10),
+
+            // Input date
+            array('input_date', 'required'),
+            array('input_date', 'date', 'format' => 'yyyy-MM-dd'),
+
+            // Site id
+            array('site_id', 'required'),
+            array('site_id', 'exist', 'className' => 'Site', 'attributeName' => 'id'),
+
+            // Static index id
+            array('static_index_id', 'required'),
+            array('static_index_id', 'exist', 'className' => 'StaticIndex', 'attributeName' => 'id'),
         );
+
+
+
     }
 
 

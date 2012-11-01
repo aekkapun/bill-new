@@ -21,8 +21,6 @@ class InputStaticIndex extends CWidget
     {
         Yii::import('application.modules.admin.modules.staticIndex.models.*');
 
-        $this->_registerCss();
-
         $indexes = $this->_generateIndexes();
 
         $this->_generateDataProvider( $indexes );
@@ -32,7 +30,10 @@ class InputStaticIndex extends CWidget
     public function run()
     {
         $this->render('view', array('dataProvider' => $this->_dataProvider));
-        $this->render('_modal');
+
+        $this->render('_modal', array(
+            'model' => new StaticIndexInput,
+        ));
     }
 
 
@@ -44,11 +45,11 @@ class InputStaticIndex extends CWidget
         {
             $fields[] = array(
                 'name'         => $model->name,
-                'index'        => $model->title,
+                'title'        => $model->title,
                 'inputDate'    => $indexes[$model->name]['inputDate'],
                 'currentValue' => $indexes[$model->name]['currentValue'],
                 'lastValue'    => $indexes[$model->name]['lastValue'],
-                'inputButton'  => $this->_generateInputButton( $model->id ),
+                'inputButton'  => $this->_generateInputButton( $model->id, $model->title ),
             );
         }
 
@@ -63,14 +64,15 @@ class InputStaticIndex extends CWidget
     }
 
 
-    private function _generateInputButton( $indexId )
+    private function _generateInputButton( $indexId, $indexTitle )
     {
         $htmlOptions = array(
-            'class'         => 'btn btn-mini static-input-button',
-            'data-site-id'  => $this->siteId,
-            'data-index-id' => $indexId,
-            'data-toggle'   => 'modal',
-            'data-target'   => '#modal_window',
+            'class'            => 'btn btn-mini static-input-button',
+            'data-site-id'     => $this->siteId,
+            'data-index-id'    => $indexId,
+            'data-index-title' => $indexTitle,
+            'data-toggle'      => 'modal',
+            'data-target'      => '#modal_window',
         );
 
         return CHtml::tag(
@@ -79,35 +81,5 @@ class InputStaticIndex extends CWidget
             '<i class="icon-pencil"></i>'
         );
     }
-
-
-    private function _registerCss()
-    {
-        Yii::app()->clientScript->registerScript('static_index_input_button', "
-            $('.static-input-button').bind('click', function(){
-
-                $('#modal_body').loading(true, 'in');
-
-                $.ajax({
-                    url  : '/admin/staticIndex/staticIndexInput/input',
-                    data : {
-                        siteId : $(this).data('site-id'),
-                        indexId : $(this).data('index-id'),
-                    }
-                })
-                .success(function(data){
-                    $('#modal_body').loading(false);
-
-                    var content = $.parseJSON( data );
-                    $('#modal_header').text(content.header);
-                    $('#modal_body').html(content.body);
-                })
-                .fail(function(){
-                    alert('fail');
-                });
-            });
-        ");
-    }
-
 
 }
