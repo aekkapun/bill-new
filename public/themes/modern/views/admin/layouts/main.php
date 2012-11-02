@@ -20,6 +20,7 @@
                     array('label' => 'Пользователи', 'url' => array('/admin/user'), 'visible' => Yii::app()->user->checkAccess('admin')),
                     array('label' => 'Коэффициенты', 'url' => array('/admin/factor'), 'visible' => Yii::app()->user->checkAccess('admin')),
                     array('label' => 'Рекламные площадки', 'url' => array('/admin/advPlatform'), 'visible' => Yii::app()->user->checkAccess('admin')),
+                    array('label' => 'Статические показатели', 'url' => array('/admin/staticIndex/staticIndex'), 'visible' => Yii::app()->user->checkAccess('admin')),
                 )),
                 array('label' => 'Клиенты', 'url' => array('#'), 'visible' => !Yii::app()->user->isGuest, 'items' => array(
                     array('label' => 'Список клиентов', 'url' => array('/admin/client'), 'visible' => !Yii::app()->user->isGuest),

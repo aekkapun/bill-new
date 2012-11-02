@@ -29,7 +29,9 @@ class StaticIndex extends CActiveRecord
         return array(
             array('name, title', 'required'),
             array('name, title', 'length', 'max'=>255),
-            array('created_at, updated_at', 'safe'),
+
+            array('name', 'match', 'pattern' => '/^[_a-z0-9]+$/'),
+
             array('id, name, title, created_at, updated_at', 'safe', 'on'=>'search'),
         );
     }
@@ -45,11 +47,9 @@ class StaticIndex extends CActiveRecord
     public function attributeLabels()
     {
         return array(
-            'id' => 'ID',
-            'name' => 'Name',
-            'title' => 'Title',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'id' => '#',
+            'title' => 'Название',
+            'name' => 'Имя индекса в БД',
         );
     }
 
@@ -71,7 +71,7 @@ class StaticIndex extends CActiveRecord
     {
         $criteria=new CDbCriteria;
 
-        $criteria->compare('id',$this->id,true);
+        $criteria->compare('id',$this->id);
         $criteria->compare('name',$this->name,true);
         $criteria->compare('title',$this->title,true);
         $criteria->compare('created_at',$this->created_at,true);
