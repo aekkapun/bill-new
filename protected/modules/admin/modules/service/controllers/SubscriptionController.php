@@ -99,4 +99,26 @@ class SubscriptionController extends Controller
             'terminateForm' => $terminateForm,
         ));
     }
+
+
+    public function actionGetFilledDays( $siteId )
+    {
+        $models = SubscriptionInput::model()->findAllByAttributes(array(
+            'site_id' => $siteId
+        ));
+
+        $filledDays = array();
+
+        foreach( $models as $model )
+        {
+            $date = date('Y-m-d', strtotime($model->created_at));
+            $filledDays[] = $date;
+        }
+
+        $filledDays = array_unique( $filledDays );
+
+        echo CJavaScript::encode( $filledDays );
+
+        Yii::app()->end();
+    }
 }

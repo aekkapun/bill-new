@@ -127,18 +127,20 @@ class ReportPosition extends CActiveRecord
                     site_id,
                     sum(sum) as sum,
                     system_id,
-                    (select sum from report_position where system_id = :google_id and site_id = t.site_id) as google,
-                    (select sum from report_position where system_id = :yandex_id and site_id = t.site_id) as yandex
+                    (select sum from report_position where system_id = :google_id and site_id = t.site_id and report_id = :report_id_1) as google,
+                    (select sum from report_position where system_id = :yandex_id and site_id = t.site_id and report_id = :report_id_2) as yandex
                 from
                     report_position t
                 where
-                    `report_id` = :report_id
+                    `report_id` = :report_id_3
                 group by
                     `site_id`';
 
 
         $params = array(
-            ':report_id' => $reportId,
+            ':report_id_1' => $reportId,
+            ':report_id_2' => $reportId,
+            ':report_id_3' => $reportId,
             ':yandex_id' => Factor::SYSTEM_YANDEX,
             ':google_id' => Factor::SYSTEM_GOOGLE,
         );

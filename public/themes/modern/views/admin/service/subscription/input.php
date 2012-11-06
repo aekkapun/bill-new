@@ -21,6 +21,7 @@
             'showOn' => 'button',
             'buttonImage' => '/images/calendar.png',
             'buttonImageOnly' => true,
+            'beforeShowDay' => 'js:highlight'
         ),
         'htmlOptions' => array('value' => (empty($subscriptionInput->created_at) ? date('Y-m-d') : $subscriptionInput->created_at)),
     )); ?>
@@ -45,3 +46,29 @@
     'params' => isset($params) ? $params : null,
     'service' => isset($service) ? $service : null,
 )) ?>
+
+
+<style type="text/css">
+    td.yeah a.ui-state-default {
+        background: yellow;
+    }
+</style>
+
+<script type="text/javascript">
+
+    var filledDays = [];
+
+    $.get('/admin/service/subscription/getFilledDays', {siteId : 2})
+    .success(function(data) {
+
+        console.log( data );
+        filledDays = eval( data );
+        console.log( filledDays );
+    });
+
+    function highlight(date) {
+
+        formattedDate = $.datepicker.formatDate('yy-mm-dd', date);;
+        return (filledDays.indexOf(formattedDate) > -1) ? [true, 'yeah'] : [true];
+    }
+</script>
