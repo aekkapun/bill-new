@@ -22,7 +22,11 @@ $this->menu=array(
 		'valueMin',
 		'valueMax',
 		'price',
-		'created_at',
+        array(
+		    'name' => 'name_id',
+		    'value' => $model->name->name,
+		),
+        'created_at',
 		'updated_at',
 	),
 )); ?>

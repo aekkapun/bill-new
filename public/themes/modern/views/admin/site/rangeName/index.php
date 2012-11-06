@@ -22,7 +22,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Статические показатели</h1>
+<h1>Названия диапазонов</h1>
 
 <p>
     <?php $this->widget('bootstrap.widgets.TbButton', array(
@@ -48,11 +48,10 @@ $('.search-form form').submit(function(){
     'dataProvider' => $model->search(),
     'columns' => array(
         'id',
-        'title',
         'name',
         array(
             'class' => 'bootstrap.widgets.TbButtonColumn',
-            'template' => '{update}{delete}',
+            'template' => '{update}{delete}'
         ),
     ),
 )); ?>
