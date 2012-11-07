@@ -110,4 +110,38 @@ class TransitionInput extends CActiveRecord
             'criteria' => $criteria,
         ));
     }
+
+
+    public static function getDataByDate( $ssId, $date )
+    {
+        $siteService = SiteService::model()->findByPk( $ssId );
+
+        $model = self::model()->findByAttributes(array(
+            'site_id' => $siteService->site_id,
+            'created_at' => date('Y-m-d H:i:s', strtotime($date)),
+        ));
+
+
+        if( !empty($model) )
+        {
+            $status = 'success';
+            $data = array(
+                'transitions' => $model->transitions,
+            );
+        }
+        else
+        {
+            $status = 'empty';
+            $data = array(
+                'transitions' => '',
+            );
+        }
+
+
+        return array(
+            'status' => $status,
+            'data' => $data,
+        );
+    }
+
 }

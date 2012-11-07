@@ -8,6 +8,14 @@
  */
 class TransitionController extends Controller
 {
+    public function actions()
+    {
+        return array(
+            'getFilledDays' => array('class' => 'application.modules.admin.modules.service.components.LiveService.GetFilledDaysAction'),
+            'getDataByDate' => array('class' => 'application.modules.admin.modules.service.components.LiveService.GetDataByDateAction'),
+        );
+    }
+
 
     public function actionSubscribe($siteId)
     {
@@ -18,19 +26,19 @@ class TransitionController extends Controller
             'site_id' => $siteId,
         ), array('index' => 'id'));
 
-        if (!$ranges) {
+        if(!$ranges) {
             Yii::app()->user->setFlash('notice', 'Сначала нужно добавить диапазоны');
         }
 
         $transitionForm = new TransitionForm();
 
-        if (isset($_POST['SiteService']) && isset($_POST['SiteRange']) && isset($_POST['TransitionForm'])) {
+        if(isset($_POST['SiteService']) && isset($_POST['SiteRange']) && isset($_POST['TransitionForm'])) {
             $siteService->attributes = $_POST['SiteService'];
             $transitionForm->attributes = $_POST['TransitionForm'];
 
             $valid = $siteService->validate() && $transitionForm->validate();
 
-            if ($valid) {
+            if($valid) {
                 $transaction = Yii::app()->db->beginTransaction();
 
                 try {
@@ -39,7 +47,7 @@ class TransitionController extends Controller
                     $params['maxSum'] = $transitionForm->sumMax;
 
                     $siteService->params = CJSON::encode($params);
-                    if (!$siteService->save()) {
+                    if(!$siteService->save()) {
                         throw new CHttpException(500, 'Не удалось добавить услугу');
                     }
 
@@ -70,12 +78,32 @@ class TransitionController extends Controller
 
         $transitions = new TransitionInput();
 
-        if (isset($_POST['TransitionInput'])) {
+        if( isset($_POST['TransitionInput']) )
+        {
+            $model = TransitionInput::model()->findByAttributes(array(
+                'site_id' => $_POST['TransitionInput']['site_id'],
+                'created_at' => $_POST['TransitionInput']['created_at'],
+            ));
+
+
+            if( !empty($model) )
+            {
+                $transitions = $model;
+            }
+
+
             $transitions->attributes = $_POST['TransitionInput'];
-            if (!$transitions->save()) {
+
+            $isNewRecord = $transitions->isNewRecord;
+
+            if( $transitions->save() )
+            {
+                $message = $isNewRecord ? 'Сохранено' : 'Обновлено';
+                Yii::app()->user->setFlash('success', $message);
+            }
+            else
+            {
                 Yii::app()->user->setFlash('error', 'Не удалось сохранить данные');
-            } else {
-                Yii::app()->user->setFlash('success', 'Сохранено');
             }
         }
 
@@ -95,18 +123,18 @@ class TransitionController extends Controller
     {
         $model = SiteService::model()->findByPk($ssId);
 
-        if (!$model) {
+        if(!$model) {
             throw new CHttpException(400, 'Такой услуги не подключено');
         }
         $terminateForm = new TerminateForm();
 
-        if (isset($_POST['TerminateForm'])) {
+        if(isset($_POST['TerminateForm'])) {
 
             $terminateForm->attributes = $_POST['TerminateForm'];
 
-            if ($terminateForm->validate()) {
+            if($terminateForm->validate()) {
                 $model->attributes = $terminateForm->attributes;
-                if (!$model->delete()) {
+                if(!$model->delete()) {
                     Yii::app()->user->setFlash('error', 'Ошибка отключения услуги');
                 } else {
                     Yii::app()->user->setFlash('success', 'Сохранено');
