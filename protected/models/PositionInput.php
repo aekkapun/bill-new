@@ -181,4 +181,62 @@ class PositionInput extends CActiveRecord
             'criteria' => $criteria,
         ));
     }
+
+
+    public static function getDataByDate( $ssId, $date )
+    {
+        $siteService = SiteService::model()->findByPk( $ssId );
+
+        $models = self::getBySiteIdAndDate( $siteService->site_id, $date );
+
+        $params = CJSON::decode($siteService->params);
+
+        $phrases = array();
+
+        $data = array();
+
+
+        $status = count($models) ? 'success' : 'empty';
+
+
+        foreach (Factor::$labels as $system_id => $label)
+        {
+            foreach ($params['phrases'] as $i => $phrase)
+            {
+                $data[ $system_id . $i . "_position" ]  = count($models) ? array_shift( $models )->position : '';
+
+                $phrases[$system_id]['phrases'][$i] = new PositionInput();
+                $phrases[$system_id]['phrases'][$i]->attributes = array(
+                    'hash' => $phrase['hash'],
+                    'phrase' => $phrase['phrase'],
+                );
+                $phrases[$system_id]['phrases'][$i]->factors = $params['factors'];
+                $phrases[$system_id]['phrases'][$i]->phraseMeta = $phrase;
+
+            }
+        }
+
+
+        return array(
+            'status' => $status,
+            'data' => $data,
+        );
+    }
+
+
+    public static function getBySiteIdAndDate( $siteId, $date)
+    {
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('site_id = :siteId');
+        $criteria->addCondition('created_at = :date');
+        $criteria->params = array(
+            ':siteId' => $siteId,
+            ':date' => date('Y-m-d H:i:s', strtotime($date)),
+        );
+        $criteria->order = 'id';
+
+        return self::model()->findAll( $criteria );
+    }
+
+
 }

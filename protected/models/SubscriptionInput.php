@@ -18,6 +18,7 @@ class SubscriptionInput extends CActiveRecord
 
     /**
      * Returns the static model of the specified AR class.
+     * @param string $className
      * @return SubscriptionInput the static model class
      */
     public static function model($className = __CLASS__)
@@ -114,4 +115,41 @@ class SubscriptionInput extends CActiveRecord
             'criteria' => $criteria,
         ));
     }
+
+
+    public static function getDataByDate( $ssId, $date )
+    {
+        $siteService = SiteService::model()->findByPk( $ssId );
+
+        $model = self::model()->findByAttributes(array(
+            'site_id' => $siteService->site_id,
+            'created_at' => date('Y-m-d H:i:s', strtotime($date)),
+        ));
+
+
+        if( !empty($model) )
+        {
+            $status = 'success';
+            $data = array(
+                'link_count' => $model->link_count,
+                'transitions_count' => $model->transitions_count,
+            );
+        }
+        else
+        {
+            $status = 'empty';
+            $data = array(
+                'link_count' => '',
+                'transitions_count' => '',
+            );
+        }
+
+
+        return array(
+            'status' => $status,
+            'data' => $data,
+        );
+    }
+
+
 }

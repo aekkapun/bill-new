@@ -8,6 +8,15 @@
  */
 class PositionController extends Controller
 {
+    public function actions()
+    {
+        return array(
+            'getFilledDays' => array('class' => 'application.modules.admin.modules.service.components.LiveService.GetFilledDaysAction'),
+            'getDataByDate' => array('class' => 'application.modules.admin.modules.service.components.LiveService.GetDataByDateAction'),
+        );
+    }
+
+
     public function actionSubscribe($siteId)
     {
         $site = $this->loadSite($siteId);
@@ -70,6 +79,7 @@ class PositionController extends Controller
         $positionForm = new PositionForm();
 
         $phrases = array();
+
         // Для каждой системы (яндекс, гугл) составляем список запросов
         foreach (Factor::$labels as $system_id => $label) {
             $phrases[$system_id] = array(
@@ -87,32 +97,60 @@ class PositionController extends Controller
             }
         }
 
-        if (isset($_POST['PositionInput']) && $_POST['PositionForm']) {
+
+        // Сохранение
+        if (isset($_POST['PositionInput']) && $_POST['PositionForm'])
+        {
+            $date = $_POST['PositionForm']['created_at'];
+            $models = PositionInput::getBySiteIdAndDate( $siteService->site_id, $date );
+
 
             $transaction = Yii::app()->db->beginTransaction();
 
-            try {
-
+            try
+            {
                 $positionForm->attributes = $_POST['PositionForm'];
 
                 $valid = $positionForm->validate() && true;
-                foreach (Factor::$labels as $system_id => $label) {
-                    foreach ($params['phrases'] as $i => $phrase) {
+                foreach (Factor::$labels as $system_id => $label)
+                {
+                    foreach ($params['phrases'] as $i => $phrase)
+                    {
+                        if( count($models) )
+                        {
+                            $factors = $phrases[$system_id]['phrases'][$i]->factors;
+                            $phraseMeta = $phrases[$system_id]['phrases'][$i]->phraseMeta;
+
+                            $phrases[$system_id]['phrases'][$i] = array_shift( $models );
+                            $phrases[$system_id]['phrases'][$i]->factors = $factors;
+                            $phrases[$system_id]['phrases'][$i]->phraseMeta = $phraseMeta;
+                        }
+
+                        $isNewRecord = $phrases[$system_id]['phrases'][$i]->isNewRecord;
+
                         $phrases[$system_id]['phrases'][$i]->attributes = $_POST['PositionInput'][$system_id . $i];
                         $phrases[$system_id]['phrases'][$i]->created_at = $positionForm->created_at;
                         $valid = $phrases[$system_id]['phrases'][$i]->save() && $valid;
                     }
                 }
-                if ($valid) {
+
+                if ($valid)
+                {
                     $transaction->commit();
-                    Yii::app()->user->setFlash('success', 'Сохранено');
+
+                    $message = $isNewRecord ? 'Сохранено' : 'Обновлено';
+                    Yii::app()->user->setFlash('success', $message);
                 }
-            } catch (CException $e) {
+            }
+            catch (CException $e)
+            {
                 Yii::app()->user->setFlash('error', $e->getMessage() . ' Все изменения отменены.');
                 $transaction->rollback();
             }
         }
 
+
+        // Вывод формы
         $this->render('input', array(
             'site' => $site,
             'siteService' => $siteService,
@@ -124,6 +162,8 @@ class PositionController extends Controller
 
     /**
      * @param $ssId SiteService->id param
+     * @throws CHttpException
+     * @return void
      */
     public function actionTerminate($ssId)
     {

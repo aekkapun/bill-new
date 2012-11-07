@@ -9,6 +9,15 @@
 class SubscriptionController extends Controller
 {
 
+    public function actions()
+    {
+        return array(
+            'getFilledDays' => array('class' => 'application.modules.admin.modules.service.components.LiveService.GetFilledDaysAction'),
+            'getDataByDate' => array('class' => 'application.modules.admin.modules.service.components.LiveService.GetDataByDateAction'),
+        );
+    }
+
+
     public function actionSubscribe($siteId)
     {
         $site = $this->loadSite($siteId);
@@ -16,21 +25,22 @@ class SubscriptionController extends Controller
         $siteService = new SiteService();
         $subscriptionForm = new SubscriptionForm();
 
-        if (isset($_POST['SiteService']) && isset($_POST['SubscriptionForm'])) {
-            
+        if (isset($_POST['SiteService']) && isset($_POST['SubscriptionForm']))
+        {
             $siteService->attributes = $_POST['SiteService'];
             $subscriptionForm->attributes = $_POST['SubscriptionForm'];
 
-            if ($subscriptionForm->validate()) {
+            if ($subscriptionForm->validate())
+            {
                 $params['sum'] = $subscriptionForm->sum;
                 $params['work_cost'] = $subscriptionForm->work_cost ? $subscriptionForm->work_cost : 0;
                 $siteService->params = CJSON::encode($params);
-                if ($siteService->save()) {
+
+                if ($siteService->save())
+                {
                     $this->redirect(array('/admin/site/default/view', 'id' => $site->id));
                 }
-
             }
-            
         }
 
         $this->render('subscribe', array(
@@ -50,12 +60,33 @@ class SubscriptionController extends Controller
 
         $subscriptionInput = new SubscriptionInput();
 
-        if (isset($_POST['SubscriptionInput'])) {
+        if (isset($_POST['SubscriptionInput']))
+        {
+            $model = SubscriptionInput::model()->findByAttributes(array(
+                'site_id' => $_POST['SubscriptionInput']['site_id'],
+                'created_at' => $_POST['SubscriptionInput']['created_at'],
+            ));
+
+
+            if( !empty($model) )
+            {
+                $subscriptionInput = $model;
+            }
+
+
             $subscriptionInput->attributes = $_POST['SubscriptionInput'];
-            if (!$subscriptionInput->save()) {
+
+
+            $isNewRecord = $subscriptionInput->isNewRecord;
+
+            if ($subscriptionInput->save())
+            {
+                $message = $isNewRecord ? 'Сохранено' : 'Обновлено';
+                Yii::app()->user->setFlash('success', $message);
+            }
+            else
+            {
                 Yii::app()->user->setFlash('error', 'Не удалось сохранить данные');
-            } else {
-                Yii::app()->user->setFlash('success', 'Сохранено');
             }
         }
 
@@ -69,6 +100,8 @@ class SubscriptionController extends Controller
 
     /**
      * @param $ssId SiteService->id param
+     * @throws CHttpException
+     * @return void
      */
     public function actionTerminate($ssId)
     {
@@ -100,25 +133,4 @@ class SubscriptionController extends Controller
         ));
     }
 
-
-    public function actionGetFilledDays( $siteId )
-    {
-        $models = SubscriptionInput::model()->findAllByAttributes(array(
-            'site_id' => $siteId
-        ));
-
-        $filledDays = array();
-
-        foreach( $models as $model )
-        {
-            $date = date('Y-m-d', strtotime($model->created_at));
-            $filledDays[] = $date;
-        }
-
-        $filledDays = array_unique( $filledDays );
-
-        echo CJavaScript::encode( $filledDays );
-
-        Yii::app()->end();
-    }
 }

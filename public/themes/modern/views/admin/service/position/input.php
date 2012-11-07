@@ -8,22 +8,12 @@
     'htmlOptions' => array('class' => 'well well-small'),
 )); ?>
 <?php echo $form->labelEx($positionForm, 'created_at'); ?>
-<?php $this->widget('zii.widgets.jui.CJuiDatePicker',
-    array(
-        'model' => $positionForm,
-        'attribute' => 'created_at',
-        'language' => 'ru',
-        'options' => array(
-            'showAnim' => 'fold',
-            'dateFormat' => 'yy-mm-dd',
-            'changeMonth' => true,
-            'changeYear' => true,
-            'showOn' => 'button',
-            'buttonImage' => '/images/calendar.png',
-            'buttonImageOnly' => true,
-        ),
-        'htmlOptions' => array('value' => date('Y-m-d')),
-    )); ?>
+<?php $this->widget('application.modules.admin.modules.service.components.LiveService.widgets.LiveServiceDatepickerWidget', array(
+    'model' => $positionForm,
+    'attribute' => 'created_at',
+    'serviceName' => 'position',
+    'ssId' => $siteService->id,
+)); ?>
 
 <?php foreach ($phrases as $system_id => $system): ?>
 

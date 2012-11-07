@@ -20,7 +20,9 @@ body {
 .jquery-plugin-load.in {
     background-position: 50% 50%;
 }
-.h1-small { font-size: 30px; }
+.h1-small {
+    font-size: 30px;
+}
 /******************* end_global *******************/
 
 /******************* report *******************/
