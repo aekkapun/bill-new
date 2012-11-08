@@ -25,43 +25,52 @@ class ContextController extends Controller
 
         $advPlatforms = AdvPlatform::model()->findAll(array('index' => 'id'));
 
-        if (isset($_POST['SiteService']) && isset($_POST['advPlatforms'])) {
 
-            $siteService->attributes = $_POST['SiteService'];
+        if( isset($_POST['SiteService']) )
+        {
+            if( isset($_POST['advPlatforms']) )
+            {
+                $siteService->attributes = $_POST['SiteService'];
 
-            $valid = $siteService->validate();
+                $valid = $siteService->validate();
 
-            foreach ($_POST['advPlatforms'] as $advPlatformId) {
-                if (isset($_POST['AdvPlatform'][$advPlatformId])) {
-                    $advPlatforms[$advPlatformId]->attributes = $_POST['AdvPlatform'][$advPlatformId];
-                } else {
-                    unset($advPlatforms[$advPlatformId]);
-                }
-                $valid = $valid && $advPlatforms[$advPlatformId]->validate();
-            }
-
-            $selectedPlatforms = array();
-
-            foreach ($_POST['advPlatforms'] as $ap) {
-                $selectedPlatforms[$ap] = true;
-            }
-
-            // Фильтруем только выбранные рекламные площадки
-            $advPlatforms = array_intersect_key($advPlatforms, $selectedPlatforms);
-
-            if ($valid) {
-
-                $params = array();
-
-                $params['advPlatforms'] = array_values($advPlatforms);
-                $siteService->params = CJSON::encode($params);
-
-                if (!$siteService->save()) {
-                    throw new CHttpException(500, 'Ну удалось подключить услугу');
+                foreach ($_POST['advPlatforms'] as $advPlatformId) {
+                    if (isset($_POST['AdvPlatform'][$advPlatformId])) {
+                        $advPlatforms[$advPlatformId]->attributes = $_POST['AdvPlatform'][$advPlatformId];
+                    } else {
+                        unset($advPlatforms[$advPlatformId]);
+                    }
+                    $valid = $valid && $advPlatforms[$advPlatformId]->validate();
                 }
 
-                $this->redirect(array('/admin/site/default/view', 'id' => $site->id));
+                $selectedPlatforms = array();
+
+                foreach ($_POST['advPlatforms'] as $ap) {
+                    $selectedPlatforms[$ap] = true;
+                }
+
+                // Фильтруем только выбранные рекламные площадки
+                $advPlatforms = array_intersect_key($advPlatforms, $selectedPlatforms);
+
+                if ($valid) {
+
+                    $params = array();
+
+                    $params['advPlatforms'] = array_values($advPlatforms);
+                    $siteService->params = CJSON::encode($params);
+
+                    if (!$siteService->save()) {
+                        throw new CHttpException(500, 'Ну удалось подключить услугу');
+                    }
+
+                    $this->redirect(array('/admin/site/default/view', 'id' => $site->id));
+                }
             }
+            else
+            {
+                Yii::app()->user->setFlash('error', 'Необходимо выбрать площадки');
+            }
+
         }
 
         $this->render('subscribe', array(
@@ -128,6 +137,8 @@ class ContextController extends Controller
 
     /**
      * @param $ssId SiteService->id param
+     * @throws CHttpException
+     * @return void
      */
     public function actionTerminate($ssId)
     {

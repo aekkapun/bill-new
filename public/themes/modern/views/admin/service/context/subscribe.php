@@ -1,5 +1,7 @@
 <h1>Подключение услуги</h1>
 
+<?php $this->widget('bootstrap.widgets.TbAlert'); ?>
+
 <?php $form = $this->beginWidget('bootstrap.widgets.TbActiveForm', array(
     'id' => 'position-subscribe-form',
     'enableAjaxValidation' => false,
