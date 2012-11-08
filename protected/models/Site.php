@@ -44,6 +44,7 @@ class Site extends CActiveRecord
 
     /**
      * Returns the static model of the specified AR class.
+     * @param string $className
      * @return Site the static model class
      */
     public static function model($className = __CLASS__)
@@ -64,16 +65,13 @@ class Site extends CActiveRecord
      */
     public function rules()
     {
-        // NOTE: you should only define rules for those attributes that
-        // will receive user inputs.
         return array(
             array('client_id, domain', 'required'),
             array('client_id', 'length', 'max' => 10),
             array('domain', 'length', 'max' => 255),
             array('domain', 'url'),
+            array('domain', 'unique', 'className' => 'Site', 'enableClientValidation' => true),
             array('contracts, created_at, updated_at', 'safe'),
-            // The following rule is used by search().
-            // Please remove those attributes that should not be searched.
             array('id, client_id, domain, created_at, updated_at', 'safe', 'on' => 'search'),
             array('region', 'length', 'max' => 255),
         );

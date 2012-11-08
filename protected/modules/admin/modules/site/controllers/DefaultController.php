@@ -61,7 +61,7 @@ class DefaultController extends Controller
         $model = new Site;
 
         // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
+        $this->performAjaxValidation($model);
 
         if (isset($_POST['Site'])) {
             $model->attributes = $_POST['Site'];
@@ -120,6 +120,8 @@ class DefaultController extends Controller
      * Deletes a particular model.
      * If deletion is successful, the browser will be redirected to the 'admin' page.
      * @param integer $id the ID of the model to be deleted
+     * @throws CHttpException
+     * @return void
      */
     public function actionDelete($id)
     {
@@ -152,7 +154,10 @@ class DefaultController extends Controller
     /**
      * Returns the data model based on the primary key given in the GET variable.
      * If the data model is not found, an HTTP exception will be raised.
-     * @param integer the ID of the model to be loaded
+     * @param $id
+     * @throws CHttpException
+     * @return CActiveRecord
+     * @internal param the $integer ID of the model to be loaded
      */
     public function loadModel($id)
     {
