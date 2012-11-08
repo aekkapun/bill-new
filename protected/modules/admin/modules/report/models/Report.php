@@ -224,7 +224,7 @@ class Report extends CActiveRecord
             $totalBalancePerPeriod += $subReport::getBalance( $this->id );
         }
 
-        $balanceByContract = -100000;
+        $balanceByContract = Transaction::getClientBalance( $this->client_id );
 
         $totalBalance = $totalBalancePerPeriod - $balanceByContract;
 
@@ -281,8 +281,6 @@ class Report extends CActiveRecord
 
     /**
      * Returns all files that are associated with the client
-     *
-     * TODO: поиск файлов реализовать через behavior
      */
     public static function getAllClientFiles( $clientId )
     {

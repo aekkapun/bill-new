@@ -24,9 +24,10 @@ class Transaction extends CActiveRecord
 		self::TYPE_CREDIT => 'Зачисление',
 		self::TYPE_DEBIT => 'Списание',
 	);
-	
-	/**
+
+    /**
      * Returns the static model of the specified AR class.
+     * @param string $className
      * @return Transaction the static model class
      */
     public static function model($className = __CLASS__)
@@ -143,6 +144,37 @@ class Transaction extends CActiveRecord
     public function getTypeLabel()
     {
         return self::$labels[$this->type];
+    }
+
+
+    public static function getClientBalance( $clientId )
+    {
+        // Get contract IDs of client
+        $contracts = Client::model()->findByPk( $clientId )->contracts;
+        $contractIDs = array_keys( CHtml::listData( $contracts, 'id', 'id') );
+
+
+        // Get client transactions
+        $criteria = new CDbCriteria();
+        $criteria->addInCondition( 'contract_id', $contractIDs );
+        $transactions = self::model()->findAll();
+
+
+        // Count balance
+        $balance = 0;
+        foreach( $transactions as $transaction )
+        {
+            if( $transaction->type == self::TYPE_CREDIT )
+            {
+                $balance += $transaction->sum;
+            }
+            elseif( $transaction->type == self::TYPE_DEBIT )
+            {
+                $balance -= $transaction->sum;
+            }
+        }
+
+        return $balance;
     }
 
 }

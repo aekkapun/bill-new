@@ -26,6 +26,7 @@ class ContractAttachment extends CActiveRecord
 
     /**
      * Returns the static model of the specified AR class.
+     * @param string $className
      * @return ContractAttachment the static model class
      */
     public static function model($className = __CLASS__)
@@ -34,6 +35,7 @@ class ContractAttachment extends CActiveRecord
     }
 
     /**
+     * @param string $lang
      * @return string the associated database table name
      */
     public function tableName( $lang='en' )
