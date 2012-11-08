@@ -22,7 +22,7 @@
 class Act extends CActiveRecord
 {
 
-    public $fileType = 'doc,docx,pdf,rtf';
+    public $fileType = 'doc,docx,pdf,rtf,jpg,jpeg,png,xls,xlsx';
 
     public $newFile;
 
@@ -48,6 +48,7 @@ class Act extends CActiveRecord
 
     /**
      * Returns the static model of the specified AR class.
+     * @param string $className
      * @return Act the static model class
      */
     public static function model($className = __CLASS__)
@@ -56,6 +57,7 @@ class Act extends CActiveRecord
     }
 
     /**
+     * @param string $lang
      * @return string the associated database table name
      */
     public function tableName( $lang='en' )
@@ -78,12 +80,16 @@ class Act extends CActiveRecord
         // will receive user inputs.
         return array(
             array('number', 'unique'),
-            array('client_id, contract_id, number, period, sum, file', 'required'),
+            array('client_id, contract_id, number, period, sum', 'required'),
             array('signed', 'numerical', 'integerOnly' => true),
             array('client_id, contract_id', 'length', 'max' => 10),
             array('number, file', 'length', 'max' => 255),
             array('sum', 'length', 'max' => 20),
             array('period, created_at, updated_at', 'safe'),
+
+            array('contract_id', 'filter', 'filter' => array($this, 'contractBelongsToClient')),
+            array('sum', 'numerical', 'min'=>0.01, 'tooSmall' => 'Сумма акта должна быть больше нуля'),
+            array('period', 'date', 'format'=>'yyyy-MM-dd', 'message' => 'Период указан некорректно'),
 
             array('file', 'file', 'types' => $this->fileType, 'allowEmpty' => false, 'on' => 'insert'),
             array('newFile', 'file', 'types' => $this->fileType, 'allowEmpty' => true),
@@ -93,6 +99,27 @@ class Act extends CActiveRecord
             array('id, client_id, contract_id, number, sum, period, file, signed, created_at, updated_at', 'safe', 'on' => 'search'),
         );
     }
+
+
+    /**
+     * Check, whether contract belongs to client
+     */
+    public function contractBelongsToClient( $contractId )
+    {
+        if( !empty($this->client) )
+        {
+            $contracts = CHtml::listData( $this->client->contracts, 'id', 'number' );
+            $contractIDs = array_keys( $contracts );
+
+            if( !in_array($this->contract_id, $contractIDs) )
+            {
+                $this->addError('contract_id', 'Выбранный договор не соответствует клиенту');
+            }
+        }
+
+        return $contractId;
+    }
+
 
     /**
      * @return array relational rules.

@@ -73,6 +73,11 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         ),
         'signed:boolean',
         array(
+            'name' => 'file',
+            'type' => 'raw',
+            'value' => 'CHtml::link("Скачать", $data->getFile())',
+        ),
+        array(
             'class' => 'bootstrap.widgets.TbButtonColumn',
         ),
 	),

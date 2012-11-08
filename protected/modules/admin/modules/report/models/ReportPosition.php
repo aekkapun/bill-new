@@ -21,6 +21,7 @@ class ReportPosition extends CActiveRecord
 
     /**
      * Returns the static model of the specified AR class.
+     * @param string $className
      * @return ReportPosition the static model class
      */
     public static function model($className = __CLASS__)
