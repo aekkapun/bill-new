@@ -14,6 +14,10 @@ class ClientController extends Controller
     {
         return array(
             array('allow',
+                'actions' => array('getContractsOptions'),
+                'roles' => array('admin'),
+            ),
+            array('allow',
                 'actions' => array('create', 'update'),
                 'roles' => array('accountant'),
             ),
@@ -167,5 +171,29 @@ class ClientController extends Controller
         ));
     }
 
+    public function actionGetContractsOptions( )
+    {
+        $clientId = Yii::app()->request->getQuery( 'clientId' );
+
+
+        if( !empty($clientId) )
+        {
+            $contracts = Client::model()->findByPk( $clientId )->contracts;
+        }
+        else
+        {
+            $contracts = Contract::model()->findAll();
+        }
+
+
+        // Add empty value
+        $contractsIDs = array('' => Yii::app()->params['emptySelectLabel']);
+        $contractsIDs += CHtml::listData( $contracts, 'id', 'number' );
+
+        $options = CHtml::listOptions( null, $contractsIDs, $emptyHtmlOptions);
+
+        echo $options;
+        Yii::app()->end();
+    }
 
 }

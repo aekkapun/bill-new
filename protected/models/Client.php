@@ -171,5 +171,19 @@ class Client extends CActiveRecord
         return $dataProvider;
     }
 
+    /**
+     * Returns array, contains ID and Number of all contracts of current client
+     *
+     *  array(
+     *      '1' => '11/10',
+     *      '2' => '02/11',
+     *      '3' => '10/12',
+     *  )
+     *
+     */
+    public function getContractsIDs()
+    {
+        return CHtml::listData( $this->contracts, 'id', 'number' );
+    }
 
 }
