@@ -31,6 +31,7 @@ class SitePhrase extends CActiveRecord
 
     /**
      * Returns the static model of the specified AR class.
+     * @param string $className
      * @return SitePhrase the static model class
      */
     public static function model($className = __CLASS__)
@@ -55,7 +56,8 @@ class SitePhrase extends CActiveRecord
         // will receive user inputs.
         return array(
             array('site_id, phrase, price', 'required'),
-            array('price, active', 'numerical'),
+            array('active', 'boolean'),
+            array('price', 'numerical', 'min' => 0, 'tooSmall' => 'Значение должно быть неотрицательным'),
             array('site_id', 'length', 'max' => 10),
             array('phrase', 'length', 'max' => 255),
             array('hash', 'length', 'max' => 32),
