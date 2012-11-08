@@ -128,7 +128,7 @@ class Contract extends CActiveRecord
 			'attachments_count' => 'Вложения',
             'number' => 'Номер договора',
             'client_id' => 'Клиент',
-            'status' => 'Статус',
+            'status' => 'Подписан',
             'created_at' => 'Время создания',
             'updated_at' => 'Время обновления',
             'has_file' => 'Файлы?',
