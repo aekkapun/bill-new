@@ -20,6 +20,7 @@ class SiteRange extends CActiveRecord
 {
     /**
      * Returns the static model of the specified AR class.
+     * @param string $className
      * @return SiteRange the static model class
      */
     public static function model($className = __CLASS__)
@@ -45,7 +46,7 @@ class SiteRange extends CActiveRecord
         return array(
             array('site_id, price, name_id', 'required'),
             array('site_id, valueMin, valueMax', 'length', 'max' => 10),
-            array('valueMin, valueMax, price', 'numerical'),
+            array('valueMin, valueMax, price', 'numerical', 'min' => 0, 'tooSmall' => 'Значение должно быть неотрицательным'),
             array('created_at, updated_at', 'safe'),
             array('name_id', 'exist', 'className' => 'RangeName', 'attributeName' => 'id'),
 
