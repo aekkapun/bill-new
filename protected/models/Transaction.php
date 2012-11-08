@@ -75,6 +75,7 @@ class Transaction extends CActiveRecord
         );
     }
 
+
     /**
      * @return array customized attribute labels (name=>label)
      */
@@ -117,7 +118,7 @@ class Transaction extends CActiveRecord
 
         $criteria = new CDbCriteria;
 
-		$criteria->with = array( 'contract' );
+		$criteria->with = array( 'contract', 'contract.client' );
         $criteria->compare('t.id', $this->id);
         $criteria->compare('contract_id', $this->contract_id);
         $criteria->compare('details', $this->details, true);
@@ -134,6 +135,10 @@ class Transaction extends CActiveRecord
 						'asc' => 'contract.number ASC',
 						'desc' => 'contract.number DESC',
 					),
+                    'contract.client.name' => array(
+                        'asc' => 'client.name ASC',
+                        'desc' => 'client.name DESC',
+                    ),
 					'*',
 				),
 			),

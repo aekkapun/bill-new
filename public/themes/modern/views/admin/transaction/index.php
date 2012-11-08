@@ -56,6 +56,11 @@ $this->widget('bootstrap.widgets.TbGridView', array(
             'type' => 'raw',
             'value' => 'CHtml::link($data->contract->number, array("/admin/contract/view", "id" => $data->contract->id))',
         ),
+        array(
+            'header' => 'Клиент',
+            'name' => 'contract.client.name',
+            'value' => '$data->contract->client->name',
+        ),
 		'details',
 		'sum:number',
         array(
