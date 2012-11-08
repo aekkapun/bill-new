@@ -17,14 +17,24 @@
 class ContextInput extends CActiveRecord
 {
 
-    public function afterValidate()
+    public function beforeValidate()
     {
-        $this->avg_transition_price = round($this->transitions_sum / $this->transitions_count, 2);
-        return true;
+        if (parent::beforeValidate()) {
+
+            if( $this->transitions_count > 0 )
+            {
+                $this->avg_transition_price = round($this->transitions_sum / $this->transitions_count, 2);
+            }
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
      * Returns the static model of the specified AR class.
+     * @param string $className
      * @return ContextInput the static model class
      */
     public static function model($className = __CLASS__)
@@ -48,7 +58,7 @@ class ContextInput extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('site_id, transitions_count, transitions_sum, adv_platform_id, created_at', 'required'),
+            array('site_id, transitions_count, transitions_sum, avg_transition_price, adv_platform_id, created_at', 'required'),
             array('site_id, transitions_count', 'length', 'max' => 10),
             array('transitions_sum, avg_transition_price', 'length', 'max' => 7),
             array('created_at, updated_at', 'safe'),
