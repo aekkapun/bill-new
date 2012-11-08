@@ -5,13 +5,15 @@ $this->breadcrumbs = array(
 if(isset($_GET['SitePhrase']['site_id'])) {
     $this->breadcrumbs[$model->site->domain] = array('/admin/view/site', 'id' => $model->site->id);
 }
+?>
 
-//-----------
-
+<?php
 $this->menu = array(
     array('label' => 'Создать', 'url' => array('create')),
 );
+?>
 
+<?php
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
 	$('.search-form').toggle();

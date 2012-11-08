@@ -20,14 +20,12 @@ class PhraseController extends Controller
     public function actionCreate()
     {
         $model = new SitePhrase;
-
-        // Uncomment the following line if AJAX validation is needed
-        // $this->performAjaxValidation($model);
+        $model->site_id = Yii::app()->request->getQuery('siteId');
 
         if (isset($_POST['SitePhrase'])) {
             $model->attributes = $_POST['SitePhrase'];
             if ($model->save())
-                $this->redirect(array('view', 'id' => $model->id));
+                $this->redirect(array('index', 'SitePhrase[site_id]' => $model->site_id));
         }
 
         $this->render('create', array(
