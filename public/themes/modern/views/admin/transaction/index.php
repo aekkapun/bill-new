@@ -59,7 +59,6 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         array(
             'header' => 'Клиент',
             'name' => 'contract.client.name',
-            'value' => '$data->contract->client->name',
         ),
 		'details',
 		'sum:number',
