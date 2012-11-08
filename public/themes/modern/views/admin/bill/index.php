@@ -64,10 +64,11 @@ $this->widget('bootstrap.widgets.TbGridView', array(
         'number',
         'sum',
         'period',
-        /*
-          'created_at',
-          'updated_at',
-          */
+        array(
+            'name' => 'file',
+            'type' => 'raw',
+            'value' => '!empty($data->file) ? CHtml::link("Скачать", $data->getFile()) : ""',
+        ),
         array(
             'class' => 'bootstrap.widgets.TbButtonColumn',
         ),
