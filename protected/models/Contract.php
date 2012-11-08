@@ -69,6 +69,7 @@ class Contract extends CActiveRecord
 
     /**
      * Returns the static model of the specified AR class.
+     * @param string $className
      * @return Contract the static model class
      */
     public static function model($className = __CLASS__)
@@ -228,8 +229,9 @@ class Contract extends CActiveRecord
 
         return $dataProvider;
     }
-	
-	/**
+
+
+    /**
 	 * Return TRUE if contract has attachments
 	 */
 	public function getHasAttachments()

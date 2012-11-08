@@ -87,7 +87,8 @@ class Act extends CActiveRecord
             array('sum', 'length', 'max' => 20),
             array('period, created_at, updated_at', 'safe'),
 
-            array('contract_id', 'filter', 'filter' => array($this, 'contractBelongsToClient')),
+            //array('contract_id', 'filter', 'filter' => array($this, 'contractBelongsToClient')),
+            array('contract_id', 'ContractBelongsToUserValidator'),
             array('sum', 'numerical', 'min'=>0.01, 'tooSmall' => 'Сумма акта должна быть больше нуля'),
             array('period', 'date', 'format'=>'yyyy-MM-dd', 'message' => 'Период указан некорректно'),
 
@@ -98,26 +99,6 @@ class Act extends CActiveRecord
             // Please remove those attributes that should not be searched.
             array('id, client_id, contract_id, number, sum, period, file, signed, created_at, updated_at', 'safe', 'on' => 'search'),
         );
-    }
-
-
-    /**
-     * Check, whether contract belongs to client
-     */
-    public function contractBelongsToClient( $contractId )
-    {
-        if( !empty($this->client) )
-        {
-            $contracts = CHtml::listData( $this->client->contracts, 'id', 'number' );
-            $contractIDs = array_keys( $contracts );
-
-            if( !in_array($this->contract_id, $contractIDs) )
-            {
-                $this->addError('contract_id', 'Выбранный договор не соответствует клиенту');
-            }
-        }
-
-        return $contractId;
     }
 
 

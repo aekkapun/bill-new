@@ -79,6 +79,10 @@ class Invoice extends CActiveRecord
             array('file', 'file', 'types' => $this->allowedFileType, 'allowEmpty' => false, 'on' => 'insert'),
             array('newFile', 'file', 'types' => $this->allowedFileType, 'allowEmpty' => true),
 
+            array('contract_id', 'ContractBelongsToUserValidator'),
+            array('period', 'date', 'format'=>'yyyy-MM-dd', 'message' => 'Период указан некорректно'),
+
+
             array('id, number, client_id, contract_id, file, period, created_at, updated_at', 'safe', 'on' => 'search'),
         );
     }
