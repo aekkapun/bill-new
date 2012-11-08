@@ -51,6 +51,7 @@ class LiveServiceDatepickerWidget extends CJuiDatePicker
         return parent::run();
     }
 
+
     private function _registerAssets()
     {
         $assets = dirname(__FILE__).'/assets';

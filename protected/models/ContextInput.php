@@ -17,16 +17,10 @@
 class ContextInput extends CActiveRecord
 {
 
-    public function beforeValidate()
+    public function afterValidate()
     {
-        if (parent::beforeValidate()) {
-
-            $this->avg_transition_price = round($this->transitions_sum / $this->transitions_count, 2);
-
-            return true;
-        }
-
-        return false;
+        $this->avg_transition_price = round($this->transitions_sum / $this->transitions_count, 2);
+        return true;
     }
 
     /**
@@ -54,7 +48,7 @@ class ContextInput extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('site_id, transitions_count, transitions_sum, avg_transition_price, adv_platform_id, created_at', 'required'),
+            array('site_id, transitions_count, transitions_sum, adv_platform_id, created_at', 'required'),
             array('site_id, transitions_count', 'length', 'max' => 10),
             array('transitions_sum, avg_transition_price', 'length', 'max' => 7),
             array('created_at, updated_at', 'safe'),
@@ -130,4 +124,37 @@ class ContextInput extends CActiveRecord
             'criteria' => $criteria,
         ));
     }
+
+
+    public static function getDataByDate( $ssId, $date )
+    {
+        $siteService = SiteService::model()->findByPk( $ssId );
+
+        $models = self::model()->findAllByAttributes(array(
+            'site_id' => $siteService->site_id,
+            'created_at' => date('Y-m-d H:i:s', strtotime($date)),
+        ));
+
+
+        $data = array();
+
+
+        if( count($models) )
+        {
+            foreach( $models as $model )
+            {
+                $data[$model->adv_platform_id] = array(
+                    'transitions_count' => $model->transitions_count,
+                    'transitions_sum' => $model->transitions_sum,
+                );
+            }
+        }
+
+
+        return array(
+            'status' => count( $models ) ? 'success' : 'empty',
+            'data' => $data,
+        );
+    }
+
 }

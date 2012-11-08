@@ -17,6 +17,7 @@ var liveService = {
 
     getDataByDateUrl    :   '',
 
+
     init                :   function( options )
                             {
                                 liveService.serviceName = options.serviceName;
@@ -28,6 +29,7 @@ var liveService = {
                                 liveService.getFilledDays();
                             },
 
+
     getFilledDays       :   function()
                             {
                                 $.get(liveService.getFilledDaysUrl, {ssId : liveService.ssId})
@@ -37,11 +39,13 @@ var liveService = {
                                 });
                             },
 
+
     highlight           :   function( date )
                             {
                                 formattedDate = $.datepicker.formatDate('yy-mm-dd', date);;
                                 return (liveService.filledDays.indexOf(formattedDate) > -1) ? [true, 'yeah'] : [true];
                             },
+
 
     getDataByDate       :   function( date )
                             {

@@ -8,6 +8,15 @@
  */
 class ContextController extends Controller
 {
+    public function actions()
+    {
+        return array(
+            'getFilledDays' => array('class' => 'application.modules.admin.modules.service.components.LiveService.GetFilledDaysAction'),
+            'getDataByDate' => array('class' => 'application.modules.admin.modules.service.components.LiveService.GetDataByDateAction'),
+        );
+    }
+
+
     public function actionSubscribe($siteId)
     {
         $site = $this->loadSite($siteId);
@@ -78,12 +87,33 @@ class ContextController extends Controller
 
         $contextInput = new ContextInput();
 
-        if (isset($_POST['ContextInput'])) {
+        if (isset($_POST['ContextInput']))
+        {
+            $model = ContextInput::model()->findByAttributes(array(
+                'site_id' => $_POST['ContextInput']['site_id'],
+                'created_at' => $_POST['ContextInput']['created_at'],
+                'adv_platform_id' => $_POST['ContextInput']['adv_platform_id']
+            ));
+
+
+            if( !empty($model) )
+            {
+                $contextInput = $model;
+            }
+
+
             $contextInput->attributes = $_POST['ContextInput'];
-            if (!$contextInput->save()) {
+
+            $isNewRecord = $contextInput->isNewRecord;
+
+            if ( $contextInput->save() )
+            {
+                $message = $isNewRecord ? 'Сохранено' : 'Обновлено';
+                Yii::app()->user->setFlash('success', $message);
+            }
+            else
+            {
                 Yii::app()->user->setFlash('error', 'Не удалось сохранить данные');
-            } else {
-                Yii::app()->user->setFlash('success', 'Сохранено');
             }
         }
 
