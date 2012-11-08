@@ -56,9 +56,11 @@ class Transaction extends CActiveRecord
             array('type', 'length', 'max' => 1),
             array('type', 'in', 'range' => array_keys(self::$labels)),
             array('sum', 'length', 'max' => 20),
+
+            array('sum', 'numerical', 'min' => 0.01, 'tooSmall' => 'Сумма транзакции должна быть больше нуля'),
+            array('period', 'date', 'format'=>'yyyy-MM-dd', 'message' => 'Дата указана некорректно'),
+
             array('details, created_at, updated_at', 'safe'),
-            // The following rule is used by search().
-            // Please remove those attributes that should not be searched.
             array('id, type, contract_id, details, sum, created_at, updated_at', 'safe', 'on' => 'search'),
         );
     }
