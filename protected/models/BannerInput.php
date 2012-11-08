@@ -118,4 +118,37 @@ class BannerInput extends CActiveRecord
             'criteria' => $criteria,
         ));
     }
+
+
+    public static function getDataByDate( $ssId, $date )
+    {
+        $siteService = SiteService::model()->findByPk( $ssId );
+
+        $model = self::model()->findByAttributes(array(
+            'site_id' => $siteService->site_id,
+            'created_at' => date('Y-m-d H:i:s', strtotime($date)),
+        ));
+
+
+        if( !empty($model) )
+        {
+            $data = array(
+                'transitions' => $model->transitions,
+                'sum' => $model->sum,
+            );
+        }
+        else
+        {
+            $data = array(
+                'transitions' => '',
+                'sum' => '',
+            );
+        }
+
+        return array(
+            'status' => !empty( $model ) ? 'success' : 'empty',
+            'data' => $data,
+        );
+    }
+
 }

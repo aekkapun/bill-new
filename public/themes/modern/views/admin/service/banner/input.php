@@ -8,22 +8,12 @@
     'htmlOptions' => array('class' => 'well well-small'),
 )); ?>
 <?php echo $form->labelEx($bannerInput, 'created_at'); ?>
-<?php $this->widget('zii.widgets.jui.CJuiDatePicker',
-    array(
-        'model' => $bannerInput,
-        'attribute' => 'created_at',
-        'language' => 'ru',
-        'options' => array(
-            'showAnim' => 'fold',
-            'dateFormat' => 'yy-mm-dd',
-            'changeMonth' => true,
-            'changeYear' => true,
-            'showOn' => 'button',
-            'buttonImage' => '/images/calendar.png',
-            'buttonImageOnly' => true,
-        ),
-        'htmlOptions' => array('value' => (empty($bannerInput->created_at) ? date('Y-m-d') : $bannerInput->created_at)),
-    )); ?>
+<?php $this->widget('application.modules.admin.modules.service.components.LiveService.widgets.LiveServiceDatepickerWidget', array(
+    'model' => $bannerInput,
+    'attribute' => 'created_at',
+    'serviceName' => 'banner',
+    'ssId' => $siteService->id,
+)); ?>
 
 <?php echo $form->textFieldRow($bannerInput, 'transitions', array('size' => 10, 'maxlength' => 10)); ?>
 

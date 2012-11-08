@@ -8,6 +8,14 @@
  */
 class BannerController extends Controller
 {
+    public function actions()
+    {
+        return array(
+            'getFilledDays' => array('class' => 'application.modules.admin.modules.service.components.LiveService.GetFilledDaysAction'),
+            'getDataByDate' => array('class' => 'application.modules.admin.modules.service.components.LiveService.GetDataByDateAction'),
+        );
+    }
+
 
     public function actionSubscribe($siteId)
     {
@@ -47,12 +55,31 @@ class BannerController extends Controller
 
         $bannerInput = new BannerInput();
 
-        if (isset($_POST['BannerInput'])) {
+        if (isset($_POST['BannerInput']))
+        {
+            $model = BannerInput::model()->findByAttributes(array(
+                'site_id' => $_POST['BannerInput']['site_id'],
+                'created_at' => $_POST['BannerInput']['created_at'],
+            ));
+
+
+            if( !empty($model) )
+            {
+                $bannerInput = $model;
+            }
+
             $bannerInput->attributes = $_POST['BannerInput'];
-            if (!$bannerInput->save()) {
+
+            $isNewRecord = $bannerInput->isNewRecord;
+
+            if ( $bannerInput->save() )
+            {
+                $message = $isNewRecord ? 'Сохранено' : 'Обновлено';
+                Yii::app()->user->setFlash('success', $message);
+            }
+            else
+            {
                 Yii::app()->user->setFlash('error', 'Не удалось сохранить данные');
-            } else {
-                Yii::app()->user->setFlash('success', 'Сохранено');
             }
         }
 

@@ -42,6 +42,7 @@
 
 <script type="text/javascript">
 
+    // Update fields on load page
     $(function(){
         currentDate = $('#ContextInput_created_at').val();
         liveService.getDataByDate(currentDate);
