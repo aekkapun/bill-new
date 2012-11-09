@@ -6,9 +6,17 @@
 
 <?php echo $form->errorSummary($model); ?>
 
-<?php echo $form->dropDownListRow($model, 'client_id', CHtml::listData(Client::model()->my()->findAll(), 'id', 'name'), array('empty' => '--выбрать--')); ?>
+<?php echo $form->dropDownListRow($model, 'client_id', CHtml::listData(Client::model()->my()->findAll(), 'id', 'name'), array(
+    'empty' => Yii::app()->params['emptySelectLabel'],
+    'ajax' => array(
+        'update' => '#Bill_contract_id',
+        'url' => $this->createUrl('/admin/client/getContractsOptions'),
+        'data' => 'js:"clientId="+this.value',
+        'cache' => false,
+    ),
+)); ?>
 
-<?php echo $form->dropDownListRow($model, 'contract_id', Contract::getTogetherIdAndDate(), array('empty' => '--выбрать--')); ?>
+<?php echo $form->dropDownListRow($model, 'contract_id', Contract::getTogetherIdAndDate(), array('empty' => Yii::app()->params['emptySelectLabel'])); ?>
 
 <?php echo $form->textFieldRow($model, 'number', array('size' => 60, 'maxlength' => 255)); ?>
 

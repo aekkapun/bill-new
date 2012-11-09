@@ -21,7 +21,7 @@
 class Bill extends CActiveRecord
 {
 
-    public $fileType = 'doc,docx,pdf,rtf';
+    public $fileType = 'doc,docx,pdf,rtf,jpg,jpeg,png,xls,xlsx';
 
     public $newFile;
 
@@ -47,6 +47,7 @@ class Bill extends CActiveRecord
 
     /**
      * Returns the static model of the specified AR class.
+     * @param string $className
      * @return Bill the static model class
      */
     public static function model($className = __CLASS__)
@@ -55,6 +56,7 @@ class Bill extends CActiveRecord
     }
 
     /**
+     * @param string $lang
      * @return string the associated database table name
      */
     public function tableName( $lang='en' )
@@ -85,6 +87,11 @@ class Bill extends CActiveRecord
 
             array('file', 'file', 'types' => $this->fileType, 'allowEmpty' => false, 'on' => 'insert'),
             array('newFile', 'file', 'types' => $this->fileType, 'allowEmpty' => true),
+
+            array('contract_id', 'ContractBelongsToUserValidator'),
+            array('sum', 'numerical', 'min' => 0.01, 'tooSmall' => 'Сумма счета должна быть больше нуля'),
+            array('period', 'date', 'format'=>'yyyy-MM-dd', 'message' => 'Период указан некорректно'),
+
 
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
