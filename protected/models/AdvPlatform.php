@@ -24,6 +24,7 @@ class AdvPlatform extends CActiveRecord
 
     /**
      * Returns the static model of the specified AR class.
+     * @param string $className
      * @return AdvPlatform the static model class
      */
     public static function model($className = __CLASS__)
@@ -49,7 +50,7 @@ class AdvPlatform extends CActiveRecord
         return array(
             array('name, work_percent', 'required'),
             array('budget', 'numerical'),
-            array('work_percent', 'numerical', 'max' => 1, 'min' => 0),
+            array('work_percent', 'numerical', 'min' => 0, 'max' => 100, 'integerOnly' => true),
             array('name', 'length', 'max' => 255),
             array('created_at, updated_at', 'safe'),
             // The following rule is used by search().
@@ -98,6 +99,15 @@ class AdvPlatform extends CActiveRecord
             )
         );
     }
+
+
+    public function beforeSave()
+    {
+        $this->work_percent = $this->work_percent / 100;
+
+        return parent::beforeSave();
+    }
+
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
