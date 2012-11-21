@@ -175,16 +175,21 @@ class ClientController extends Controller
     {
         $clientId = Yii::app()->request->getQuery( 'clientId' );
 
+        $contracts = array();
 
         if( !empty($clientId) )
         {
-            $contracts = Client::model()->findByPk( $clientId )->contracts;
+            $client = Client::model()->findByPk( $clientId );
+            if( !empty($client) )
+            {
+               $contracts = $client->contracts;
+            }
         }
-        else
+
+        if( empty($contracts) )
         {
             $contracts = Contract::model()->findAll();
         }
-
 
         // Add empty value
         $contractsIDs = array('' => Yii::app()->params['emptySelectLabel']);

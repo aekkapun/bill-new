@@ -16,6 +16,8 @@
  */
 class SiteRangeName extends CActiveRecord
 {
+    const DEFAULT_NAME_ID = 1;
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.

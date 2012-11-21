@@ -31,7 +31,7 @@ class SiteRangeNameController extends Controller
 		{
 			$model->attributes=$_POST['SiteRangeName'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
+				$this->redirect(array('index'));
 		}
 
 		$this->render('update',array(
@@ -42,17 +42,17 @@ class SiteRangeNameController extends Controller
 
 	public function actionDelete($id)
 	{
-		if(Yii::app()->request->isPostRequest)
-		{
-			// we only allow deletion via POST request
-			$this->loadModel($id)->delete();
+        if( ($id == SiteRangeName::DEFAULT_NAME_ID)  || !Yii::app()->request->isPostRequest)
+        {
+            throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+        }
 
-			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-			if(!isset($_GET['ajax']))
-				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
-		}
-		else
-			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+        // we only allow deletion via POST request
+        $this->loadModel($id)->delete();
+
+        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+        if(!isset($_GET['ajax']))
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
 	}
 
 
@@ -77,5 +77,31 @@ class SiteRangeNameController extends Controller
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
+
+
+    public function actionGetNamesOptions( )
+    {
+        $siteId = Yii::app()->request->getQuery( 'siteId' );
+
+        if( !empty($siteId) )
+        {
+            $names = SiteRangeName::model()->findAllByAttributes(array(
+                'site_id' => $siteId
+            ));
+        }
+
+        // Get default name
+        $defaultModel = SiteRangeName::model()->findByPk( SiteRangeName::DEFAULT_NAME_ID );
+        $defaultName = array(
+            $defaultModel->id => $defaultModel->name
+        );
+
+        $namesIDs = $defaultName + CHtml::listData( $names, 'id', 'name' );
+
+        $options = CHtml::listOptions( null, $namesIDs, $emptyHtmlOptions);
+
+        echo $options;
+        Yii::app()->end();
+    }
 
 }

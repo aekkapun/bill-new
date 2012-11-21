@@ -4,14 +4,22 @@
     'htmlOptions' => array('class' => 'well'),
 )); ?>
 
-<?php echo $form->dropDownListRow($model, 'site_id', CHtml::listData(Site::model()->findAll(), 'id', 'domain')); ?>
+<?php echo $form->dropDownListRow($model, 'site_id', CHtml::listData(Site::model()->findAll(), 'id', 'domain'), array(
+    'ajax' => array(
+        'update' => '#SiteRange_site_range_name_id',
+        'url' => $this->createUrl('/admin/site/siteRangeName/getNamesOptions'),
+        'data' => 'js:"siteId="+this.value',
+        'cache' => false,
+    ),
+)); ?>
+
 
 <?php echo $form->textFieldRow($model, 'valueMin', array('size' => 10, 'maxlength' => 10)); ?>
 
 <?php echo $form->textFieldRow($model, 'valueMax', array('size' => 10, 'maxlength' => 10)); ?>
 <span class="help-block">Если верхнее ограничение не требуется, введите цифру 0</span>
 
-<?php echo $form->dropDownListRow($model, 'site_range_name_id', CHtml::listData(SiteRangeName::model()->findAll(), 'id', 'name')); ?>
+<?php echo $form->dropDownListRow($model, 'site_range_name_id', CHtml::listData(SiteRangeName::model()->findAllByAttributes(array('site_id' => $model->site_id)), 'id', 'name')); ?>
 
 <?php echo $form->textFieldRow($model, 'price', array('size' => 10, 'maxlength' => 10)); ?>
 

@@ -59,7 +59,12 @@ $('.search-form form').submit(function(){
         ),
         array(
             'class' => 'bootstrap.widgets.TbButtonColumn',
-            'template' => '{update}{delete}'
+            'template' => '{update}{delete}',
+            'buttons' => array(
+                'delete' => array(
+                    'visible' => '$data->id != SiteRangeName::DEFAULT_NAME_ID'
+                ),
+            ),
         ),
     ),
 )); ?>
