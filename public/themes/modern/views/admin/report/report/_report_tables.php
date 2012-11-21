@@ -56,6 +56,15 @@
             'header' => 'Средняя стоимость ссылки',
             'value' => 'Yii::app()->numberFormatter->format("#,##0.00", $data->sum / $data->link_count)',
         ),
+        array(
+            'header' => 'Количество переходов',
+            'name' => 'transitions_count',
+        ),
+        array(
+            'header' => 'Ср. стоимость перехода',
+            'name' => 'avg_transition_price',
+        ),
+
     ),
 )); ?>
 

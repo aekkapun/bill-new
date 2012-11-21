@@ -7,7 +7,7 @@
 <?php echo $form->passwordFieldRow($model, 'password'); ?>
 
 <p>
-    <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType' => 'submit', 'label' => 'Сохранить')); ?>
+    <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType' => 'submit', 'label' => 'Войти')); ?>
 </p>
 
 <?php $this->endWidget(); ?>
