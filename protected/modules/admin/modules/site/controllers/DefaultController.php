@@ -7,7 +7,7 @@ class DefaultController extends Controller
     {
         return array(
             array('allow',
-                'actions' => array('create', 'update'),
+                'actions' => array('create', 'update', 'delete'),
                 'roles' => array('admin'),
             ),
             array('allow',

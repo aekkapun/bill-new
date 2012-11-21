@@ -10,6 +10,8 @@
  * @property string $sum
  * @property integer $link_count
  * @property string $avg_link_price
+ * @property integer $transitions_count
+ * @property decimal $avg_transition_price
  * @property string $created_at
  * @property string $updated_at
  */
@@ -42,7 +44,7 @@ class ReportSubscription extends CActiveRecord
         // will receive user inputs.
         return array(
             array('report_id, site_id, link_count', 'numerical', 'integerOnly' => true),
-            array('sum, avg_link_price', 'length', 'max' => 20),
+            array('sum, avg_link_price, transitions_count, avg_transition_price', 'length', 'max' => 20),
             array('created_at, updated_at', 'safe'),
 
             // The following rule is used by search().
