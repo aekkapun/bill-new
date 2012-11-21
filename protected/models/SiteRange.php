@@ -48,7 +48,7 @@ class SiteRange extends CActiveRecord
             array('site_id, valueMin, valueMax', 'length', 'max' => 10),
             array('valueMin, valueMax, price', 'numerical', 'min' => 0, 'tooSmall' => 'Значение должно быть неотрицательным'),
             array('created_at, updated_at', 'safe'),
-            array('name_id', 'exist', 'className' => 'RangeName', 'attributeName' => 'id'),
+            array('name_id', 'exist', 'className' => 'SiteRangeName', 'attributeName' => 'id'),
 
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
@@ -65,7 +65,7 @@ class SiteRange extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'site' => array(self::BELONGS_TO, 'Site', 'site_id'),
-            'name' => array(self::BELONGS_TO, 'RangeName', 'name_id'),
+            'name' => array(self::BELONGS_TO, 'SiteRangeName', 'name_id'),
         );
     }
 

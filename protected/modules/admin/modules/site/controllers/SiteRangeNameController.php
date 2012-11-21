@@ -1,15 +1,15 @@
 <?php
 
-class RangeNameController extends Controller
+class SiteRangeNameController extends Controller
 {
 
 	public function actionCreate()
 	{
-		$model=new RangeName;
+		$model = new SiteRangeName;
 
-		if(isset($_POST['RangeName']))
+		if(isset($_POST['SiteRangeName']))
 		{
-			$model->attributes=$_POST['RangeName'];
+			$model->attributes=$_POST['SiteRangeName'];
 			if($model->save())
 				$this->redirect(array('index'));
 		}
@@ -27,9 +27,9 @@ class RangeNameController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['RangeName']))
+		if(isset($_POST['SiteRangeName']))
 		{
-			$model->attributes=$_POST['RangeName'];
+			$model->attributes=$_POST['SiteRangeName'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->id));
 		}
@@ -58,11 +58,11 @@ class RangeNameController extends Controller
 
     public function actionIndex()
 	{
-		$model=new RangeName('search');
+		$model = new SiteRangeName('search');
 
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['RangeName']))
-			$model->attributes=$_GET['RangeName'];
+		if(isset($_GET['SiteRangeName']))
+			$model->attributes=$_GET['SiteRangeName'];
 
         $this->render('index',array(
 			'model'=>$model,
@@ -72,7 +72,7 @@ class RangeNameController extends Controller
 
     public function loadModel($id)
 	{
-		$model=RangeName::model()->findByPk($id);
+		$model = SiteRangeName::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;

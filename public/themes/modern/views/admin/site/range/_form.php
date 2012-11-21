@@ -11,7 +11,7 @@
 <?php echo $form->textFieldRow($model, 'valueMax', array('size' => 10, 'maxlength' => 10)); ?>
 <span class="help-block">Если верхнее ограничение не требуется, введите цифру 0</span>
 
-<?php echo $form->dropDownListRow($model, 'name_id', CHtml::listData(RangeName::model()->findAll(), 'id', 'name')); ?>
+<?php echo $form->dropDownListRow($model, 'name_id', CHtml::listData(SiteRangeName::model()->findAll(), 'id', 'name')); ?>
 
 <?php echo $form->textFieldRow($model, 'price', array('size' => 10, 'maxlength' => 10)); ?>
 

@@ -50,6 +50,14 @@ $('.search-form form').submit(function(){
         'id',
         'name',
         array(
+            'header' => $model->getAttributeLabel('site_id'),
+            'name' => 'site.domain',
+        ),
+        array(
+            'header' => $model->getAttributeLabel('contract_id'),
+            'name' => 'contract.number',
+        ),
+        array(
             'class' => 'bootstrap.widgets.TbButtonColumn',
             'template' => '{update}{delete}'
         ),

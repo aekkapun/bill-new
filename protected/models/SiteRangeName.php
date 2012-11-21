@@ -8,16 +8,18 @@
  * @property string $name
  * @property string $created_at
  * @property string $updated_at
+ * @property string $site_id
+ * @property string $contract_id
  *
  * The followings are the available model relations:
  * @property SiteRange[] $siteRanges
  */
-class RangeName extends CActiveRecord
+class SiteRangeName extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
-	 * @return RangeName the static model class
+	 * @return SiteRangeName the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
@@ -29,7 +31,7 @@ class RangeName extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'range_name';
+		return 'site_range_name';
 	}
 
 	/**
@@ -43,9 +45,11 @@ class RangeName extends CActiveRecord
 			array('name', 'required'),
 			array('name', 'length', 'max'=>255),
 			array('created_at, updated_at', 'safe'),
-			// The following rule is used by search().
-			// Please remove those attributes that should not be searched.
-			array('id, name, created_at, updated_at', 'safe', 'on'=>'search'),
+
+            array('site_id', 'exist', 'className' => 'Site', 'attributeName' => 'id'),
+            array('contract_id', 'exist', 'className' => 'Contract', 'attributeName' => 'id'),
+
+            array('id, name, created_at, updated_at, site_id, contract_id', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -58,6 +62,8 @@ class RangeName extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'siteRanges' => array(self::HAS_MANY, 'SiteRange', 'name_id'),
+            'site' => array(self::BELONGS_TO, 'Site', 'site_id'),
+            'contract' => array(self::BELONGS_TO, 'Contract', 'contract_id'),
 		);
 	}
 
@@ -69,6 +75,8 @@ class RangeName extends CActiveRecord
 		return array(
 			'id' => '#',
 			'name' => 'Название',
+			'site_id' => 'Сайт',
+			'contract_id' => 'Договор',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
 		);
@@ -89,9 +97,25 @@ class RangeName extends CActiveRecord
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('created_at',$this->created_at,true);
 		$criteria->compare('updated_at',$this->updated_at,true);
+		$criteria->compare('site_id',$this->site_id);
+		$criteria->compare('contract_id',$this->contract_id);
+        $criteria->with = array('site');
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+            'sort' => array(
+                'attributes' => array(
+                    'site.domain' => array(
+                        'asc' => 'site.domain ASC',
+                        'desc' => 'site.domain DESC',
+                    ),
+                    'contract.number' => array(
+                        'asc' => 'contract.number ASC',
+                        'desc' => 'contract.number DESC',
+                    ),
+                    '*',
+                ),
+            ),
 		));
 	}
 }
