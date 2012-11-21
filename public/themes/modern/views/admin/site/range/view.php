@@ -23,7 +23,7 @@ $this->menu=array(
 		'valueMax',
 		'price',
         array(
-		    'name' => 'name_id',
+		    'name' => 'site_range_name_id',
 		    'value' => $model->name->name,
 		),
         'created_at',

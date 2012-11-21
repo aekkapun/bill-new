@@ -11,7 +11,7 @@
  * @property string $price
  * @property string $created_at
  * @property string $updated_at
- * @property string $name_id
+ * @property string $site_range_name_id
  *
  * The followings are the available model relations:
  * @property Site $site
@@ -44,11 +44,11 @@ class SiteRange extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('site_id, price, name_id', 'required'),
+            array('site_id, price, site_range_name_id', 'required'),
             array('site_id, valueMin, valueMax', 'length', 'max' => 10),
             array('valueMin, valueMax, price', 'numerical', 'min' => 0, 'tooSmall' => 'Значение должно быть неотрицательным'),
             array('created_at, updated_at', 'safe'),
-            array('name_id', 'exist', 'className' => 'SiteRangeName', 'attributeName' => 'id'),
+            array('site_range_name_id', 'exist', 'className' => 'SiteRangeName', 'attributeName' => 'id'),
 
             // The following rule is used by search().
             // Please remove those attributes that should not be searched.
@@ -65,7 +65,7 @@ class SiteRange extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'site' => array(self::BELONGS_TO, 'Site', 'site_id'),
-            'name' => array(self::BELONGS_TO, 'SiteRangeName', 'name_id'),
+            'name' => array(self::BELONGS_TO, 'SiteRangeName', 'site_range_name_id'),
         );
     }
 
@@ -82,7 +82,7 @@ class SiteRange extends CActiveRecord
             'price' => 'Цена',
             'created_at' => 'Время создания',
             'updated_at' => 'Время обновления',
-            'name_id' => 'Название',
+            'site_range_name_id' => 'Название',
         );
     }
 

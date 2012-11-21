@@ -61,7 +61,7 @@ class SiteRangeName extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'siteRanges' => array(self::HAS_MANY, 'SiteRange', 'name_id'),
+			'siteRanges' => array(self::HAS_MANY, 'SiteRange', 'site_range_name_id'),
             'site' => array(self::BELONGS_TO, 'Site', 'site_id'),
             'contract' => array(self::BELONGS_TO, 'Contract', 'contract_id'),
 		);
