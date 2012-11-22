@@ -120,4 +120,25 @@ class SiteRangeName extends CActiveRecord
             ),
 		));
 	}
+
+
+    public static function getNamesBySiteId( $siteId )
+    {
+        $names = array();
+
+        if( !empty($siteId) )
+        {
+            $names = self::model()->findAllByAttributes(array(
+                'site_id' => $siteId
+            ));
+        }
+
+        // Get default name
+        $defaultModel = self::model()->findByPk( SiteRangeName::DEFAULT_NAME_ID );
+        $defaultName = array(
+            $defaultModel->id => $defaultModel->name
+        );
+
+        return $defaultName + CHtml::listData( $names, 'id', 'name' );
+    }
 }

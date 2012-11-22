@@ -77,7 +77,7 @@
     'dataProvider' => new CArrayDataProvider($reports['context']),
     'filter' => null,
     'groupField' => 'site_id',
-    'sectionList' => ReportContext::getSectionData(),
+    'sectionList' => ReportContext::getSectionData( $model->id ),
     'columns' => array(
         array(
             'header' => 'Площадка',

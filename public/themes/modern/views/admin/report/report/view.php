@@ -21,6 +21,7 @@ $this->menu = array(
 
 <!-- Сводная информация по услугам -->
 <?php $this->renderPartial('_report_tables', array(
+    'model' => $model,
     'reports' => $reports,
 )); ?>
 

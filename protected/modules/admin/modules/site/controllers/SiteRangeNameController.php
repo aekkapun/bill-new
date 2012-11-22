@@ -83,20 +83,7 @@ class SiteRangeNameController extends Controller
     {
         $siteId = Yii::app()->request->getQuery( 'siteId' );
 
-        if( !empty($siteId) )
-        {
-            $names = SiteRangeName::model()->findAllByAttributes(array(
-                'site_id' => $siteId
-            ));
-        }
-
-        // Get default name
-        $defaultModel = SiteRangeName::model()->findByPk( SiteRangeName::DEFAULT_NAME_ID );
-        $defaultName = array(
-            $defaultModel->id => $defaultModel->name
-        );
-
-        $namesIDs = $defaultName + CHtml::listData( $names, 'id', 'name' );
+        $namesIDs = SiteRangeName::getNamesBySiteId( $siteId );
 
         $options = CHtml::listOptions( null, $namesIDs, $emptyHtmlOptions);
 

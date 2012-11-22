@@ -141,11 +141,17 @@ return new CActiveDataProvider($this, array(
      * It is need for TbGroupedGridView
      *
      */
-    public static function getSectionData()
+    public static function getSectionData( $reportId )
     {
+        if( empty($reportId) )
+        {
+            return array();
+        }
+
         $data = self::model()->findAll(array(
             'select' => 'site_id, sum(transition_sum) as transition_sum',
             'group' => 'site_id',
+            'condition' => "report_id = $reportId"
         ));
 
         if( empty($data) )

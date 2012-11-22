@@ -19,7 +19,7 @@
 <?php echo $form->textFieldRow($model, 'valueMax', array('size' => 10, 'maxlength' => 10)); ?>
 <span class="help-block">Если верхнее ограничение не требуется, введите цифру 0</span>
 
-<?php echo $form->dropDownListRow($model, 'site_range_name_id', CHtml::listData(SiteRangeName::model()->findAllByAttributes(array('site_id' => $model->site_id)), 'id', 'name')); ?>
+<?php echo $form->dropDownListRow($model, 'site_range_name_id', SiteRangeName::getNamesBySiteId( $model->site_id )); ?>
 
 <?php echo $form->textFieldRow($model, 'price', array('size' => 10, 'maxlength' => 10)); ?>
 
@@ -28,3 +28,14 @@
 </p>
 
 <?php $this->endWidget(); ?>
+
+
+<script type="text/javascript">
+    /*
+    $(function(){
+        setTimeout(function(){
+            $('#SiteRange_site_id').trigger('change');
+        }, 10);
+    })
+    */
+</script>
