@@ -12,6 +12,7 @@ $this->menu = array(
     array('label' => 'Удалить', 'url' => '#', 'linkOptions' => array('submit' => array('delete', 'id' => $model->id), 'confirm' => 'Вы действительно хотите удалить эту запись?'), 'visible' => Yii::app()->user->checkAccess('admin')),
 
     array('label' => "Запросы", 'visible' => Yii::app()->user->checkAccess('admin')),
+    array('label' => 'Группы запросов', 'url' => array('/admin/site/sitePhraseGroup/index'), 'visible' => Yii::app()->user->checkAccess('admin')),
     array('label' => 'Список запросов', 'url' => array('/admin/site/phrase/index', 'SitePhrase[site_id]' => $model->id), 'visible' => Yii::app()->user->checkAccess('admin')),
     array('label' => 'Добавить запрос', 'url' => array('/admin/site/phrase/create', 'siteId' => $model->id), 'visible' => Yii::app()->user->checkAccess('admin')),
     array('label' => 'Импорт запросов', 'url' => array('/admin/import/default/index/src/phraseImport'), 'visible' => Yii::app()->user->checkAccess('admin')),

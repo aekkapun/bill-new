@@ -10,13 +10,14 @@
  * @property string $updated_at
  * @property string $site_id
  * @property string $contract_id
+ * @property string $site_phrase_group_id
  *
  * The followings are the available model relations:
  * @property SiteRange[] $siteRanges
  */
 class SiteRangeName extends CActiveRecord
 {
-    const DEFAULT_NAME_ID = 1;
+    const DEFAULT_NAME = 'по-умолчанию';
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -50,10 +51,23 @@ class SiteRangeName extends CActiveRecord
 
             array('site_id', 'exist', 'className' => 'Site', 'attributeName' => 'id'),
             array('contract_id', 'exist', 'className' => 'Contract', 'attributeName' => 'id'),
+            array('site_phrase_group_id', 'exist', 'className' => 'SitePhraseGroup', 'attributeName' => 'id'),
 
             array('id, name, created_at, updated_at, site_id, contract_id', 'safe', 'on'=>'search'),
 		);
 	}
+
+
+    public function beforeSave()
+    {
+        if( $this->site_phrase_group_id == '' )
+        {
+            $this->site_phrase_group_id = new CDbExpression('NULL');
+        }
+
+        return parent:: beforeSave();
+    }
+
 
 	/**
 	 * @return array relational rules.
@@ -66,6 +80,7 @@ class SiteRangeName extends CActiveRecord
 			'siteRanges' => array(self::HAS_MANY, 'SiteRange', 'site_range_name_id'),
             'site' => array(self::BELONGS_TO, 'Site', 'site_id'),
             'contract' => array(self::BELONGS_TO, 'Contract', 'contract_id'),
+            'phrase_group' => array(self::BELONGS_TO, 'SitePhraseGroup', 'site_phrase_group_id'),
 		);
 	}
 
@@ -79,6 +94,7 @@ class SiteRangeName extends CActiveRecord
 			'name' => 'Название',
 			'site_id' => 'Сайт',
 			'contract_id' => 'Договор',
+            'site_phrase_group_id' => 'Группа запросов',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
 		);
@@ -95,13 +111,13 @@ class SiteRangeName extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('id',$this->id);
+		$criteria->compare('t.id',$this->id);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('created_at',$this->created_at,true);
 		$criteria->compare('updated_at',$this->updated_at,true);
 		$criteria->compare('site_id',$this->site_id);
 		$criteria->compare('contract_id',$this->contract_id);
-        $criteria->with = array('site');
+        $criteria->with = array('site', 'contract', 'phrase_group');
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -115,6 +131,10 @@ class SiteRangeName extends CActiveRecord
                         'asc' => 'contract.number ASC',
                         'desc' => 'contract.number DESC',
                     ),
+                    'phrase_group.name' => array(
+                        'asc' => 'phrase_group.name ASC',
+                        'desc' => 'phrase_group.name DESC',
+                    ),
                     '*',
                 ),
             ),
@@ -124,21 +144,19 @@ class SiteRangeName extends CActiveRecord
 
     public static function getNamesBySiteId( $siteId )
     {
-        $names = array();
+        $names = array(
+            '' => self::DEFAULT_NAME
+        );
 
         if( !empty($siteId) )
         {
-            $names = self::model()->findAllByAttributes(array(
+            $models = self::model()->findAllByAttributes(array(
                 'site_id' => $siteId
             ));
+
+            $names += CHtml::listData( $models, 'id', 'name' );
         }
 
-        // Get default name
-        $defaultModel = self::model()->findByPk( SiteRangeName::DEFAULT_NAME_ID );
-        $defaultName = array(
-            $defaultModel->id => $defaultModel->name
-        );
-
-        return $defaultName + CHtml::listData( $names, 'id', 'name' );
+        return $names;
     }
 }

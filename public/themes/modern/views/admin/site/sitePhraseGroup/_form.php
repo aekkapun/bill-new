@@ -9,12 +9,6 @@
 
     <?php echo $form->dropDownListRow($model, 'site_id', CHtml::listData(Site::model()->findAll(), 'id', 'domain')); ?>
 
-    <?php echo $form->dropDownListRow($model, 'contract_id', CHtml::listData(Contract::model()->findAll(), 'id', 'number')); ?>
-
-    <?php echo $form->dropDownListRow($model, 'site_phrase_group_id', CHtml::listData(SitePhraseGroup::model()->findAll(), 'id', 'name'), array(
-        'empty' => SiteRangeName::DEFAULT_NAME,
-    )); ?>
-
     <p>
         <?php $this->widget('bootstrap.widgets.TbButton', array('buttonType' => 'submit', 'label' => 'Сохранить')); ?>
     </p>

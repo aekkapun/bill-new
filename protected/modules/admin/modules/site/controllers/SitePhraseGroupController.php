@@ -1,15 +1,15 @@
 <?php
 
-class SiteRangeNameController extends Controller
+class SitePhraseGroupController extends Controller
 {
 
 	public function actionCreate()
 	{
-		$model = new SiteRangeName;
+		$model = new SitePhraseGroup();
 
-		if(isset($_POST['SiteRangeName']))
+		if(isset($_POST['SitePhraseGroup']))
 		{
-			$model->attributes=$_POST['SiteRangeName'];
+			$model->attributes=$_POST['SitePhraseGroup'];
 			if($model->save())
 				$this->redirect(array('index'));
 		}
@@ -27,9 +27,9 @@ class SiteRangeNameController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['SiteRangeName']))
+		if(isset($_POST['SitePhraseGroup']))
 		{
-			$model->attributes=$_POST['SiteRangeName'];
+			$model->attributes=$_POST['SitePhraseGroup'];
 			if($model->save())
 				$this->redirect(array('index'));
 		}
@@ -42,7 +42,7 @@ class SiteRangeNameController extends Controller
 
 	public function actionDelete($id)
 	{
-        if( !Yii::app()->request->isPostRequest)
+        if( ($id == SitePhraseGroup::DEFAULT_NAME_ID)  || !Yii::app()->request->isPostRequest)
         {
             throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
         }
@@ -58,11 +58,11 @@ class SiteRangeNameController extends Controller
 
     public function actionIndex()
 	{
-		$model = new SiteRangeName('search');
+		$model = new SitePhraseGroup('search');
 
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['SiteRangeName']))
-			$model->attributes=$_GET['SiteRangeName'];
+		if(isset($_GET['SitePhraseGroup']))
+			$model->attributes=$_GET['SitePhraseGroup'];
 
         $this->render('index',array(
 			'model'=>$model,
@@ -72,18 +72,18 @@ class SiteRangeNameController extends Controller
 
     public function loadModel($id)
 	{
-		$model = SiteRangeName::model()->findByPk($id);
+		$model = SitePhraseGroup::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
 	}
 
 
-    public function actionGetNamesOptions( )
+    public function actionGetGroupsOptions( )
     {
         $siteId = Yii::app()->request->getQuery( 'siteId' );
 
-        $namesIDs = SiteRangeName::getNamesBySiteId( $siteId );
+        $namesIDs = SitePhraseGroup::getNamesBySiteId( $siteId );
 
         $options = CHtml::listOptions( null, $namesIDs, $emptyHtmlOptions);
 

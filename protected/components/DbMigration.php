@@ -29,4 +29,19 @@ class DbMigration extends CDbMigration
         $this->addColumn($table, 'created_at', 'TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP');
         $this->addColumn($table, 'updated_at', 'TIMESTAMP');
     }
+
+    public function getExistId( $table )
+    {
+        $IDs = Yii::app()->db->createCommand("SELECT id FROM $table ORDER BY id LIMIT 1;")->queryColumn();
+
+        if( !count($IDs) )
+        {
+            echo "   *\n";
+            echo "      Table `$table` can't be empty!";
+            echo "   *\n";
+            die();
+        }
+
+        return $IDs[0];
+    }
 }

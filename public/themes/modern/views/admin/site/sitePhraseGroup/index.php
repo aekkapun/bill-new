@@ -9,7 +9,7 @@ $('.search-button').click(function(){
 	return false;
 });
 $('.search-form form').submit(function(){
-	$.fn.yiiGridView.update('site-range-name-grid', {
+	$.fn.yiiGridView.update('site-phrase-group-grid', {
 		data: $(this).serialize()
 	});
 	return false;
@@ -17,7 +17,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Названия диапазонов</h1>
+<h1>Группы запросов</h1>
 
 <p>
     <?php $this->widget('bootstrap.widgets.TbButton', array(
@@ -36,10 +36,9 @@ $('.search-form form').submit(function(){
 </div>
 
 
-
 <?php $this->widget('bootstrap.widgets.TbGridView', array(
     'type' => 'striped bordered',
-    'id' => 'site-range-name-grid',
+    'id' => 'site-phrase-group-grid',
     'dataProvider' => $model->search(),
     'columns' => array(
         'id',
@@ -47,15 +46,6 @@ $('.search-form form').submit(function(){
         array(
             'header' => $model->getAttributeLabel('site_id'),
             'name' => 'site.domain',
-        ),
-        array(
-            'header' => $model->getAttributeLabel('contract_id'),
-            'name' => 'contract.number',
-        ),
-        array(
-            'header' => $model->getAttributeLabel('site_phrase_group_id'),
-            'name' => 'phrase_group.name',
-            'value' => 'empty($data->site_phrase_group_id) ? SiteRangeName::DEFAULT_NAME : $data->phrase_group->name'
         ),
         array(
             'class' => 'bootstrap.widgets.TbButtonColumn',

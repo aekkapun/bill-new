@@ -56,7 +56,7 @@ class AdminModule extends CWebModule
             ),
             'amqp' => array(
                 'class' => 'ext.amqplib.Amqp',
-                'host' => '127.0.0.1',
+                'host' => '10.0.1.54',
             ),
         ));
     }

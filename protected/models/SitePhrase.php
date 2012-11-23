@@ -77,6 +77,7 @@ class SitePhrase extends CActiveRecord
         // class name for the relations automatically generated below.
         return array(
             'site' => array(self::BELONGS_TO, 'Site', 'site_id'),
+            'group' => array(self::BELONGS_TO, 'SitePhraseGroup', 'site_phrase_group_id'),
         );
     }
 
