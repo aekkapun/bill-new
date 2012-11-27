@@ -9,7 +9,7 @@ if(isset($_GET['SitePhrase']['site_id'])) {
 
 <?php
 $this->menu = array(
-    array('label' => 'Создать', 'url' => array('create')),
+    array('label' => 'Создать', 'url' => array('create', 'siteId' => Yii::app()->request->getQuery('siteId'))),
 );
 ?>
 
@@ -62,6 +62,11 @@ $this->widget('bootstrap.widgets.TbGridView', array(
             'name' => 'price',
             'type' => 'raw',
             'value' => 'Yii::app()->numberFormatter->formatCurrency($data->price, "RUB")',
+        ),
+        array(
+            'header' => 'Группа',
+            'name' => 'group.name',
+            'value' => '$data->group->name ? $data->group->name : SitePhraseGroup::DEFAULT_NAME'
         ),
         'created_at',
         'updated_at',

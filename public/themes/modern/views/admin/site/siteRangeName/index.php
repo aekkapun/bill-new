@@ -1,6 +1,6 @@
 <?php
 $this->menu=array(
-	array('label'=>'Создать', 'url'=>array('create')),
+	array('label'=>'Создать', 'url'=>array('create', 'siteId' => Yii::app()->request->getQuery('siteId'))),
 );
 
 Yii::app()->clientScript->registerScript('search', "

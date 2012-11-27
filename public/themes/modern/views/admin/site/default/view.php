@@ -19,7 +19,7 @@ $this->menu = array(
     array('label' => 'Очистить список запросов', 'url' => '#', 'linkOptions' => array('submit' => array('/admin/site/phrase/deleteAll', 'siteId' => $model->id), 'confirm' => 'Вы действительно хотите удалить все запросы?'), 'visible' => Yii::app()->user->checkAccess('admin') && count($model->sitePhrases)),
 
     array('label' => "Диапазоны", 'visible' => Yii::app()->user->checkAccess('admin')),
-    array('label' => 'Названия диапазонов', 'url' => array('/admin/site/siteRangeName/index'), 'visible' => Yii::app()->user->checkAccess('admin')),
+    array('label' => 'Названия диапазонов', 'url' => array('/admin/site/siteRangeName/index', 'siteId' => $model->id), 'visible' => Yii::app()->user->checkAccess('admin')),
     array('label' => 'Список диапазонов', 'url' => array('/admin/site/range/index', 'SiteRange[site_id]' => $model->id), 'visible' => Yii::app()->user->checkAccess('admin')),
     array('label' => 'Добавить диапазон', 'url' => array('/admin/site/range/create', 'siteId' => $model->id), 'visible' => Yii::app()->user->checkAccess('admin')),
 

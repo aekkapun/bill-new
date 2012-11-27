@@ -77,9 +77,9 @@ class SitePhraseGroup extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'id' => 'ID',
-			'name' => 'Name',
-			'site_id' => 'Site',
+			'id' => '#',
+			'name' => 'Название',
+			'site_id' => 'Сайт',
 			'created_at' => 'Created At',
 			'updated_at' => 'Updated At',
 		);
@@ -101,9 +101,40 @@ class SitePhraseGroup extends CActiveRecord
 		$criteria->compare('site_id',$this->site_id,true);
 		$criteria->compare('created_at',$this->created_at,true);
 		$criteria->compare('updated_at',$this->updated_at,true);
+        $criteria->with = array('site');
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+            'sort' => array(
+                'attributes' => array(
+                    'site.domain' => array(
+                        'asc' => 'site.domain ASC',
+                        'desc' => 'site.domain DESC',
+                    ),
+                    '*',
+                ),
+            ),
 		));
 	}
+
+
+    public static function getGroupsBySiteId( $siteId )
+    {
+        $groups = array(
+            '' => self::DEFAULT_NAME
+        );
+
+            if( !empty($siteId) )
+        {
+            $models = self::model()->findAllByAttributes(array(
+                'site_id' => $siteId
+            ));
+
+            $groups += CHtml::listData( $models, 'id', 'name' );
+        }
+
+        return $groups;
+    }
+
+
 }

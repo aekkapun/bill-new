@@ -14,7 +14,6 @@ class m121123_065723_refactor_site_phrase extends DbMigration
 
         // Alter `site_phrase` table
         $this->addColumn('site_phrase', 'site_phrase_group_id', 'integer(10) unsigned');
-        $this->addForeignKey('site_phrase_site_phrase_group_id', 'site_phrase', 'site_phrase_group_id', 'site_phrase_group', 'id', 'CASCADE', 'RESTRICT');
 
 
         // Alter `report_transition` table
@@ -24,7 +23,6 @@ class m121123_065723_refactor_site_phrase extends DbMigration
 
         // Alter `site_range_name` table
         $this->addColumn('site_range_name', 'site_phrase_group_id', 'integer(10) unsigned');
-        $this->addForeignKey('site_range_name_site_phrase_group_id', 'site_range_name', 'site_phrase_group_id', 'site_phrase_group', 'id', 'CASCADE', 'RESTRICT');
     }
 
     public function safeDown()
@@ -33,7 +31,6 @@ class m121123_065723_refactor_site_phrase extends DbMigration
 
 
         // Alter `site_range_name` table
-        $this->dropForeignKey('site_range_name_site_phrase_group_id', 'site_range_name');
         $this->dropColumn('site_range_name', 'site_phrase_group_id');
 
 
@@ -43,7 +40,6 @@ class m121123_065723_refactor_site_phrase extends DbMigration
 
 
         // Alter `site_phrase` table
-        $this->dropForeignKey('site_phrase_site_phrase_group_id', 'site_phrase');
         $this->dropColumn('site_phrase', 'site_phrase_group_id');
 
 

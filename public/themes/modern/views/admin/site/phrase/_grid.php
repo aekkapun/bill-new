@@ -22,6 +22,11 @@ $this->widget('bootstrap.widgets.TbGridView', array(
     'columns' => array(
         'phrase:Запрос',
 		'price:Цена',
-        'active:boolean:Активен?'
+        array(
+            'header' => 'Группа',
+            'name' => 'group.name',
+            'value' => '$data->group->name ? $data->group->name : SitePhraseGroup::DEFAULT_NAME'
+        ),
+        'active:boolean:Активен?',
     ),
 ));

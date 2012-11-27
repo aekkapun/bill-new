@@ -28,14 +28,3 @@
 </p>
 
 <?php $this->endWidget(); ?>
-
-
-<script type="text/javascript">
-    /*
-    $(function(){
-        setTimeout(function(){
-            $('#SiteRange_site_id').trigger('change');
-        }, 10);
-    })
-    */
-</script>

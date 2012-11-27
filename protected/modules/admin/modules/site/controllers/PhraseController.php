@@ -25,7 +25,7 @@ class PhraseController extends Controller
         if (isset($_POST['SitePhrase'])) {
             $model->attributes = $_POST['SitePhrase'];
             if ($model->save())
-                $this->redirect(array('index', 'SitePhrase[site_id]' => $model->site_id));
+                $this->redirect(array('index', 'siteId' => $model->site_id));
         }
 
         $this->render('create', array(

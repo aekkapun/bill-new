@@ -11,24 +11,13 @@
  * @property string $price
  * @property string $created_at
  * @property string $updated_at
+ * @property string $site_phrase_group_id
  *
  * The followings are the available model relations:
  * @property Site $site
  */
 class SitePhrase extends CActiveRecord
 {
-    public function beforeSave()
-    {
-        if (parent::beforeSave()) {
-
-            $this->hash = md5($this->phrase);
-
-            return true;
-        }
-
-        return false;
-    }
-
     /**
      * Returns the static model of the specified AR class.
      * @param string $className
@@ -62,11 +51,30 @@ class SitePhrase extends CActiveRecord
             array('phrase', 'length', 'max' => 255),
             array('hash', 'length', 'max' => 32),
             array('created_at, updated_at', 'safe'),
-            // The following rule is used by search().
-            // Please remove those attributes that should not be searched.
+            array('site_phrase_group_id', 'safe'),
+
             array('id, site_id, phrase, hash, created_at, updated_at', 'safe', 'on' => 'search'),
         );
     }
+
+
+    public function beforeSave()
+    {
+        if (parent::beforeSave())
+        {
+            $this->hash = md5($this->phrase);
+
+            if( $this->site_phrase_group_id == '' )
+            {
+                $this->site_phrase_group_id = new CDbExpression('NULL');
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
 
     /**
      * @return array relational rules.
@@ -94,6 +102,7 @@ class SitePhrase extends CActiveRecord
             'price' => 'Цена',
             'created_at' => 'Время создания',
             'updated_at' => 'Время обновления',
+            'site_phrase_group_id' => 'Группа',
         );
     }
 
@@ -115,7 +124,7 @@ class SitePhrase extends CActiveRecord
 	public function siteOf($siteId)
 	{
 		$this->getDbCriteria()->mergeWith(array(
-			'condition' => "site_id = $siteId",
+			'condition' => "t.site_id = $siteId",
 		));
 		
 		return $this;
@@ -132,9 +141,9 @@ class SitePhrase extends CActiveRecord
 
         $criteria = new CDbCriteria;
 
-		$criteria->with = array( 'site' );
+		$criteria->with = array( 'site', 'group' );
         $criteria->compare('t.id', $this->id);
-        $criteria->compare('site_id', $this->site_id);
+        $criteria->compare('t.site_id', $this->site_id);
         $criteria->compare('phrase', $this->phrase, true);
         $criteria->compare('price', $this->price);
         $criteria->compare('hash', $this->hash, true);
@@ -149,6 +158,10 @@ class SitePhrase extends CActiveRecord
 						'asc' => 'site.domain ASC',
 						'desc' => 'site.domain DESC',
 					),
+                    'group.name' => array(
+                        'asc' => 'group.name ASC',
+                        'desc' => 'group.name DESC',
+                    ),
 					'*',
 				),
 			),
@@ -157,10 +170,17 @@ class SitePhrase extends CActiveRecord
 	
 	public function searchAsArray()
 	{
-		return new CArrayDataProvider($this->findAll(),array(
-			'sort' => array(
+        $criteria = new CDbCriteria;
+        $criteria->with = array('group');
+
+		return new CArrayDataProvider($this->findAll( $criteria ), array(
+            'sort' => array(
 				'attributes' => array(
-					'id', 'phrase', 'price', 'active'
+                    'group.name' => array(
+                        'asc' => 'group.name ASC',
+                        'desc' => 'group.name DESC',
+                    ),
+					'*',
 				),
 			),
 		));

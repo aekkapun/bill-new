@@ -5,7 +5,7 @@ $this->breadcrumbs=array(
 );
 
 $this->menu=array(
-    array('label'=>'Создать', 'url'=>array('create')),
+    array('label'=>'Создать', 'url'=>array('create', 'siteId' => $model->site_id)),
 	array('label'=>'Обновить', 'url'=>array('update', 'id'=>$model->id)),
 	array('label'=>'Список', 'url'=>array('index', 'SiteRange[site_id]' => $model->site_id)),
 	array('label'=>'Удалить', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Вы действительно хотите удалить эту запись?')),
@@ -24,7 +24,7 @@ $this->menu=array(
 		'price',
         array(
 		    'name' => 'site_range_name_id',
-		    'value' => $model->name->name,
+		    'value' => empty($model->name->name) ? SiteRangeName::DEFAULT_NAME : $model->name->name,
 		),
         'created_at',
 		'updated_at',

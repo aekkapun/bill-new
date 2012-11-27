@@ -7,11 +7,13 @@ class SiteRangeNameController extends Controller
 	{
 		$model = new SiteRangeName;
 
-		if(isset($_POST['SiteRangeName']))
+        $model->site_id = Yii::app()->request->getQuery('siteId');
+
+        if(isset($_POST['SiteRangeName']))
 		{
 			$model->attributes=$_POST['SiteRangeName'];
 			if($model->save())
-				$this->redirect(array('index'));
+				$this->redirect(array('index', 'siteId' => $model->site_id));
 		}
 
 		$this->render('create',array(

@@ -83,9 +83,9 @@ class SitePhraseGroupController extends Controller
     {
         $siteId = Yii::app()->request->getQuery( 'siteId' );
 
-        $namesIDs = SitePhraseGroup::getNamesBySiteId( $siteId );
+        $groupsIDs = SitePhraseGroup::getGroupsBySiteId( $siteId );
 
-        $options = CHtml::listOptions( null, $namesIDs, $emptyHtmlOptions);
+        $options = CHtml::listOptions( null, $groupsIDs, $emptyHtmlOptions);
 
         echo $options;
         Yii::app()->end();

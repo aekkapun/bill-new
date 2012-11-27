@@ -4,6 +4,8 @@
     'action' => array('/admin/import/default/commit/', 'src' => $src),
 ));?>
 
+<div style="padding-top:40px;"></div>
+
 <h2>Предпросмотр результатов импорта</h2>
 
 <?php $this->widget('zii.widgets.grid.CGridView',

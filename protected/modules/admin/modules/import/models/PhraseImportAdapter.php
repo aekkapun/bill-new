@@ -7,6 +7,8 @@ class PhraseImportAdapter extends CFormModel implements AdapterInterface
 
     public $siteId;
 
+    public $phraseGroupId;
+
     public $dataFile;
 
     public function getName()
@@ -24,6 +26,7 @@ class PhraseImportAdapter extends CFormModel implements AdapterInterface
     {
         return array(
             array('siteId', 'required'),
+            array('phraseGroupId', 'safe'),
             array('dataFile', 'file', 'allowEmpty' => false, 'types' => array('csv')),
         );
     }
@@ -32,6 +35,7 @@ class PhraseImportAdapter extends CFormModel implements AdapterInterface
     {
         return array(
             'siteId' => 'Сайт',
+            'phraseGroupId' => 'Группа',
             'dataFile' => 'Список запросов',
         );
     }
@@ -46,6 +50,16 @@ class PhraseImportAdapter extends CFormModel implements AdapterInterface
                     'type' => 'dropdownlist',
                     'items' => CHtml::listData(Site::model()->findAll(), 'id', 'domain'),
                     'prompt' => 'Выберите сайт:',
+                    'ajax' => array(
+                        'update' => '#PhraseImportAdapter_phraseGroupId',
+                        'url' => Yii::app()->createUrl('/admin/site/sitePhraseGroup/getGroupsOptions'),
+                        'data' => 'js:"siteId="+this.value',
+                        'cache' => false,
+                    ),
+                ),
+                'phraseGroupId' => array(
+                    'type' => 'dropdownlist',
+                    'items' => SitePhraseGroup::getGroupsBySiteId( $this->siteId ),
                 ),
                 'dataFile' => array(
                     'type' => 'file',
@@ -69,11 +83,14 @@ class PhraseImportAdapter extends CFormModel implements AdapterInterface
     public function process()
     {
         $file = CUploadedFile::getInstance($this, 'dataFile');
-        $content = file_get_contents($file->getTempName());
 
         $site = Site::model()->findByPk($this->siteId);
 
-        $rawData = str_getcsv($content, "\r\n");
+        $content = file_get_contents($file->getTempName());
+
+        $content = str_replace("\r\n", "\n", $content);
+
+        $rawData = str_getcsv($content, "\n");
         $rawData = array_slice($rawData, 1, count($rawData));
 
         $data = array();
@@ -84,6 +101,7 @@ class PhraseImportAdapter extends CFormModel implements AdapterInterface
                 'price' => $row[1],
                 'site_id' => $site->id,
                 'active' => 1,
+                'site_phrase_group_id' => $this->phraseGroupId,
             );
             $data[] = $item;
         }
